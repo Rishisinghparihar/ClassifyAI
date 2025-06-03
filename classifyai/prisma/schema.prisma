@@ -33,6 +33,15 @@ model Attendance {
   markedBy  String // teacher id or "QR/Face"
 }
 
+model AttendanceToken{
+  id       String   @id @default(uuid())
+  token   String     @unique
+  subject String
+  professorId     String
+  issuedAt DateTime @default(now())
+  expiresAt DateTime
+}
+
 enum Role {
   STUDENT
   TEACHER

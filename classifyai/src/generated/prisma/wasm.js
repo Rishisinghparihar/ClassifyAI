@@ -137,6 +137,15 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   markedBy: 'markedBy'
 };
 
+exports.Prisma.AttendanceTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  subject: 'subject',
+  professorId: 'professorId',
+  issuedAt: 'issuedAt',
+  expiresAt: 'expiresAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -154,7 +163,8 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Attendance: 'Attendance'
+  Attendance: 'Attendance',
+  AttendanceToken: 'AttendanceToken'
 };
 
 /**

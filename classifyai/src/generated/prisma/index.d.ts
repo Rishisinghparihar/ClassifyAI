@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
+/**
+ * Model AttendanceToken
+ * 
+ */
+export type AttendanceToken = $Result.DefaultSelection<Prisma.$AttendanceTokenPayload>
 
 /**
  * Enums
@@ -186,6 +191,16 @@ export class PrismaClient<
     * ```
     */
   get attendance(): Prisma.AttendanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceToken`: Exposes CRUD operations for the **AttendanceToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceTokens
+    * const attendanceTokens = await prisma.attendanceToken.findMany()
+    * ```
+    */
+  get attendanceToken(): Prisma.AttendanceTokenDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -627,7 +642,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Attendance: 'Attendance'
+    Attendance: 'Attendance',
+    AttendanceToken: 'AttendanceToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -646,7 +662,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "attendance"
+      modelProps: "user" | "attendance" | "attendanceToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -798,6 +814,80 @@ export namespace Prisma {
           }
         }
       }
+      AttendanceToken: {
+        payload: Prisma.$AttendanceTokenPayload<ExtArgs>
+        fields: Prisma.AttendanceTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          update: {
+            args: Prisma.AttendanceTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceToken>
+          }
+          groupBy: {
+            args: Prisma.AttendanceTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -884,6 +974,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     attendance?: AttendanceOmit
+    attendanceToken?: AttendanceTokenOmit
   }
 
   /* Types for Logging */
@@ -3150,6 +3241,1014 @@ export namespace Prisma {
 
 
   /**
+   * Model AttendanceToken
+   */
+
+  export type AggregateAttendanceToken = {
+    _count: AttendanceTokenCountAggregateOutputType | null
+    _min: AttendanceTokenMinAggregateOutputType | null
+    _max: AttendanceTokenMaxAggregateOutputType | null
+  }
+
+  export type AttendanceTokenMinAggregateOutputType = {
+    id: string | null
+    token: string | null
+    subject: string | null
+    professorId: string | null
+    issuedAt: Date | null
+    expiresAt: Date | null
+  }
+
+  export type AttendanceTokenMaxAggregateOutputType = {
+    id: string | null
+    token: string | null
+    subject: string | null
+    professorId: string | null
+    issuedAt: Date | null
+    expiresAt: Date | null
+  }
+
+  export type AttendanceTokenCountAggregateOutputType = {
+    id: number
+    token: number
+    subject: number
+    professorId: number
+    issuedAt: number
+    expiresAt: number
+    _all: number
+  }
+
+
+  export type AttendanceTokenMinAggregateInputType = {
+    id?: true
+    token?: true
+    subject?: true
+    professorId?: true
+    issuedAt?: true
+    expiresAt?: true
+  }
+
+  export type AttendanceTokenMaxAggregateInputType = {
+    id?: true
+    token?: true
+    subject?: true
+    professorId?: true
+    issuedAt?: true
+    expiresAt?: true
+  }
+
+  export type AttendanceTokenCountAggregateInputType = {
+    id?: true
+    token?: true
+    subject?: true
+    professorId?: true
+    issuedAt?: true
+    expiresAt?: true
+    _all?: true
+  }
+
+  export type AttendanceTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceToken to aggregate.
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceTokens to fetch.
+     */
+    orderBy?: AttendanceTokenOrderByWithRelationInput | AttendanceTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceTokens
+    **/
+    _count?: true | AttendanceTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceTokenMaxAggregateInputType
+  }
+
+  export type GetAttendanceTokenAggregateType<T extends AttendanceTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceToken[P]>
+      : GetScalarType<T[P], AggregateAttendanceToken[P]>
+  }
+
+
+
+
+  export type AttendanceTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceTokenWhereInput
+    orderBy?: AttendanceTokenOrderByWithAggregationInput | AttendanceTokenOrderByWithAggregationInput[]
+    by: AttendanceTokenScalarFieldEnum[] | AttendanceTokenScalarFieldEnum
+    having?: AttendanceTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceTokenCountAggregateInputType | true
+    _min?: AttendanceTokenMinAggregateInputType
+    _max?: AttendanceTokenMaxAggregateInputType
+  }
+
+  export type AttendanceTokenGroupByOutputType = {
+    id: string
+    token: string
+    subject: string
+    professorId: string
+    issuedAt: Date
+    expiresAt: Date
+    _count: AttendanceTokenCountAggregateOutputType | null
+    _min: AttendanceTokenMinAggregateOutputType | null
+    _max: AttendanceTokenMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceTokenGroupByPayload<T extends AttendanceTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    subject?: boolean
+    professorId?: boolean
+    issuedAt?: boolean
+    expiresAt?: boolean
+  }, ExtArgs["result"]["attendanceToken"]>
+
+  export type AttendanceTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    subject?: boolean
+    professorId?: boolean
+    issuedAt?: boolean
+    expiresAt?: boolean
+  }, ExtArgs["result"]["attendanceToken"]>
+
+  export type AttendanceTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    subject?: boolean
+    professorId?: boolean
+    issuedAt?: boolean
+    expiresAt?: boolean
+  }, ExtArgs["result"]["attendanceToken"]>
+
+  export type AttendanceTokenSelectScalar = {
+    id?: boolean
+    token?: boolean
+    subject?: boolean
+    professorId?: boolean
+    issuedAt?: boolean
+    expiresAt?: boolean
+  }
+
+  export type AttendanceTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "subject" | "professorId" | "issuedAt" | "expiresAt", ExtArgs["result"]["attendanceToken"]>
+
+  export type $AttendanceTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceToken"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      token: string
+      subject: string
+      professorId: string
+      issuedAt: Date
+      expiresAt: Date
+    }, ExtArgs["result"]["attendanceToken"]>
+    composites: {}
+  }
+
+  type AttendanceTokenGetPayload<S extends boolean | null | undefined | AttendanceTokenDefaultArgs> = $Result.GetResult<Prisma.$AttendanceTokenPayload, S>
+
+  type AttendanceTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceTokenCountAggregateInputType | true
+    }
+
+  export interface AttendanceTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceToken'], meta: { name: 'AttendanceToken' } }
+    /**
+     * Find zero or one AttendanceToken that matches the filter.
+     * @param {AttendanceTokenFindUniqueArgs} args - Arguments to find a AttendanceToken
+     * @example
+     * // Get one AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceTokenFindUniqueArgs>(args: SelectSubset<T, AttendanceTokenFindUniqueArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceTokenFindUniqueOrThrowArgs} args - Arguments to find a AttendanceToken
+     * @example
+     * // Get one AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenFindFirstArgs} args - Arguments to find a AttendanceToken
+     * @example
+     * // Get one AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceTokenFindFirstArgs>(args?: SelectSubset<T, AttendanceTokenFindFirstArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenFindFirstOrThrowArgs} args - Arguments to find a AttendanceToken
+     * @example
+     * // Get one AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceTokens
+     * const attendanceTokens = await prisma.attendanceToken.findMany()
+     * 
+     * // Get first 10 AttendanceTokens
+     * const attendanceTokens = await prisma.attendanceToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceTokenWithIdOnly = await prisma.attendanceToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceTokenFindManyArgs>(args?: SelectSubset<T, AttendanceTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceToken.
+     * @param {AttendanceTokenCreateArgs} args - Arguments to create a AttendanceToken.
+     * @example
+     * // Create one AttendanceToken
+     * const AttendanceToken = await prisma.attendanceToken.create({
+     *   data: {
+     *     // ... data to create a AttendanceToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceTokenCreateArgs>(args: SelectSubset<T, AttendanceTokenCreateArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceTokens.
+     * @param {AttendanceTokenCreateManyArgs} args - Arguments to create many AttendanceTokens.
+     * @example
+     * // Create many AttendanceTokens
+     * const attendanceToken = await prisma.attendanceToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceTokenCreateManyArgs>(args?: SelectSubset<T, AttendanceTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceTokens and returns the data saved in the database.
+     * @param {AttendanceTokenCreateManyAndReturnArgs} args - Arguments to create many AttendanceTokens.
+     * @example
+     * // Create many AttendanceTokens
+     * const attendanceToken = await prisma.attendanceToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceTokens and only return the `id`
+     * const attendanceTokenWithIdOnly = await prisma.attendanceToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceToken.
+     * @param {AttendanceTokenDeleteArgs} args - Arguments to delete one AttendanceToken.
+     * @example
+     * // Delete one AttendanceToken
+     * const AttendanceToken = await prisma.attendanceToken.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceTokenDeleteArgs>(args: SelectSubset<T, AttendanceTokenDeleteArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceToken.
+     * @param {AttendanceTokenUpdateArgs} args - Arguments to update one AttendanceToken.
+     * @example
+     * // Update one AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceTokenUpdateArgs>(args: SelectSubset<T, AttendanceTokenUpdateArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceTokens.
+     * @param {AttendanceTokenDeleteManyArgs} args - Arguments to filter AttendanceTokens to delete.
+     * @example
+     * // Delete a few AttendanceTokens
+     * const { count } = await prisma.attendanceToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceTokenDeleteManyArgs>(args?: SelectSubset<T, AttendanceTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceTokens
+     * const attendanceToken = await prisma.attendanceToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceTokenUpdateManyArgs>(args: SelectSubset<T, AttendanceTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceTokens and returns the data updated in the database.
+     * @param {AttendanceTokenUpdateManyAndReturnArgs} args - Arguments to update many AttendanceTokens.
+     * @example
+     * // Update many AttendanceTokens
+     * const attendanceToken = await prisma.attendanceToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceTokens and only return the `id`
+     * const attendanceTokenWithIdOnly = await prisma.attendanceToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceToken.
+     * @param {AttendanceTokenUpsertArgs} args - Arguments to update or create a AttendanceToken.
+     * @example
+     * // Update or create a AttendanceToken
+     * const attendanceToken = await prisma.attendanceToken.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceTokenUpsertArgs>(args: SelectSubset<T, AttendanceTokenUpsertArgs<ExtArgs>>): Prisma__AttendanceTokenClient<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenCountArgs} args - Arguments to filter AttendanceTokens to count.
+     * @example
+     * // Count the number of AttendanceTokens
+     * const count = await prisma.attendanceToken.count({
+     *   where: {
+     *     // ... the filter for the AttendanceTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceTokenCountArgs>(
+      args?: Subset<T, AttendanceTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceTokenAggregateArgs>(args: Subset<T, AttendanceTokenAggregateArgs>): Prisma.PrismaPromise<GetAttendanceTokenAggregateType<T>>
+
+    /**
+     * Group by AttendanceToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceTokenGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceToken model
+   */
+  readonly fields: AttendanceTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceToken model
+   */
+  interface AttendanceTokenFieldRefs {
+    readonly id: FieldRef<"AttendanceToken", 'String'>
+    readonly token: FieldRef<"AttendanceToken", 'String'>
+    readonly subject: FieldRef<"AttendanceToken", 'String'>
+    readonly professorId: FieldRef<"AttendanceToken", 'String'>
+    readonly issuedAt: FieldRef<"AttendanceToken", 'DateTime'>
+    readonly expiresAt: FieldRef<"AttendanceToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceToken findUnique
+   */
+  export type AttendanceTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which AttendanceToken to fetch.
+     */
+    where: AttendanceTokenWhereUniqueInput
+  }
+
+  /**
+   * AttendanceToken findUniqueOrThrow
+   */
+  export type AttendanceTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which AttendanceToken to fetch.
+     */
+    where: AttendanceTokenWhereUniqueInput
+  }
+
+  /**
+   * AttendanceToken findFirst
+   */
+  export type AttendanceTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which AttendanceToken to fetch.
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceTokens to fetch.
+     */
+    orderBy?: AttendanceTokenOrderByWithRelationInput | AttendanceTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceTokens.
+     */
+    cursor?: AttendanceTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceTokens.
+     */
+    distinct?: AttendanceTokenScalarFieldEnum | AttendanceTokenScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceToken findFirstOrThrow
+   */
+  export type AttendanceTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which AttendanceToken to fetch.
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceTokens to fetch.
+     */
+    orderBy?: AttendanceTokenOrderByWithRelationInput | AttendanceTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceTokens.
+     */
+    cursor?: AttendanceTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceTokens.
+     */
+    distinct?: AttendanceTokenScalarFieldEnum | AttendanceTokenScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceToken findMany
+   */
+  export type AttendanceTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter, which AttendanceTokens to fetch.
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceTokens to fetch.
+     */
+    orderBy?: AttendanceTokenOrderByWithRelationInput | AttendanceTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceTokens.
+     */
+    cursor?: AttendanceTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceTokens.
+     */
+    skip?: number
+    distinct?: AttendanceTokenScalarFieldEnum | AttendanceTokenScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceToken create
+   */
+  export type AttendanceTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceToken.
+     */
+    data: XOR<AttendanceTokenCreateInput, AttendanceTokenUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceToken createMany
+   */
+  export type AttendanceTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceTokens.
+     */
+    data: AttendanceTokenCreateManyInput | AttendanceTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceToken createManyAndReturn
+   */
+  export type AttendanceTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceTokens.
+     */
+    data: AttendanceTokenCreateManyInput | AttendanceTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceToken update
+   */
+  export type AttendanceTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceToken.
+     */
+    data: XOR<AttendanceTokenUpdateInput, AttendanceTokenUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceToken to update.
+     */
+    where: AttendanceTokenWhereUniqueInput
+  }
+
+  /**
+   * AttendanceToken updateMany
+   */
+  export type AttendanceTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceTokens.
+     */
+    data: XOR<AttendanceTokenUpdateManyMutationInput, AttendanceTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceTokens to update
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * Limit how many AttendanceTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceToken updateManyAndReturn
+   */
+  export type AttendanceTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceTokens.
+     */
+    data: XOR<AttendanceTokenUpdateManyMutationInput, AttendanceTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceTokens to update
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * Limit how many AttendanceTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceToken upsert
+   */
+  export type AttendanceTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceToken to update in case it exists.
+     */
+    where: AttendanceTokenWhereUniqueInput
+    /**
+     * In case the AttendanceToken found by the `where` argument doesn't exist, create a new AttendanceToken with this data.
+     */
+    create: XOR<AttendanceTokenCreateInput, AttendanceTokenUncheckedCreateInput>
+    /**
+     * In case the AttendanceToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceTokenUpdateInput, AttendanceTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceToken delete
+   */
+  export type AttendanceTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Filter which AttendanceToken to delete.
+     */
+    where: AttendanceTokenWhereUniqueInput
+  }
+
+  /**
+   * AttendanceToken deleteMany
+   */
+  export type AttendanceTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceTokens to delete
+     */
+    where?: AttendanceTokenWhereInput
+    /**
+     * Limit how many AttendanceTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceToken without action
+   */
+  export type AttendanceTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3184,6 +4283,18 @@ export namespace Prisma {
   };
 
   export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+  export const AttendanceTokenScalarFieldEnum: {
+    id: 'id',
+    token: 'token',
+    subject: 'subject',
+    professorId: 'professorId',
+    issuedAt: 'issuedAt',
+    expiresAt: 'expiresAt'
+  };
+
+  export type AttendanceTokenScalarFieldEnum = (typeof AttendanceTokenScalarFieldEnum)[keyof typeof AttendanceTokenScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3381,6 +4492,63 @@ export namespace Prisma {
     markedBy?: StringWithAggregatesFilter<"Attendance"> | string
   }
 
+  export type AttendanceTokenWhereInput = {
+    AND?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
+    OR?: AttendanceTokenWhereInput[]
+    NOT?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
+    id?: StringFilter<"AttendanceToken"> | string
+    token?: StringFilter<"AttendanceToken"> | string
+    subject?: StringFilter<"AttendanceToken"> | string
+    professorId?: StringFilter<"AttendanceToken"> | string
+    issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+    expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+  }
+
+  export type AttendanceTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    subject?: SortOrder
+    professorId?: SortOrder
+    issuedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type AttendanceTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
+    OR?: AttendanceTokenWhereInput[]
+    NOT?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
+    subject?: StringFilter<"AttendanceToken"> | string
+    professorId?: StringFilter<"AttendanceToken"> | string
+    issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+    expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+  }, "id" | "token">
+
+  export type AttendanceTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    subject?: SortOrder
+    professorId?: SortOrder
+    issuedAt?: SortOrder
+    expiresAt?: SortOrder
+    _count?: AttendanceTokenCountOrderByAggregateInput
+    _max?: AttendanceTokenMaxOrderByAggregateInput
+    _min?: AttendanceTokenMinOrderByAggregateInput
+  }
+
+  export type AttendanceTokenScalarWhereWithAggregatesInput = {
+    AND?: AttendanceTokenScalarWhereWithAggregatesInput | AttendanceTokenScalarWhereWithAggregatesInput[]
+    OR?: AttendanceTokenScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceTokenScalarWhereWithAggregatesInput | AttendanceTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttendanceToken"> | string
+    token?: StringWithAggregatesFilter<"AttendanceToken"> | string
+    subject?: StringWithAggregatesFilter<"AttendanceToken"> | string
+    professorId?: StringWithAggregatesFilter<"AttendanceToken"> | string
+    issuedAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -3501,6 +4669,69 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     markedBy?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttendanceTokenCreateInput = {
+    id?: string
+    token: string
+    subject: string
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type AttendanceTokenUncheckedCreateInput = {
+    id?: string
+    token: string
+    subject: string
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type AttendanceTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceTokenCreateManyInput = {
+    id?: string
+    token: string
+    subject: string
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type AttendanceTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3642,6 +4873,33 @@ export namespace Prisma {
     date?: SortOrder
     status?: SortOrder
     markedBy?: SortOrder
+  }
+
+  export type AttendanceTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    subject?: SortOrder
+    professorId?: SortOrder
+    issuedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type AttendanceTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    subject?: SortOrder
+    professorId?: SortOrder
+    issuedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type AttendanceTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    subject?: SortOrder
+    professorId?: SortOrder
+    issuedAt?: SortOrder
+    expiresAt?: SortOrder
   }
 
   export type AttendanceCreateNestedManyWithoutStudentInput = {

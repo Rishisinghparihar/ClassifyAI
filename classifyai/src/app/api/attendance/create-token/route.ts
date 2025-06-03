@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -11,20 +12,26 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const attendanceToken = uuidv4();
+    const token = uuidv4();
+    const issuedAt = new Date();
+    const expiresAt = new Date(issuedAt.getTime() + 10 * 60 * 1000);
 
-    const payload = JSON.stringify({
-      token: attendanceToken,
-      subject,
-      issuedAt: Date.now(),
-      professorID,
-    });
+    const professorId = professorID;
+    await prisma.attendanceToken.create({
+      data: {
+        token,
+        subject,
+        professorId,
+        issuedAt,
+        expiresAt,
+      }}
+    )
+    const payload = JSON.stringify({ token });
 
     const qrCodeDataUrl = await QRCode.toDataURL(payload);
 
-    //? TODO : Save the attendance token and QR code to the database
     return NextResponse.json(
-      { qrCodeDataUrl, attendanceToken },
+      { qrCodeDataUrl, token },
       { status: 200 }
     );
   } catch (error) {
