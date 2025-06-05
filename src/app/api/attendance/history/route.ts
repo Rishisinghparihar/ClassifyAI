@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const studentId = req.nextUrl.searchParams.get("studentId");
   if (!studentId) {
-    return new Response("Student ID is required", { status: 400 });
+    return NextResponse.json("Student ID is required", { status: 400 });
   }
   try {
     const history = await prisma.attendance.findMany({
@@ -17,6 +17,6 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json(history);
   } catch (error) {
-    return new Response("Error fetching attendance history", { status: 500 });
+    return NextResponse.json("Error fetching attendance history", { status: 500 });
   }
 }
