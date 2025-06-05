@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import { Token } from "@/lib/types";
 import toast from "react-hot-toast";
