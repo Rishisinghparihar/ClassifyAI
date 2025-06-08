@@ -1,4 +1,5 @@
 "use client";
+import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -11,7 +12,7 @@ const Page = () => {
 
   const handleLogin = async () => {
     if (!email || !name) {
-      toast.error("Please fill in both fields");
+      showErrorMessage("Please fill in both fields");
       return;
     }
 
@@ -24,24 +25,31 @@ const Page = () => {
 
     if (res.ok) {
       localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success("Login Successful");
-      router.push(`/dashboard/${data.user.role.toLowerCase()}`);
+      showSuccessMessage("Login Successful");
+      if (data.user.role === "STUDENT") {
+        localStorage.setItem("studentId", data.user.id);
+        router.push(`/dashboard/student`);
+      }else if (data.user.role === "TEACHER") {
+        localStorage.setItem("teacherId", data.user.id);  
+        router.push(`/dashboard/teacher`);
+      } else if (data.user.role === "ADMIN") {
+        localStorage.setItem("adminId", data.user.id);
+        router.push(`/dashboard/admin`);
+      }else{
+        showErrorMessage("Invalid Role");
+        return;
+      }
+
     } else {
-      console.error("Login Failed, Status: ", res.status);
-      toast.error(data.message || "Login Failed!");
+      console.log("Login Failed, Status: ", res.status);
+      showErrorMessage(data.message || "Login Failed!");
     }
   };
 
   return (
-    <div className="relative min-h-screen font-[family-name:var(--font-geist-sans)] overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
-        style={{ backgroundImage: 'url("/bg-5.webp")' }}
-      />
-
+    <>
       {/* Foreground */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
         <h1 className="text-white text-xl sm:text-2xl md:text-3xl font-semibold py-3 leading-tight">
           INDIAN INSTITUTE OF TECHNOLOGY, GUWAHATI
         </h1>
@@ -73,10 +81,18 @@ const Page = () => {
               setRole(e.target.value as "STUDENT" | "TEACHER" | "ADMIN")
             }
           >
-            <option value="" disabled hidden>Select Role</option>
-            <option value="STUDENT" className="bg-black text-white">Student</option>
-            <option value="TEACHER" className="bg-black text-white">Teacher</option>
-            <option value="ADMIN" className="bg-black text-white">Admin</option>
+            <option value="" disabled hidden>
+              Select Role
+            </option>
+            <option value="STUDENT" className="bg-black text-white">
+              Student
+            </option>
+            <option value="TEACHER" className="bg-black text-white">
+              Teacher
+            </option>
+            <option value="ADMIN" className="bg-black text-white">
+              Admin
+            </option>
           </select>
           <button
             onClick={handleLogin}
@@ -86,7 +102,7 @@ const Page = () => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

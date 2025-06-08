@@ -9,9 +9,7 @@ export async function POST(req: Request) {
   try {
     let user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      user = await prisma.user.create({
-        data: { email, name, role },
-      });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
     return NextResponse.json({ user }, { status: 200 });
   } catch (err) {

@@ -3,12 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen font-[family-name:var(--font-geist-sans)] overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
-        style={{ backgroundImage: 'url("/bg-5.webp")' }}
-      />
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center space-y-2">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center space-y-2">
         <Image src="/clg-prev.png" alt="clg-logo" width={200} height={200} className="invert" />
 
         <h1 className="text-white text-xl sm:text-2xl md:text-3xl font-semibold leading-tight">
@@ -25,6 +20,5 @@ export default function Home() {
           Login
         </Link>
       </div>
-    </div>
   );
 }
