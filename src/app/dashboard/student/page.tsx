@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Attendance, SDetails } from "@/lib/types";
+import { Attendance } from "@/lib/types";
+import Greeting from "@/components/student/Greeting";
+import Logo from "@/components/apps/Logo";
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
-  const [studentDetails, setStudentDetails] = useState<SDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
@@ -12,20 +13,7 @@ export default function StudentDashboard() {
       console.error("No student ID found in local storage.");
       return;
     }
-    const fetchStudentDetails = async () => {
-      try {
-        const res = await fetch(`/api/student/details?studentId=${studentId}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch student details");
-        }
-        const data = await res.json();
-        console.log({ data });
-        setStudentDetails(data);
-        console.log({studentDetails})
-      } catch (error) {
-        console.log("Error fetching student details:", error);
-      }
-    }
+    
     const fetchTodayAttendance = async () => {
       try {
         const res = await fetch(`/api/attendance/today?studentId=${studentId}`);
@@ -38,12 +26,12 @@ export default function StudentDashboard() {
         setLoading(false);
       }
     };
-    fetchStudentDetails();
     fetchTodayAttendance();
   }, []);
   return (
-    <div className="flex flex-col items-center justify-center py-[5rem] px-4 text-center">
-      <h1 className="text-2xl">Welcome back {studentDetails?.name} </h1>
+    <div className="p-[3rem]">
+      <Logo/>
+      <Greeting/>
       <Link href={"/attendance/scan"}>To Scan page</Link>
       <div className="">
         <h2>Today's Attendance</h2>
