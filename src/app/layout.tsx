@@ -39,6 +39,9 @@ export default function RootLayout({
 
         {/* Main content (z-10 to stay above background) */}
         <div className="relative z-10">{children}</div>
+        <div className="absolute bottom-4 right-4 text-xs text-gray-400">
+          <p>© 2025 ClassifyAI</p>
+        </div>
       </body>
     </html>
   );

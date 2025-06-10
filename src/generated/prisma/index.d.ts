@@ -1114,6 +1114,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     role: $Enums.Role | null
+    isPremium: boolean | null
     createdAt: Date | null
   }
 
@@ -1122,6 +1123,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     role: $Enums.Role | null
+    isPremium: boolean | null
     createdAt: Date | null
   }
 
@@ -1130,6 +1132,7 @@ export namespace Prisma {
     name: number
     email: number
     role: number
+    isPremium: number
     createdAt: number
     _all: number
   }
@@ -1140,6 +1143,7 @@ export namespace Prisma {
     name?: true
     email?: true
     role?: true
+    isPremium?: true
     createdAt?: true
   }
 
@@ -1148,6 +1152,7 @@ export namespace Prisma {
     name?: true
     email?: true
     role?: true
+    isPremium?: true
     createdAt?: true
   }
 
@@ -1156,6 +1161,7 @@ export namespace Prisma {
     name?: true
     email?: true
     role?: true
+    isPremium?: true
     createdAt?: true
     _all?: true
   }
@@ -1237,6 +1243,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium: boolean
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1262,6 +1269,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     role?: boolean
+    isPremium?: boolean
     createdAt?: boolean
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1272,6 +1280,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     role?: boolean
+    isPremium?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1280,6 +1289,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     role?: boolean
+    isPremium?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1288,10 +1298,11 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     role?: boolean
+    isPremium?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1309,6 +1320,7 @@ export namespace Prisma {
       name: string
       email: string
       role: $Enums.Role
+      isPremium: boolean
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1738,6 +1750,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -4267,6 +4280,7 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     role: 'role',
+    isPremium: 'isPremium',
     createdAt: 'createdAt'
   };
 
@@ -4347,6 +4361,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -4385,6 +4406,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     attendance?: AttendanceListRelationFilter
   }
@@ -4394,6 +4416,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     role?: SortOrder
+    isPremium?: SortOrder
     createdAt?: SortOrder
     attendance?: AttendanceOrderByRelationAggregateInput
   }
@@ -4406,6 +4429,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     attendance?: AttendanceListRelationFilter
   }, "id" | "email">
@@ -4415,6 +4439,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     role?: SortOrder
+    isPremium?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -4429,6 +4454,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -4554,6 +4580,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium?: boolean
     createdAt?: Date | string
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
   }
@@ -4563,6 +4590,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium?: boolean
     createdAt?: Date | string
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
@@ -4572,6 +4600,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
   }
@@ -4581,6 +4610,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
@@ -4590,6 +4620,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium?: boolean
     createdAt?: Date | string
   }
 
@@ -4598,6 +4629,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4606,6 +4638,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4756,6 +4789,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4782,6 +4820,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     role?: SortOrder
+    isPremium?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4790,6 +4829,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     role?: SortOrder
+    isPremium?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4798,6 +4838,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     role?: SortOrder
+    isPremium?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4827,6 +4868,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -4924,6 +4973,10 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -4991,6 +5044,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5038,6 +5096,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5113,6 +5179,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium?: boolean
     createdAt?: Date | string
   }
 
@@ -5121,6 +5188,7 @@ export namespace Prisma {
     name: string
     email: string
     role: $Enums.Role
+    isPremium?: boolean
     createdAt?: Date | string
   }
 
@@ -5145,6 +5213,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5153,6 +5222,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

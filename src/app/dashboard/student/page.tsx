@@ -5,11 +5,12 @@ import { Attendance } from "@/lib/types";
 import Greeting from "@/components/student/Greeting";
 import Logo from "@/components/apps/Logo";
 import PremiumCard from "@/components/student/PremiumCard";
+import HorizontalBar from "@/components/student/HorizontalBar";
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const isPremium = false; // This can be replaced with actual premium check logic
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
     if (!studentId) {
@@ -80,10 +81,33 @@ export default function StudentDashboard() {
 
       <div className="flex pl-[5rem]">
         <div className="">
-             <PremiumCard />
+          <PremiumCard />
+          <HorizontalBar
+            content="Some Content"
+            linkRef="tosometing"
+            title="Title1"
+          />
+          <HorizontalBar
+            content="Some COntent2"
+            linkRef="tosomething2"
+            title="Title2"
+          />
+          <HorizontalBar
+            content="some Content3"
+            linkRef="toSomething3"
+            title="Title3"
+          />
         </div>
-        <div>
-          HELLO
+        <div className="ml-4 mt-4">
+          {isPremium ? (
+            <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-green-300 bg-gradient-to-br from-green-800/40 to-cyan-700/40 shadow-md">
+              🌟 Premium User
+            </span>
+          ) : (
+            <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-red-300 bg-gradient-to-br from-red-800/40 to-cyan-700/40 shadow-md">
+              Normal User
+            </span>
+          )}
         </div>
       </div>
     </div>
