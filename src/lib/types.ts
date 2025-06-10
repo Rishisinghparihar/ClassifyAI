@@ -21,3 +21,10 @@ export interface SDetails {
   createdAt: string;
   role: string;
 }
+
+
+export interface HorizontalBarProps {
+  content: string;
+  linkRef: string;
+  title: string;
+}

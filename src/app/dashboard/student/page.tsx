@@ -6,6 +6,7 @@ import Greeting from "@/components/student/Greeting";
 import Logo from "@/components/apps/Logo";
 import PremiumCard from "@/components/student/PremiumCard";
 import HorizontalBar from "@/components/student/HorizontalBar";
+import AppCalendar from "@/components/student/Calender";
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
@@ -80,7 +81,7 @@ export default function StudentDashboard() {
       </div>
 
       <div className="flex pl-[5rem]">
-        <div className="">
+        <div className="flex flex-col space-y-6">
           <PremiumCard />
           <HorizontalBar
             content="Some Content"
@@ -97,6 +98,15 @@ export default function StudentDashboard() {
             linkRef="toSomething3"
             title="Title3"
           />
+          <HorizontalBar
+            content="some Content4"
+            linkRef="toSomething4"
+            title="Title4"
+          />
+
+        </div>
+        <div className="">
+          <AppCalendar/>
         </div>
         <div className="ml-4 mt-4">
           {isPremium ? (
