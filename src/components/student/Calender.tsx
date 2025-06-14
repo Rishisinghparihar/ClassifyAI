@@ -129,7 +129,7 @@ const navigateMonth: NavigateMonthFn = (direction) => {
           {prevMonthDays.map((day, index) => (
             <button
               key={`prev-${index}`}
-              className="h-10 w-10 text-gray-300 text-sm hover:bg-gray-50 rounded-lg transition-colors duration-150"
+              className="h-10 w-10 text-gray-300 text-sm hover:bg-gray-50 hover:text-gray-800 rounded-lg transition-colors duration-150"
               disabled
             >
               {day}
@@ -157,7 +157,7 @@ const navigateMonth: NavigateMonthFn = (direction) => {
           {nextMonthDays.map((day, index) => (
             <button
               key={`next-${index}`}
-              className="h-10 w-10 text-gray-300 text-sm hover:bg-gray-50 rounded-lg transition-colors duration-150"
+              className="h-10 w-10 text-gray-300 text-sm hover:bg-gray-50 hover:text-gray-800 rounded-lg transition-colors duration-150"
               disabled
             >
               {day}

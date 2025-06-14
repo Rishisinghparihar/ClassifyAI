@@ -7,6 +7,9 @@ import Logo from "@/components/apps/Logo";
 import PremiumCard from "@/components/student/PremiumCard";
 import HorizontalBar from "@/components/student/HorizontalBar";
 import AppCalendar from "@/components/student/Calender";
+import BarGraph from "@/components/student/Graph";
+import NumberCard from "@/components/student/NumberCard";
+
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
@@ -84,29 +87,37 @@ export default function StudentDashboard() {
         <div className="flex flex-col space-y-6">
           <PremiumCard />
           <HorizontalBar
-            content="Some Content"
-            linkRef="tosometing"
-            title="Title1"
+            content="Check your past attendance records"
+            linkRef="/attendance/history"
+            title="Attendance History"
           />
           <HorizontalBar
-            content="Some COntent2"
-            linkRef="tosomething2"
-            title="Title2"
+            content="Track upcoming exams and assignment deadlines"
+            linkRef="/exams"
+            title="Upcoming Exams"
           />
           <HorizontalBar
-            content="some Content3"
-            linkRef="toSomething3"
-            title="Title3"
+            content="See how many classes you can skip safely"
+            linkRef="/attendance/stats"
+            title="Bunk Manager"
           />
           <HorizontalBar
-            content="some Content4"
-            linkRef="toSomething4"
-            title="Title4"
+            content="Get a smart study plan based on your upcoming exams"
+            linkRef="/study-plan"
+            title="Study Plan"
           />
-
         </div>
-        <div className="">
-          <AppCalendar/>
+        <div className="flex-1 flex items-center justify-center px-4 flex-col space-y-6">
+          <div className="w-3xl max-w-6xl mx-auto">
+            <BarGraph />
+          </div>
+          <div className="flex items-start justify-evenly space-x-4 w-full max-w-6xl mx-auto">
+            <AppCalendar />
+            <div className="">
+              <NumberCard />
+              <NumberCard />
+            </div>
+          </div>
         </div>
         <div className="ml-4 mt-4">
           {isPremium ? (
