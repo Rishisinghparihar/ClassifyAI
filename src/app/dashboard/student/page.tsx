@@ -9,12 +9,20 @@ import HorizontalBar from "@/components/student/HorizontalBar";
 import AppCalendar from "@/components/student/Calender";
 import BarGraph from "@/components/student/Graph";
 import NumberCard from "@/components/student/NumberCard";
-
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
+  const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const isPremium = false; // This can be replaced with actual premium check logic
+  const router = useRouter();
+ const logout = () => {
+  localStorage.removeItem("studentId");
+  router.push("/auth/login");
+};
+
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
     if (!studentId) {
@@ -35,8 +43,22 @@ export default function StudentDashboard() {
       }
     };
 
+    const fetchStats = async () => {
+      try {
+        const res = await fetch(
+          `/api/attendance/statistics?studentId=${studentId}`
+        );
+        const data = await res.json();
+        setStats(data);
+        console.log({ stats: data });
+      } catch (error) {
+        console.error("Error fetching attendance statistics:", error);
+      }
+    };
+    fetchStats();
     fetchTodayAttendance();
   }, []);
+  // const percentage: string = s;
 
   return (
     <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
@@ -114,11 +136,34 @@ export default function StudentDashboard() {
           <div className="flex items-start justify-evenly space-x-4 w-full max-w-6xl mx-auto">
             <AppCalendar />
             <div className="">
-              <NumberCard />
-              <NumberCard />
+              <NumberCard
+                title="Lectures Attended"
+                value={
+                  isNaN(Number.parseInt(stats?.presents))
+                    ? "..."
+                    : Number.parseInt(stats?.presents).toString()
+                }
+              />
+              <NumberCard
+                title="Attendace %"
+                value={
+                  isNaN(Number.parseInt(stats?.presentPercentage))
+                    ? "..."
+                    : Number.parseInt(stats?.presentPercentage).toString() + "%"
+                }
+              />
             </div>
           </div>
         </div>
+        <div className="absolute top-[1.5rem] right-[8rem] text-xs text-cyan-400 group rounded-4xl" onClick={() => logout()}>
+          <div className="px-2 py-1 flex items-center space-x-2 transition-all duration-300 ease-in-out group-hover:px-4 cursor-pointer">
+            <LogOut className="transition-transform duration-300 group-hover:scale-110" />
+            <span className="overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-300 text-sm text-cyan-200">
+              Logout
+            </span>
+          </div>
+        </div>
+
         <div className="ml-4 mt-4">
           {isPremium ? (
             <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-green-300 bg-gradient-to-br from-green-800/40 to-cyan-700/40 shadow-md">

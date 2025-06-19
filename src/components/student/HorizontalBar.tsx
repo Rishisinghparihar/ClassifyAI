@@ -11,12 +11,14 @@ const HorizontalBar: React.FC<HorizontalBarProps> = (props) => {
         <p className="text-amber-50 text-lg ">{props.title}</p>
         <span className="text-gray-100">{props.content}</span>
       </div>
+      <div className="flex items-center justify-center w-16 h-full">
       <Link
         href={props.linkRef}
-        className=" ml-12 h-6 w-6  text-cyan-500 flex items-center justify-center mt-8 border border-cyan-300  rounded-full hover:bg-cyan-500/65 transition-colors duration-200 shadow-md"
+        className="h-6 w-6   text-cyan-500  flex items-center justify-center text-center border border-cyan-300  rounded-full hover:bg-cyan-500/65 transition-colors duration-200 shadow-md"
       >
         <ChevronRight />
       </Link>
+      </div>
     </div>
   );
 };

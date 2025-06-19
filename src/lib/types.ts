@@ -28,3 +28,8 @@ export interface HorizontalBarProps {
   linkRef: string;
   title: string;
 }
+
+export interface NumberCardsProps {
+  title: string;
+  value: string;
+}
