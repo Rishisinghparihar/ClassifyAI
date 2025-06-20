@@ -9,8 +9,9 @@ import HorizontalBar from "@/components/student/HorizontalBar";
 import AppCalendar from "@/components/student/Calender";
 import BarGraph from "@/components/student/Graph";
 import NumberCard from "@/components/student/NumberCard";
-import { LogOut } from "lucide-react";
+import { Bot, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ChatBot from "@/components/student/ChatBot";
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
@@ -18,10 +19,10 @@ export default function StudentDashboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const isPremium = false; // This can be replaced with actual premium check logic
   const router = useRouter();
- const logout = () => {
-  localStorage.removeItem("studentId");
-  router.push("/auth/login");
-};
+  const logout = () => {
+    localStorage.removeItem("studentId");
+    router.push("/auth/login");
+  };
 
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
@@ -155,14 +156,18 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
-        <div className="absolute top-[1.5rem] right-[8rem] text-xs text-cyan-400 group rounded-4xl" onClick={() => logout()}>
+        <div
+          className="absolute top-[1.5rem] right-[8rem] text-xs text-cyan-400 group rounded-4xl"
+          onClick={() => logout()}
+        >
           <div className="px-2 py-1 flex items-center space-x-2 transition-all duration-300 ease-in-out group-hover:px-4 cursor-pointer">
             <LogOut className="transition-transform duration-300 group-hover:scale-110" />
             <span className="overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-300 text-sm text-cyan-200">
-              Logout
+              LogOut
             </span>
           </div>
         </div>
+        <ChatBot />
 
         <div className="ml-4 mt-4">
           {isPremium ? (

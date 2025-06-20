@@ -30,3 +30,21 @@ h1, h2, h3 {
 code, pre {
   font-family: var(--font-mono);
 }
+
+
+@keyframes shadowGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(0, 255, 255, 0.4),
+                0 0 30px rgba(255, 255, 255, 0.15);
+  }
+}
+
+.chat-box-glow {
+  animation: shadowGlow 2.8s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
