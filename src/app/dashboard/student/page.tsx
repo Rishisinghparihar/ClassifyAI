@@ -157,16 +157,17 @@ export default function StudentDashboard() {
           </div>
         </div>
         <div
-          className="absolute top-[1.5rem] right-[8rem] text-xs text-cyan-400 group rounded-4xl"
+          className="absolute top-[1.3rem] right-[8rem] group cursor-pointer"
           onClick={() => logout()}
         >
-          <div className="px-2 py-1 flex items-center space-x-2 transition-all duration-300 ease-in-out group-hover:px-4 cursor-pointer">
-            <LogOut className="transition-transform duration-300 group-hover:scale-110" />
-            <span className="overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-300 text-sm text-cyan-200">
-              LogOut
+          <div className="relative flex items-center justify-center p-2 rounded-full  transition">
+            <LogOut className="text-cyan-300" />
+            <span className="absolute top-full mb-1 px-2 py-1 text-xs rounded bg-cyan-500 text-white opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 pointer-events-none">
+              Logout
             </span>
           </div>
         </div>
+
         <ChatBot />
 
         <div className="ml-4 mt-4">
