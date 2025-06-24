@@ -28,6 +28,11 @@ export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
  * 
  */
 export type AttendanceToken = $Result.DefaultSelection<Prisma.$AttendanceTokenPayload>
+/**
+ * Model PremiumFeature
+ * 
+ */
+export type PremiumFeature = $Result.DefaultSelection<Prisma.$PremiumFeaturePayload>
 
 /**
  * Enums
@@ -41,11 +46,24 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const PremiumFeatureType: {
+  AI_CHATBOT: 'AI_CHATBOT',
+  STUDY_PLAN: 'STUDY_PLAN',
+  CALENDAR_SYNC: 'CALENDAR_SYNC'
+};
+
+export type PremiumFeatureType = (typeof PremiumFeatureType)[keyof typeof PremiumFeatureType]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type PremiumFeatureType = $Enums.PremiumFeatureType
+
+export const PremiumFeatureType: typeof $Enums.PremiumFeatureType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -201,6 +219,16 @@ export class PrismaClient<
     * ```
     */
   get attendanceToken(): Prisma.AttendanceTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.premiumFeature`: Exposes CRUD operations for the **PremiumFeature** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PremiumFeatures
+    * const premiumFeatures = await prisma.premiumFeature.findMany()
+    * ```
+    */
+  get premiumFeature(): Prisma.PremiumFeatureDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -643,7 +671,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Attendance: 'Attendance',
-    AttendanceToken: 'AttendanceToken'
+    AttendanceToken: 'AttendanceToken',
+    PremiumFeature: 'PremiumFeature'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -662,7 +691,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "attendance" | "attendanceToken"
+      modelProps: "user" | "attendance" | "attendanceToken" | "premiumFeature"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -888,6 +917,80 @@ export namespace Prisma {
           }
         }
       }
+      PremiumFeature: {
+        payload: Prisma.$PremiumFeaturePayload<ExtArgs>
+        fields: Prisma.PremiumFeatureFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PremiumFeatureFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PremiumFeatureFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          findFirst: {
+            args: Prisma.PremiumFeatureFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PremiumFeatureFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          findMany: {
+            args: Prisma.PremiumFeatureFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>[]
+          }
+          create: {
+            args: Prisma.PremiumFeatureCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          createMany: {
+            args: Prisma.PremiumFeatureCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PremiumFeatureCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>[]
+          }
+          delete: {
+            args: Prisma.PremiumFeatureDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          update: {
+            args: Prisma.PremiumFeatureUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          deleteMany: {
+            args: Prisma.PremiumFeatureDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PremiumFeatureUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PremiumFeatureUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>[]
+          }
+          upsert: {
+            args: Prisma.PremiumFeatureUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PremiumFeaturePayload>
+          }
+          aggregate: {
+            args: Prisma.PremiumFeatureAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePremiumFeature>
+          }
+          groupBy: {
+            args: Prisma.PremiumFeatureGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PremiumFeatureGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PremiumFeatureCountArgs<ExtArgs>
+            result: $Utils.Optional<PremiumFeatureCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -975,6 +1078,7 @@ export namespace Prisma {
     user?: UserOmit
     attendance?: AttendanceOmit
     attendanceToken?: AttendanceTokenOmit
+    premiumFeature?: PremiumFeatureOmit
   }
 
   /* Types for Logging */
@@ -1070,10 +1174,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     attendance: number
+    premiumFeatures: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | UserCountOutputTypeCountAttendanceArgs
+    premiumFeatures?: boolean | UserCountOutputTypeCountPremiumFeaturesArgs
   }
 
   // Custom InputTypes
@@ -1092,6 +1198,44 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAttendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPremiumFeaturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PremiumFeatureWhereInput
+  }
+
+
+  /**
+   * Count Type PremiumFeatureCountOutputType
+   */
+
+  export type PremiumFeatureCountOutputType = {
+    users: number
+  }
+
+  export type PremiumFeatureCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | PremiumFeatureCountOutputTypeCountUsersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PremiumFeatureCountOutputType without action
+   */
+  export type PremiumFeatureCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeatureCountOutputType
+     */
+    select?: PremiumFeatureCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PremiumFeatureCountOutputType without action
+   */
+  export type PremiumFeatureCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -1272,6 +1416,7 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     attendance?: boolean | User$attendanceArgs<ExtArgs>
+    premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1305,6 +1450,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
+    premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1314,6 +1460,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       attendance: Prisma.$AttendancePayload<ExtArgs>[]
+      premiumFeatures: Prisma.$PremiumFeaturePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1717,6 +1864,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     attendance<T extends User$attendanceArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    premiumFeatures<T extends User$premiumFeaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$premiumFeaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2161,6 +2309,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * User.premiumFeatures
+   */
+  export type User$premiumFeaturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    where?: PremiumFeatureWhereInput
+    orderBy?: PremiumFeatureOrderByWithRelationInput | PremiumFeatureOrderByWithRelationInput[]
+    cursor?: PremiumFeatureWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PremiumFeatureScalarFieldEnum | PremiumFeatureScalarFieldEnum[]
   }
 
   /**
@@ -4262,6 +4434,1050 @@ export namespace Prisma {
 
 
   /**
+   * Model PremiumFeature
+   */
+
+  export type AggregatePremiumFeature = {
+    _count: PremiumFeatureCountAggregateOutputType | null
+    _min: PremiumFeatureMinAggregateOutputType | null
+    _max: PremiumFeatureMaxAggregateOutputType | null
+  }
+
+  export type PremiumFeatureMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type PremiumFeatureMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type PremiumFeatureCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PremiumFeatureMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type PremiumFeatureMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type PremiumFeatureCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PremiumFeatureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PremiumFeature to aggregate.
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PremiumFeatures to fetch.
+     */
+    orderBy?: PremiumFeatureOrderByWithRelationInput | PremiumFeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PremiumFeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PremiumFeatures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PremiumFeatures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PremiumFeatures
+    **/
+    _count?: true | PremiumFeatureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PremiumFeatureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PremiumFeatureMaxAggregateInputType
+  }
+
+  export type GetPremiumFeatureAggregateType<T extends PremiumFeatureAggregateArgs> = {
+        [P in keyof T & keyof AggregatePremiumFeature]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePremiumFeature[P]>
+      : GetScalarType<T[P], AggregatePremiumFeature[P]>
+  }
+
+
+
+
+  export type PremiumFeatureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PremiumFeatureWhereInput
+    orderBy?: PremiumFeatureOrderByWithAggregationInput | PremiumFeatureOrderByWithAggregationInput[]
+    by: PremiumFeatureScalarFieldEnum[] | PremiumFeatureScalarFieldEnum
+    having?: PremiumFeatureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PremiumFeatureCountAggregateInputType | true
+    _min?: PremiumFeatureMinAggregateInputType
+    _max?: PremiumFeatureMaxAggregateInputType
+  }
+
+  export type PremiumFeatureGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    _count: PremiumFeatureCountAggregateOutputType | null
+    _min: PremiumFeatureMinAggregateOutputType | null
+    _max: PremiumFeatureMaxAggregateOutputType | null
+  }
+
+  type GetPremiumFeatureGroupByPayload<T extends PremiumFeatureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PremiumFeatureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PremiumFeatureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PremiumFeatureGroupByOutputType[P]>
+            : GetScalarType<T[P], PremiumFeatureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PremiumFeatureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    users?: boolean | PremiumFeature$usersArgs<ExtArgs>
+    _count?: boolean | PremiumFeatureCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["premiumFeature"]>
+
+  export type PremiumFeatureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["premiumFeature"]>
+
+  export type PremiumFeatureSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["premiumFeature"]>
+
+  export type PremiumFeatureSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type PremiumFeatureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt", ExtArgs["result"]["premiumFeature"]>
+  export type PremiumFeatureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | PremiumFeature$usersArgs<ExtArgs>
+    _count?: boolean | PremiumFeatureCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PremiumFeatureIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PremiumFeatureIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PremiumFeaturePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PremiumFeature"
+    objects: {
+      users: Prisma.$UserPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["premiumFeature"]>
+    composites: {}
+  }
+
+  type PremiumFeatureGetPayload<S extends boolean | null | undefined | PremiumFeatureDefaultArgs> = $Result.GetResult<Prisma.$PremiumFeaturePayload, S>
+
+  type PremiumFeatureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PremiumFeatureFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PremiumFeatureCountAggregateInputType | true
+    }
+
+  export interface PremiumFeatureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PremiumFeature'], meta: { name: 'PremiumFeature' } }
+    /**
+     * Find zero or one PremiumFeature that matches the filter.
+     * @param {PremiumFeatureFindUniqueArgs} args - Arguments to find a PremiumFeature
+     * @example
+     * // Get one PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PremiumFeatureFindUniqueArgs>(args: SelectSubset<T, PremiumFeatureFindUniqueArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PremiumFeature that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PremiumFeatureFindUniqueOrThrowArgs} args - Arguments to find a PremiumFeature
+     * @example
+     * // Get one PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PremiumFeatureFindUniqueOrThrowArgs>(args: SelectSubset<T, PremiumFeatureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PremiumFeature that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureFindFirstArgs} args - Arguments to find a PremiumFeature
+     * @example
+     * // Get one PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PremiumFeatureFindFirstArgs>(args?: SelectSubset<T, PremiumFeatureFindFirstArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PremiumFeature that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureFindFirstOrThrowArgs} args - Arguments to find a PremiumFeature
+     * @example
+     * // Get one PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PremiumFeatureFindFirstOrThrowArgs>(args?: SelectSubset<T, PremiumFeatureFindFirstOrThrowArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PremiumFeatures that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PremiumFeatures
+     * const premiumFeatures = await prisma.premiumFeature.findMany()
+     * 
+     * // Get first 10 PremiumFeatures
+     * const premiumFeatures = await prisma.premiumFeature.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const premiumFeatureWithIdOnly = await prisma.premiumFeature.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PremiumFeatureFindManyArgs>(args?: SelectSubset<T, PremiumFeatureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PremiumFeature.
+     * @param {PremiumFeatureCreateArgs} args - Arguments to create a PremiumFeature.
+     * @example
+     * // Create one PremiumFeature
+     * const PremiumFeature = await prisma.premiumFeature.create({
+     *   data: {
+     *     // ... data to create a PremiumFeature
+     *   }
+     * })
+     * 
+     */
+    create<T extends PremiumFeatureCreateArgs>(args: SelectSubset<T, PremiumFeatureCreateArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PremiumFeatures.
+     * @param {PremiumFeatureCreateManyArgs} args - Arguments to create many PremiumFeatures.
+     * @example
+     * // Create many PremiumFeatures
+     * const premiumFeature = await prisma.premiumFeature.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PremiumFeatureCreateManyArgs>(args?: SelectSubset<T, PremiumFeatureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PremiumFeatures and returns the data saved in the database.
+     * @param {PremiumFeatureCreateManyAndReturnArgs} args - Arguments to create many PremiumFeatures.
+     * @example
+     * // Create many PremiumFeatures
+     * const premiumFeature = await prisma.premiumFeature.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PremiumFeatures and only return the `id`
+     * const premiumFeatureWithIdOnly = await prisma.premiumFeature.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PremiumFeatureCreateManyAndReturnArgs>(args?: SelectSubset<T, PremiumFeatureCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PremiumFeature.
+     * @param {PremiumFeatureDeleteArgs} args - Arguments to delete one PremiumFeature.
+     * @example
+     * // Delete one PremiumFeature
+     * const PremiumFeature = await prisma.premiumFeature.delete({
+     *   where: {
+     *     // ... filter to delete one PremiumFeature
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PremiumFeatureDeleteArgs>(args: SelectSubset<T, PremiumFeatureDeleteArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PremiumFeature.
+     * @param {PremiumFeatureUpdateArgs} args - Arguments to update one PremiumFeature.
+     * @example
+     * // Update one PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PremiumFeatureUpdateArgs>(args: SelectSubset<T, PremiumFeatureUpdateArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PremiumFeatures.
+     * @param {PremiumFeatureDeleteManyArgs} args - Arguments to filter PremiumFeatures to delete.
+     * @example
+     * // Delete a few PremiumFeatures
+     * const { count } = await prisma.premiumFeature.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PremiumFeatureDeleteManyArgs>(args?: SelectSubset<T, PremiumFeatureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PremiumFeatures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PremiumFeatures
+     * const premiumFeature = await prisma.premiumFeature.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PremiumFeatureUpdateManyArgs>(args: SelectSubset<T, PremiumFeatureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PremiumFeatures and returns the data updated in the database.
+     * @param {PremiumFeatureUpdateManyAndReturnArgs} args - Arguments to update many PremiumFeatures.
+     * @example
+     * // Update many PremiumFeatures
+     * const premiumFeature = await prisma.premiumFeature.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PremiumFeatures and only return the `id`
+     * const premiumFeatureWithIdOnly = await prisma.premiumFeature.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PremiumFeatureUpdateManyAndReturnArgs>(args: SelectSubset<T, PremiumFeatureUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PremiumFeature.
+     * @param {PremiumFeatureUpsertArgs} args - Arguments to update or create a PremiumFeature.
+     * @example
+     * // Update or create a PremiumFeature
+     * const premiumFeature = await prisma.premiumFeature.upsert({
+     *   create: {
+     *     // ... data to create a PremiumFeature
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PremiumFeature we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PremiumFeatureUpsertArgs>(args: SelectSubset<T, PremiumFeatureUpsertArgs<ExtArgs>>): Prisma__PremiumFeatureClient<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PremiumFeatures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureCountArgs} args - Arguments to filter PremiumFeatures to count.
+     * @example
+     * // Count the number of PremiumFeatures
+     * const count = await prisma.premiumFeature.count({
+     *   where: {
+     *     // ... the filter for the PremiumFeatures we want to count
+     *   }
+     * })
+    **/
+    count<T extends PremiumFeatureCountArgs>(
+      args?: Subset<T, PremiumFeatureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PremiumFeatureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PremiumFeature.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PremiumFeatureAggregateArgs>(args: Subset<T, PremiumFeatureAggregateArgs>): Prisma.PrismaPromise<GetPremiumFeatureAggregateType<T>>
+
+    /**
+     * Group by PremiumFeature.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PremiumFeatureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PremiumFeatureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PremiumFeatureGroupByArgs['orderBy'] }
+        : { orderBy?: PremiumFeatureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PremiumFeatureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPremiumFeatureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PremiumFeature model
+   */
+  readonly fields: PremiumFeatureFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PremiumFeature.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PremiumFeatureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    users<T extends PremiumFeature$usersArgs<ExtArgs> = {}>(args?: Subset<T, PremiumFeature$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PremiumFeature model
+   */
+  interface PremiumFeatureFieldRefs {
+    readonly id: FieldRef<"PremiumFeature", 'String'>
+    readonly name: FieldRef<"PremiumFeature", 'String'>
+    readonly createdAt: FieldRef<"PremiumFeature", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PremiumFeature findUnique
+   */
+  export type PremiumFeatureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter, which PremiumFeature to fetch.
+     */
+    where: PremiumFeatureWhereUniqueInput
+  }
+
+  /**
+   * PremiumFeature findUniqueOrThrow
+   */
+  export type PremiumFeatureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter, which PremiumFeature to fetch.
+     */
+    where: PremiumFeatureWhereUniqueInput
+  }
+
+  /**
+   * PremiumFeature findFirst
+   */
+  export type PremiumFeatureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter, which PremiumFeature to fetch.
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PremiumFeatures to fetch.
+     */
+    orderBy?: PremiumFeatureOrderByWithRelationInput | PremiumFeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PremiumFeatures.
+     */
+    cursor?: PremiumFeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PremiumFeatures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PremiumFeatures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PremiumFeatures.
+     */
+    distinct?: PremiumFeatureScalarFieldEnum | PremiumFeatureScalarFieldEnum[]
+  }
+
+  /**
+   * PremiumFeature findFirstOrThrow
+   */
+  export type PremiumFeatureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter, which PremiumFeature to fetch.
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PremiumFeatures to fetch.
+     */
+    orderBy?: PremiumFeatureOrderByWithRelationInput | PremiumFeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PremiumFeatures.
+     */
+    cursor?: PremiumFeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PremiumFeatures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PremiumFeatures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PremiumFeatures.
+     */
+    distinct?: PremiumFeatureScalarFieldEnum | PremiumFeatureScalarFieldEnum[]
+  }
+
+  /**
+   * PremiumFeature findMany
+   */
+  export type PremiumFeatureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter, which PremiumFeatures to fetch.
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PremiumFeatures to fetch.
+     */
+    orderBy?: PremiumFeatureOrderByWithRelationInput | PremiumFeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PremiumFeatures.
+     */
+    cursor?: PremiumFeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PremiumFeatures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PremiumFeatures.
+     */
+    skip?: number
+    distinct?: PremiumFeatureScalarFieldEnum | PremiumFeatureScalarFieldEnum[]
+  }
+
+  /**
+   * PremiumFeature create
+   */
+  export type PremiumFeatureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PremiumFeature.
+     */
+    data: XOR<PremiumFeatureCreateInput, PremiumFeatureUncheckedCreateInput>
+  }
+
+  /**
+   * PremiumFeature createMany
+   */
+  export type PremiumFeatureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PremiumFeatures.
+     */
+    data: PremiumFeatureCreateManyInput | PremiumFeatureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PremiumFeature createManyAndReturn
+   */
+  export type PremiumFeatureCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * The data used to create many PremiumFeatures.
+     */
+    data: PremiumFeatureCreateManyInput | PremiumFeatureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PremiumFeature update
+   */
+  export type PremiumFeatureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PremiumFeature.
+     */
+    data: XOR<PremiumFeatureUpdateInput, PremiumFeatureUncheckedUpdateInput>
+    /**
+     * Choose, which PremiumFeature to update.
+     */
+    where: PremiumFeatureWhereUniqueInput
+  }
+
+  /**
+   * PremiumFeature updateMany
+   */
+  export type PremiumFeatureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PremiumFeatures.
+     */
+    data: XOR<PremiumFeatureUpdateManyMutationInput, PremiumFeatureUncheckedUpdateManyInput>
+    /**
+     * Filter which PremiumFeatures to update
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * Limit how many PremiumFeatures to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PremiumFeature updateManyAndReturn
+   */
+  export type PremiumFeatureUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * The data used to update PremiumFeatures.
+     */
+    data: XOR<PremiumFeatureUpdateManyMutationInput, PremiumFeatureUncheckedUpdateManyInput>
+    /**
+     * Filter which PremiumFeatures to update
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * Limit how many PremiumFeatures to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PremiumFeature upsert
+   */
+  export type PremiumFeatureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PremiumFeature to update in case it exists.
+     */
+    where: PremiumFeatureWhereUniqueInput
+    /**
+     * In case the PremiumFeature found by the `where` argument doesn't exist, create a new PremiumFeature with this data.
+     */
+    create: XOR<PremiumFeatureCreateInput, PremiumFeatureUncheckedCreateInput>
+    /**
+     * In case the PremiumFeature was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PremiumFeatureUpdateInput, PremiumFeatureUncheckedUpdateInput>
+  }
+
+  /**
+   * PremiumFeature delete
+   */
+  export type PremiumFeatureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+    /**
+     * Filter which PremiumFeature to delete.
+     */
+    where: PremiumFeatureWhereUniqueInput
+  }
+
+  /**
+   * PremiumFeature deleteMany
+   */
+  export type PremiumFeatureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PremiumFeatures to delete
+     */
+    where?: PremiumFeatureWhereInput
+    /**
+     * Limit how many PremiumFeatures to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PremiumFeature.users
+   */
+  export type PremiumFeature$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * PremiumFeature without action
+   */
+  export type PremiumFeatureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PremiumFeature
+     */
+    select?: PremiumFeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PremiumFeature
+     */
+    omit?: PremiumFeatureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PremiumFeatureInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4309,6 +5525,15 @@ export namespace Prisma {
   };
 
   export type AttendanceTokenScalarFieldEnum = (typeof AttendanceTokenScalarFieldEnum)[keyof typeof AttendanceTokenScalarFieldEnum]
+
+
+  export const PremiumFeatureScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type PremiumFeatureScalarFieldEnum = (typeof PremiumFeatureScalarFieldEnum)[keyof typeof PremiumFeatureScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4409,6 +5634,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     attendance?: AttendanceListRelationFilter
+    premiumFeatures?: PremiumFeatureListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4419,6 +5645,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     attendance?: AttendanceOrderByRelationAggregateInput
+    premiumFeatures?: PremiumFeatureOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4432,6 +5659,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     attendance?: AttendanceListRelationFilter
+    premiumFeatures?: PremiumFeatureListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4575,6 +5803,51 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
   }
 
+  export type PremiumFeatureWhereInput = {
+    AND?: PremiumFeatureWhereInput | PremiumFeatureWhereInput[]
+    OR?: PremiumFeatureWhereInput[]
+    NOT?: PremiumFeatureWhereInput | PremiumFeatureWhereInput[]
+    id?: StringFilter<"PremiumFeature"> | string
+    name?: StringFilter<"PremiumFeature"> | string
+    createdAt?: DateTimeFilter<"PremiumFeature"> | Date | string
+    users?: UserListRelationFilter
+  }
+
+  export type PremiumFeatureOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    users?: UserOrderByRelationAggregateInput
+  }
+
+  export type PremiumFeatureWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: PremiumFeatureWhereInput | PremiumFeatureWhereInput[]
+    OR?: PremiumFeatureWhereInput[]
+    NOT?: PremiumFeatureWhereInput | PremiumFeatureWhereInput[]
+    createdAt?: DateTimeFilter<"PremiumFeature"> | Date | string
+    users?: UserListRelationFilter
+  }, "id" | "name">
+
+  export type PremiumFeatureOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: PremiumFeatureCountOrderByAggregateInput
+    _max?: PremiumFeatureMaxOrderByAggregateInput
+    _min?: PremiumFeatureMinOrderByAggregateInput
+  }
+
+  export type PremiumFeatureScalarWhereWithAggregatesInput = {
+    AND?: PremiumFeatureScalarWhereWithAggregatesInput | PremiumFeatureScalarWhereWithAggregatesInput[]
+    OR?: PremiumFeatureScalarWhereWithAggregatesInput[]
+    NOT?: PremiumFeatureScalarWhereWithAggregatesInput | PremiumFeatureScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PremiumFeature"> | string
+    name?: StringWithAggregatesFilter<"PremiumFeature"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PremiumFeature"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -4583,6 +5856,7 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4593,6 +5867,7 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UserUpdateInput = {
@@ -4603,6 +5878,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4613,6 +5889,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4767,6 +6044,52 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PremiumFeatureCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserCreateNestedManyWithoutPremiumFeaturesInput
+  }
+
+  export type PremiumFeatureUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutPremiumFeaturesInput
+  }
+
+  export type PremiumFeatureUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutPremiumFeaturesNestedInput
+  }
+
+  export type PremiumFeatureUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutPremiumFeaturesNestedInput
+  }
+
+  export type PremiumFeatureCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type PremiumFeatureUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PremiumFeatureUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -4811,7 +6134,17 @@ export namespace Prisma {
     none?: AttendanceWhereInput
   }
 
+  export type PremiumFeatureListRelationFilter = {
+    every?: PremiumFeatureWhereInput
+    some?: PremiumFeatureWhereInput
+    none?: PremiumFeatureWhereInput
+  }
+
   export type AttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PremiumFeatureOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -4951,6 +6284,34 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PremiumFeatureCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PremiumFeatureMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PremiumFeatureMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type AttendanceCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -4958,11 +6319,23 @@ export namespace Prisma {
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
+  export type PremiumFeatureCreateNestedManyWithoutUsersInput = {
+    create?: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput> | PremiumFeatureCreateWithoutUsersInput[] | PremiumFeatureUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: PremiumFeatureCreateOrConnectWithoutUsersInput | PremiumFeatureCreateOrConnectWithoutUsersInput[]
+    connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+  }
+
   export type AttendanceUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
     createMany?: AttendanceCreateManyStudentInputEnvelope
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput> | PremiumFeatureCreateWithoutUsersInput[] | PremiumFeatureUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: PremiumFeatureCreateOrConnectWithoutUsersInput | PremiumFeatureCreateOrConnectWithoutUsersInput[]
+    connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4995,6 +6368,19 @@ export namespace Prisma {
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
   }
 
+  export type PremiumFeatureUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput> | PremiumFeatureCreateWithoutUsersInput[] | PremiumFeatureUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: PremiumFeatureCreateOrConnectWithoutUsersInput | PremiumFeatureCreateOrConnectWithoutUsersInput[]
+    upsert?: PremiumFeatureUpsertWithWhereUniqueWithoutUsersInput | PremiumFeatureUpsertWithWhereUniqueWithoutUsersInput[]
+    set?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    disconnect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    delete?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    update?: PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput | PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: PremiumFeatureUpdateManyWithWhereWithoutUsersInput | PremiumFeatureUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
+  }
+
   export type AttendanceUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -5009,6 +6395,19 @@ export namespace Prisma {
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
   }
 
+  export type PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput> | PremiumFeatureCreateWithoutUsersInput[] | PremiumFeatureUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: PremiumFeatureCreateOrConnectWithoutUsersInput | PremiumFeatureCreateOrConnectWithoutUsersInput[]
+    upsert?: PremiumFeatureUpsertWithWhereUniqueWithoutUsersInput | PremiumFeatureUpsertWithWhereUniqueWithoutUsersInput[]
+    set?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    disconnect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    delete?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+    update?: PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput | PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: PremiumFeatureUpdateManyWithWhereWithoutUsersInput | PremiumFeatureUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAttendanceInput = {
     create?: XOR<UserCreateWithoutAttendanceInput, UserUncheckedCreateWithoutAttendanceInput>
     connectOrCreate?: UserCreateOrConnectWithoutAttendanceInput
@@ -5021,6 +6420,44 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAttendanceInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceInput, UserUpdateWithoutAttendanceInput>, UserUncheckedUpdateWithoutAttendanceInput>
+  }
+
+  export type UserCreateNestedManyWithoutPremiumFeaturesInput = {
+    create?: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput> | UserCreateWithoutPremiumFeaturesInput[] | UserUncheckedCreateWithoutPremiumFeaturesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutPremiumFeaturesInput | UserCreateOrConnectWithoutPremiumFeaturesInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutPremiumFeaturesInput = {
+    create?: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput> | UserCreateWithoutPremiumFeaturesInput[] | UserUncheckedCreateWithoutPremiumFeaturesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutPremiumFeaturesInput | UserCreateOrConnectWithoutPremiumFeaturesInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUpdateManyWithoutPremiumFeaturesNestedInput = {
+    create?: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput> | UserCreateWithoutPremiumFeaturesInput[] | UserUncheckedCreateWithoutPremiumFeaturesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutPremiumFeaturesInput | UserCreateOrConnectWithoutPremiumFeaturesInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutPremiumFeaturesInput | UserUpsertWithWhereUniqueWithoutPremiumFeaturesInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutPremiumFeaturesInput | UserUpdateWithWhereUniqueWithoutPremiumFeaturesInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutPremiumFeaturesInput | UserUpdateManyWithWhereWithoutPremiumFeaturesInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutPremiumFeaturesNestedInput = {
+    create?: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput> | UserCreateWithoutPremiumFeaturesInput[] | UserUncheckedCreateWithoutPremiumFeaturesInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutPremiumFeaturesInput | UserCreateOrConnectWithoutPremiumFeaturesInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutPremiumFeaturesInput | UserUpsertWithWhereUniqueWithoutPremiumFeaturesInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutPremiumFeaturesInput | UserUpdateWithWhereUniqueWithoutPremiumFeaturesInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutPremiumFeaturesInput | UserUpdateManyWithWhereWithoutPremiumFeaturesInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5146,6 +6583,23 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PremiumFeatureCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type PremiumFeatureUncheckedCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type PremiumFeatureCreateOrConnectWithoutUsersInput = {
+    where: PremiumFeatureWhereUniqueInput
+    create: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput>
+  }
+
   export type AttendanceUpsertWithWhereUniqueWithoutStudentInput = {
     where: AttendanceWhereUniqueInput
     update: XOR<AttendanceUpdateWithoutStudentInput, AttendanceUncheckedUpdateWithoutStudentInput>
@@ -5174,6 +6628,31 @@ export namespace Prisma {
     markedBy?: StringFilter<"Attendance"> | string
   }
 
+  export type PremiumFeatureUpsertWithWhereUniqueWithoutUsersInput = {
+    where: PremiumFeatureWhereUniqueInput
+    update: XOR<PremiumFeatureUpdateWithoutUsersInput, PremiumFeatureUncheckedUpdateWithoutUsersInput>
+    create: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput>
+  }
+
+  export type PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput = {
+    where: PremiumFeatureWhereUniqueInput
+    data: XOR<PremiumFeatureUpdateWithoutUsersInput, PremiumFeatureUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type PremiumFeatureUpdateManyWithWhereWithoutUsersInput = {
+    where: PremiumFeatureScalarWhereInput
+    data: XOR<PremiumFeatureUpdateManyMutationInput, PremiumFeatureUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type PremiumFeatureScalarWhereInput = {
+    AND?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
+    OR?: PremiumFeatureScalarWhereInput[]
+    NOT?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
+    id?: StringFilter<"PremiumFeature"> | string
+    name?: StringFilter<"PremiumFeature"> | string
+    createdAt?: DateTimeFilter<"PremiumFeature"> | Date | string
+  }
+
   export type UserCreateWithoutAttendanceInput = {
     id?: string
     name: string
@@ -5181,6 +6660,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -5190,6 +6670,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -5215,6 +6696,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -5224,6 +6706,60 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UserCreateWithoutPremiumFeaturesInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    attendance?: AttendanceCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserUncheckedCreateWithoutPremiumFeaturesInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserCreateOrConnectWithoutPremiumFeaturesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput>
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutPremiumFeaturesInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutPremiumFeaturesInput, UserUncheckedUpdateWithoutPremiumFeaturesInput>
+    create: XOR<UserCreateWithoutPremiumFeaturesInput, UserUncheckedCreateWithoutPremiumFeaturesInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutPremiumFeaturesInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutPremiumFeaturesInput, UserUncheckedUpdateWithoutPremiumFeaturesInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutPremiumFeaturesInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutPremiumFeaturesInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
+    isPremium?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
   }
 
   export type AttendanceCreateManyStudentInput = {
@@ -5256,6 +6792,53 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     markedBy?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PremiumFeatureUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PremiumFeatureUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PremiumFeatureUncheckedUpdateManyWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutPremiumFeaturesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPremiumFeaturesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutPremiumFeaturesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

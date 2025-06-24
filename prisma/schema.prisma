@@ -22,6 +22,7 @@ model User {
   attendance Attendance[]
   isPremium  Boolean      @default(false)
   createdAt  DateTime     @default(now())
+   premiumFeatures  PremiumFeature[]  @relation("UserPremiumFeatures")
 }
 
 model Attendance {
@@ -43,8 +44,21 @@ model AttendanceToken{
   expiresAt DateTime
 }
 
+model PremiumFeature {
+  id       String   @id @default(cuid())
+  name     String   @unique // e.g., "AI_CHATBOT", "STUDY_PLAN"
+  users    User[]   @relation("UserPremiumFeatures")
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   STUDENT
   TEACHER
   ADMIN
+}
+
+enum PremiumFeatureType {
+  AI_CHATBOT
+  STUDY_PLAN
+  CALENDAR_SYNC
 }

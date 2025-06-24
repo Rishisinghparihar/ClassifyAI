@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
-const PremiumCard = () => {
+const UpgradeToPremiumCard = () => {
   const router = useRouter();
   return (
     <div className='w-[30rem] h-72 grid-cols-2 rounded-4xl to-black/20 bg-gradient-to-tl from-white/20 grid items-center justify-center border border-cyan-500' >
@@ -21,4 +21,4 @@ const PremiumCard = () => {
   )
 }
 
-export default PremiumCard
+export default UpgradeToPremiumCard

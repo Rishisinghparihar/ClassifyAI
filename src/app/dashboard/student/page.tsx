@@ -1,23 +1,25 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Attendance } from "@/lib/types";
+import { Attendance, PremiumStatusResponse } from "@/lib/types";
 import Greeting from "@/components/student/Greeting";
 import Logo from "@/components/apps/Logo";
-import PremiumCard from "@/components/student/PremiumCard";
+import UpgradeToPremiumCard from "@/components/student/UpgradeToPremiumCard";
 import HorizontalBar from "@/components/student/HorizontalBar";
 import AppCalendar from "@/components/student/Calender";
 import BarGraph from "@/components/student/Graph";
 import NumberCard from "@/components/student/NumberCard";
-import { Bot, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ChatBot from "@/components/student/ChatBot";
+import PremiumFeaturesCard from "@/components/student/PremiumFeaturesCard";
 
 export default function StudentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState<Attendance[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const isPremium = false; // This can be replaced with actual premium check logic
+  const [premiumStatus, setPremiumStatus] =
+    useState<PremiumStatusResponse | null>(null);
   const router = useRouter();
   const logout = () => {
     localStorage.removeItem("studentId");
@@ -56,11 +58,22 @@ export default function StudentDashboard() {
         console.error("Error fetching attendance statistics:", error);
       }
     };
+    const fetchPremiumStatus = async () => {
+      try {
+        const res = await fetch(`/api/student/status?studentId=${studentId}`);
+        const data = await res.json();
+        setPremiumStatus(data);
+        console.log({ premium: data });
+      } catch (error) {
+        console.error("Error fetching attendance statistics:", error);
+      }
+    };
     fetchStats();
     fetchTodayAttendance();
+    fetchPremiumStatus();
   }, []);
   // const percentage: string = s;
-
+console.log("STS " + premiumStatus?.isPremium)
   return (
     <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
       <div className="w-[26rem] space-y-6">
@@ -108,7 +121,13 @@ export default function StudentDashboard() {
 
       <div className="flex pl-[5rem]">
         <div className="flex flex-col space-y-6">
-          <PremiumCard />
+          {premiumStatus?.isPremium ? (
+            <PremiumFeaturesCard
+              studentId={localStorage.getItem("studentId") || ""}
+            />
+          ) : (
+            <UpgradeToPremiumCard />
+          )}
           <HorizontalBar
             content="Check your past attendance records"
             linkRef="/attendance/history"
@@ -157,7 +176,7 @@ export default function StudentDashboard() {
           </div>
         </div>
         <div
-          className="absolute top-[1.3rem] right-[8rem] group cursor-pointer"
+          className="absolute top-[1.3rem] right-[9rem] group cursor-pointer"
           onClick={() => logout()}
         >
           <div className="relative flex items-center justify-center p-2 rounded-full  transition">
@@ -170,8 +189,8 @@ export default function StudentDashboard() {
 
         <ChatBot />
 
-        <div className="ml-4 mt-4">
-          {isPremium ? (
+        <div className="ml-6 mt-4">
+          {premiumStatus?.isPremium ? (
             <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-green-300 bg-gradient-to-br from-green-800/40 to-cyan-700/40 shadow-md">
               🌟 Premium User
             </span>

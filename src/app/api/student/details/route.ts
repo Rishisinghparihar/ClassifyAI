@@ -14,6 +14,9 @@ export async function GET(req: NextRequest) {
       where: {
         id: studentId,
       },
+      include: {
+        premiumFeatures: true
+      }
     });
 
     return NextResponse.json(details);

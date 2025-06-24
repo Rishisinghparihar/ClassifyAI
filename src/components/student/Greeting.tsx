@@ -18,6 +18,7 @@ const Greeting = () => {
         }
         const data = await res.json();
         setDetails(data);
+        console.log({details: data});
       } catch (error) {
         console.log("Error fetching student details:", error);
       }

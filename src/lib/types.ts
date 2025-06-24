@@ -22,6 +22,11 @@ export interface SDetails {
   role: string;
 }
 
+export type PremiumStatusResponse = {
+  isPremium: boolean;
+  plan: "Starter" | "Pro" | "Ultimate" | null;
+  features: string[];
+};
 
 export interface HorizontalBarProps {
   content: string;

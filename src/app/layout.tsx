@@ -3,6 +3,7 @@ import { Lora } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ClientNavBlocker from "@/components/apps/ClientNavBlocker";
+import RazorpayScriptLoader from "@/components/apps/RazorpayScriptLoader";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -29,6 +30,7 @@ export default function RootLayout({
           style={{ backgroundImage: 'url("/bg-5.webp")' }}
         />
         <ClientNavBlocker/>
+        <RazorpayScriptLoader/>
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className="relative z-10">{children}</div>

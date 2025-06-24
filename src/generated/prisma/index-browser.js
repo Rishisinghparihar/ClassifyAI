@@ -147,6 +147,12 @@ exports.Prisma.AttendanceTokenScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.PremiumFeatureScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -165,7 +171,8 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   User: 'User',
   Attendance: 'Attendance',
-  AttendanceToken: 'AttendanceToken'
+  AttendanceToken: 'AttendanceToken',
+  PremiumFeature: 'PremiumFeature'
 };
 
 /**
