@@ -73,7 +73,7 @@ export default function StudentDashboard() {
     fetchPremiumStatus();
   }, []);
   // const percentage: string = s;
-console.log("STS " + premiumStatus?.isPremium)
+  console.log("STS " + premiumStatus?.isPremium);
   return (
     <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
       <div className="w-[26rem] space-y-6">
@@ -142,11 +142,13 @@ console.log("STS " + premiumStatus?.isPremium)
             content="See how many classes you can skip safely"
             linkRef="/attendance/stats"
             title="Bunk Manager"
-          />
+            locked={!premiumStatus?.features.includes("BUNK_MANAGER")}
+          />{" "}
           <HorizontalBar
             content="Get a smart study plan based on your upcoming exams"
             linkRef="/study-plan"
             title="Study Plan"
+            locked={!premiumStatus?.features.includes("STUDY_PLAN")}
           />
         </div>
         <div className="flex-1 flex items-center justify-center px-4 flex-col space-y-6">
@@ -187,7 +189,7 @@ console.log("STS " + premiumStatus?.isPremium)
           </div>
         </div>
 
-        <ChatBot />
+        {premiumStatus?.features?.includes("AI_CHATBOT") && <ChatBot />}
 
         <div className="ml-6 mt-4">
           {premiumStatus?.isPremium ? (
