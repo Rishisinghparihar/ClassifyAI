@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const planFeatureMap: Record<string, string[]> = {
   Starter: [],
-  Pro: ["AI_CHATBOT", "STUDY_PLAN"],
-  Ultimate: ["AI_CHATBOT", "STUDY_PLAN", "CALENDAR_SYNC"],
+  Pro: ["AI_CHATBOT", "STUDY_PLAN", "BUNK_MANAGER"],
+  Ultimate: ["AI_CHATBOT", "STUDY_PLAN", "CALENDAR_SYNC", "BUNK_MANAGER"],
 };
 
 export async function POST(req: NextRequest) {
@@ -15,11 +15,28 @@ export async function POST(req: NextRequest) {
     razorpay_signature,
     userId,
     planName,
+    billingCycle,
   } = await req.json();
 
-  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !userId || !planName) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  if (
+    !razorpay_order_id ||
+    !razorpay_payment_id ||
+    !razorpay_signature ||
+    !userId ||
+    !planName ||
+    !billingCycle
+  ) {
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 }
+    );
   }
+
+  const now = new Date();
+  const expiresAt =
+    billingCycle === "yearly"
+      ? new Date(now.setFullYear(now.getFullYear() + 1))
+      : new Date(now.setMonth(now.getMonth() + 1  ));
 
   // Verify signature
   const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -45,15 +62,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Connect the user to premium features
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        isPremium: planName !== "Starter",
-        premiumFeatures: {
-          connect: features.map((name) => ({ name })),
-        },
-      },
-    });
+  await prisma.user.update({
+  where: { id: userId },
+  data: {
+    isPremium: planName !== "Starter",
+    premiumExpiresAt: expiresAt,
+    premiumFeatures: {
+      connect: features.map((name) => ({ name })),
+    },
+  },
+});
 
     return NextResponse.json({ success: true });
   } catch (error) {

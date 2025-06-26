@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id              String           @id @default(cuid())
-  name            String
-  email           String           @unique
-  role            Role
-  attendance      Attendance[]
-  isPremium       Boolean          @default(false)
-  createdAt       DateTime         @default(now())
-  premiumFeatures PremiumFeature[] @relation("UserPremiumFeatures")
+  id               String           @id @default(cuid())
+  name             String
+  email            String           @unique
+  role             Role
+  attendance       Attendance[]
+  isPremium        Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
+  premiumExpiresAt DateTime? // <--- Add this line
 }
 
 model Attendance {

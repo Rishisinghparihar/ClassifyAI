@@ -126,7 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   role: 'role',
   isPremium: 'isPremium',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  premiumExpiresAt: 'premiumExpiresAt'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {
@@ -161,6 +162,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',

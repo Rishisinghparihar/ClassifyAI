@@ -23,6 +23,7 @@ model User {
   isPremium  Boolean      @default(false)
   createdAt  DateTime     @default(now())
    premiumFeatures  PremiumFeature[]  @relation("UserPremiumFeatures")
+   premiumExpiresAt   DateTime?         // <--- Add this line
 }
 
 model Attendance {

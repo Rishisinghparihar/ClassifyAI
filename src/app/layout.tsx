@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ClientNavBlocker from "@/components/apps/ClientNavBlocker";
 import RazorpayScriptLoader from "@/components/apps/RazorpayScriptLoader";
+import RouteLoader from "@/components/apps/RouteLoader";
+import NetworkListener from "@/components/apps/NetworkListener";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -31,6 +33,8 @@ export default function RootLayout({
         />
         <ClientNavBlocker/>
         <RazorpayScriptLoader/>
+        <RouteLoader/>
+        <NetworkListener/>
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className="relative z-10">{children}</div>

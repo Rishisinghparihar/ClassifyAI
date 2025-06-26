@@ -1260,6 +1260,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     isPremium: boolean | null
     createdAt: Date | null
+    premiumExpiresAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1269,6 +1270,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     isPremium: boolean | null
     createdAt: Date | null
+    premiumExpiresAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1278,6 +1280,7 @@ export namespace Prisma {
     role: number
     isPremium: number
     createdAt: number
+    premiumExpiresAt: number
     _all: number
   }
 
@@ -1289,6 +1292,7 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     createdAt?: true
+    premiumExpiresAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1298,6 +1302,7 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     createdAt?: true
+    premiumExpiresAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1307,6 +1312,7 @@ export namespace Prisma {
     role?: true
     isPremium?: true
     createdAt?: true
+    premiumExpiresAt?: true
     _all?: true
   }
 
@@ -1389,6 +1395,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium: boolean
     createdAt: Date
+    premiumExpiresAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1415,6 +1422,7 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     createdAt?: boolean
+    premiumExpiresAt?: boolean
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1427,6 +1435,7 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     createdAt?: boolean
+    premiumExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1436,6 +1445,7 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     createdAt?: boolean
+    premiumExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1445,9 +1455,10 @@ export namespace Prisma {
     role?: boolean
     isPremium?: boolean
     createdAt?: boolean
+    premiumExpiresAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt" | "premiumExpiresAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
@@ -1469,6 +1480,7 @@ export namespace Prisma {
       role: $Enums.Role
       isPremium: boolean
       createdAt: Date
+      premiumExpiresAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1900,6 +1912,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly premiumExpiresAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -5497,7 +5510,8 @@ export namespace Prisma {
     email: 'email',
     role: 'role',
     isPremium: 'isPremium',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    premiumExpiresAt: 'premiumExpiresAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -5550,6 +5564,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -5633,6 +5655,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
+    premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
   }
@@ -5644,6 +5667,7 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     createdAt?: SortOrder
+    premiumExpiresAt?: SortOrderInput | SortOrder
     attendance?: AttendanceOrderByRelationAggregateInput
     premiumFeatures?: PremiumFeatureOrderByRelationAggregateInput
   }
@@ -5658,6 +5682,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
+    premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
   }, "id" | "email">
@@ -5669,6 +5694,7 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     createdAt?: SortOrder
+    premiumExpiresAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -5684,6 +5710,7 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    premiumExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type AttendanceWhereInput = {
@@ -5855,6 +5882,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
   }
@@ -5866,6 +5894,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -5877,6 +5906,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
   }
@@ -5888,6 +5918,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
   }
@@ -5899,6 +5930,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -5908,6 +5940,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -5917,6 +5950,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AttendanceCreateInput = {
@@ -6128,6 +6162,17 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type AttendanceListRelationFilter = {
     every?: AttendanceWhereInput
     some?: AttendanceWhereInput
@@ -6138,6 +6183,11 @@ export namespace Prisma {
     every?: PremiumFeatureWhereInput
     some?: PremiumFeatureWhereInput
     none?: PremiumFeatureWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type AttendanceOrderByRelationAggregateInput = {
@@ -6155,6 +6205,7 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     createdAt?: SortOrder
+    premiumExpiresAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -6164,6 +6215,7 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     createdAt?: SortOrder
+    premiumExpiresAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -6173,6 +6225,7 @@ export namespace Prisma {
     role?: SortOrder
     isPremium?: SortOrder
     createdAt?: SortOrder
+    premiumExpiresAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -6223,6 +6276,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -6352,6 +6419,10 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type AttendanceUpdateManyWithoutStudentNestedInput = {
@@ -6497,6 +6568,17 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -6555,6 +6637,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type AttendanceCreateWithoutStudentInput = {
@@ -6660,6 +6767,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
   }
 
@@ -6670,6 +6778,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -6696,6 +6805,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
   }
 
@@ -6706,6 +6816,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -6716,6 +6827,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
   }
 
@@ -6726,6 +6838,7 @@ export namespace Prisma {
     role: $Enums.Role
     isPremium?: boolean
     createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
@@ -6760,6 +6873,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
+    premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type AttendanceCreateManyStudentInput = {
@@ -6819,6 +6933,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
   }
 
@@ -6829,6 +6944,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
@@ -6839,6 +6955,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

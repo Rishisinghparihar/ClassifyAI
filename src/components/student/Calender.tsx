@@ -135,7 +135,7 @@ const AppCalendar = () => {
         ) : (
           <button
             onClick={goToToday}
-            className="flex items-center w-full text-center justify-center gap-2 text-sm bg-white/20 px-3 py-1 rounded-full hover:bg-white/30 transition-colors duration-200"
+            className="flex items-center w-full text-center justify-center gap-2 text-lg bg-white/20  px-3 py-[0.8rem] rounded-full hover:bg-white/30 transition-colors duration-200"
           >
             <Calendar size={14} />
             Today

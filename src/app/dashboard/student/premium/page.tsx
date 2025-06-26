@@ -1,5 +1,5 @@
 "use client";
-import { showSuccessMessage } from "@/lib/helper";
+import { loadRazorpayScript, showSuccessMessage } from "@/lib/helper";
 import { Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -64,54 +64,62 @@ const Page = () => {
   const plans = isYearly ? yearlyPlans : monthlyPlans;
   const router = useRouter();
 
-  const handlePayment = async (planName: string, price: number) => {
-    if (price === 0) {
-      // Handle free plan selection
-      router.push("/dashboard/student/home");
-      return;
-    }
-    const res = await fetch("/api/student/payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: localStorage.getItem("studentId"),
-        amount: price,
-      }),
-    });
-    const data = await res.json();
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: data.amount,
-      currency: "INR",
-      name: "ClassifyAI",
-      description: `${planName} Plan`,
-      order_id: data.id,
-      handler: async function (response: any) {
-        await fetch("/api/student/payment/verify", {
-          method: "POST",
-          headers: {
-            "Content-Type": "appilcation/json",
-          },
-          body: JSON.stringify({
-            razorpay_order_id: data.id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            userId: localStorage.getItem("studentId"),
-            planName,
-          }),
-        });
-        showSuccessMessage("Payment successfull & premium features activated! ");
-        router.push("/dashboard/student/");
-      },
-      theme: {
-        color: "#06b6d4",
-      },
-    };
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
+ const handlePayment = async (planName: string, price: number) => {
+  if (price === 0) {
+    router.push("/dashboard/student/home");
+    return;
+  }
+
+  const res = await fetch("/api/student/payment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: localStorage.getItem("studentId"),
+      amount: price,
+    }),
+  });
+
+  const data = await res.json();
+
+  const success = await loadRazorpayScript();
+  if (!success) {
+    alert("Failed to load Razorpay. Please try again.");
+    return;
+  }
+
+  const options = {
+    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+    amount: data.amount,
+    currency: "INR",
+    name: "ClassifyAI",
+    description: `${planName} Plan`,
+    order_id: data.id,
+    handler: async function (response: any) {
+      await fetch("/api/student/payment/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // fixed typo from "appilcation/json"
+        },
+        body: JSON.stringify({
+          razorpay_order_id: data.id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          userId: localStorage.getItem("studentId"),
+          planName,
+          billingCycle: isYearly ? "yearly" : "monthly",
+        }),
+      });
+
+      showSuccessMessage("Payment successful & premium features activated!");
+      router.push("/dashboard/student/");
+    },
+    theme: { color: "#06b6d4" },
   };
+
+  const rzp = new (window as any).Razorpay(options);
+  rzp.open();
+};
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 py-10 text-white">
       <h1 className="text-4xl md:text-6xl font-bold uppercase mb-4">
