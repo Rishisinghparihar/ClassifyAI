@@ -28,6 +28,7 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
+    setLoading(true);
     if (!studentId) {
       console.error("No student ID found in local storage.");
       return;
@@ -72,7 +73,6 @@ export default function StudentDashboard() {
     fetchTodayAttendance();
     fetchPremiumStatus();
   }, []);
-  // const percentage: string = s;
   console.log("STS " + premiumStatus?.isPremium);
   return (
     <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
@@ -143,7 +143,7 @@ export default function StudentDashboard() {
             linkRef="/attendance/stats"
             title="Bunk Manager"
             locked={!premiumStatus?.features.includes("BUNK_MANAGER")}
-          />{" "}
+          />
           <HorizontalBar
             content="Get a smart study plan based on your upcoming exams"
             linkRef="/study-plan"

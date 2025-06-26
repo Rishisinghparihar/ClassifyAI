@@ -7,26 +7,29 @@ const NetworkListener = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleOnline = () => {
+    const checkAndRedirect = () => {
+      const isOnline = navigator.onLine;
       const lastPage = localStorage.getItem("last-online-page") || "/dashboard/student";
-      if (pathname === "/no-internet") router.replace(lastPage);
-    };
-    const handleOffline = () => {
-      if (pathname !== "/no-internet") {
+
+      if (isOnline && pathname === "/no-internet") {
+        router.replace(lastPage);
+      }
+
+      if (!isOnline && pathname !== "/no-internet") {
         localStorage.setItem("last-online-page", pathname);
         router.replace("/no-internet");
       }
     };
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-    if (!navigator.onLine) {
-      localStorage.setItem("last-online-page", pathname);
-      router.replace("/no-internet");
-    }
+
+    window.addEventListener("online", checkAndRedirect);
+    window.addEventListener("offline", checkAndRedirect);
+
+    // Also run it once on mount
+    checkAndRedirect();
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", checkAndRedirect);
+      window.removeEventListener("offline", checkAndRedirect);
     };
   }, [pathname, router]);
 
