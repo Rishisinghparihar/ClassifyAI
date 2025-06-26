@@ -1,4 +1,3 @@
-// src/components/NetworkListener.tsx
 "use client";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -9,18 +8,19 @@ const NetworkListener = () => {
 
   useEffect(() => {
     const handleOnline = () => {
-      if (pathname === "/no-internet") router.replace("/dashboard/student"); // or wherever you want
+      const lastPage = localStorage.getItem("last-online-page") || "/dashboard/student";
+      if (pathname === "/no-internet") router.replace(lastPage);
     };
-
     const handleOffline = () => {
-      if (pathname !== "/no-internet") router.replace("/no-internet");
+      if (pathname !== "/no-internet") {
+        localStorage.setItem("last-online-page", pathname);
+        router.replace("/no-internet");
+      }
     };
-
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
-
-    // Initial check
     if (!navigator.onLine) {
+      localStorage.setItem("last-online-page", pathname);
       router.replace("/no-internet");
     }
 
