@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import { EventItem } from "@/lib/types";
+import { eventTypeColors } from "@/lib/helper";
 
 const AppCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -100,18 +101,23 @@ const AppCalendar = () => {
     );
   };
 
-  const hasEvent = (day: number) => {
+  const getEventTypeForDay = (day: number) => {
     const dateStr = new Date(currentYear, currentMonth, day).toLocaleDateString(
       "en-CA"
     );
-    return events.some((event) => event.date.startsWith(dateStr));
+    const event = events.find((e) => e.date.startsWith(dateStr));
+    return event?.type || null;
   };
 
   const handleDateClick = (day: number | undefined, type: string) => {
     if (type === "current" && day !== undefined) {
       const clickedDate = new Date(currentYear, currentMonth, day);
       setSelectedDate(clickedDate);
-      const clickedDateStr = new Date(currentYear, currentMonth, day).toLocaleDateString("en-CA");
+      const clickedDateStr = new Date(
+        currentYear,
+        currentMonth,
+        day
+      ).toLocaleDateString("en-CA");
       const matched = events.filter((event) =>
         event.date.startsWith(clickedDateStr)
       );
@@ -221,7 +227,13 @@ const AppCalendar = () => {
 
           {/* Current month days */}
           {currentMonthDays.map((day) => {
-            const isEventDay = hasEvent(day);
+            const isEventDayType = getEventTypeForDay(day);
+
+            let eventClass = "";
+            if (isEventDayType && eventTypeColors[isEventDayType]) {
+              eventClass = eventTypeColors[isEventDayType];
+            }
+
             return (
               <button
                 key={`current-${day}`}
@@ -231,9 +243,8 @@ const AppCalendar = () => {
                     ? "bg-blue-500 text-white font-semibold shadow-md"
                     : isSelected(day)
                     ? "bg-purple-500 text-white font-medium shadow-md"
-                    : isEventDay
-                    ? "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50"
-                    : "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
+                    : eventClass ||
+                      "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
                 }`}
               >
                 {day}

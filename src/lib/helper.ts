@@ -1,5 +1,55 @@
 import toast from "react-hot-toast";
 
+export const monthlyPlans = [
+  {
+    title: "Starter",
+    price: 0,
+    bg: "from-cyan-500 to-cyan-700",
+    features: [
+      "QR Code Attendance",
+      "Manual Attendance",
+      "Exam & Assignment Tracker",
+    ],
+    extra: [
+      "Bunk Manager",
+      "Smart Study Plan Generator",
+      "AI Doubt Solver",
+      "Calendar Sync",
+    ],
+    popular: false,
+  },
+  {
+    title: "Pro",
+    price: 39,
+    bg: "from-emerald-400 to-emerald-600",
+    features: [
+      "QR Code Attendance",
+      "Manual Attendance",
+      "Exam & Assignment Tracker",
+      "Bunk Manager",
+      "Smart Study Plan Generator",
+    ],
+    extra: ["AI Doubt Solver", "Calendar Sync"],
+    popular: true,
+  },
+  {
+    title: "Ultimate",
+    price: 99,
+    bg: "from-orange-500 to-rose-500",
+    features: [
+      "QR Code Attendance",
+      "Manual Attendance",
+      "Exam & Assignment Tracker",
+      "Bunk Manager",
+      "Smart Study Plan Generator",
+      "AI Doubt Solver",
+      "Calendar Sync",
+    ],
+    extra: [],
+    popular: false,
+  },
+];
+
 export function showSuccessMessage(message: string) {
 toast.dismiss();
   toast.success(message, {
@@ -40,4 +90,10 @@ export const loadRazorpayScript = (): Promise<boolean> => {
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
+};
+
+export const eventTypeColors: Record<string, string> = {
+  HOLIDAY: "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50",
+  EXAM: "bg-gradient-to-tr from-red-200/20 to-red-400/20 text-red-50",
+  EVENT: "bg-gradient-to-tr from-green-200/20 to-green-400/20 text-green-50",
 };

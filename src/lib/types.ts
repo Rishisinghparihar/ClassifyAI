@@ -46,3 +46,11 @@ export interface EventItem{
   date: string;
   type: string;
 }
+
+export  interface AttendanceRecord {
+  id: string;
+  studentId: string;
+  subject: string;
+  status: string;
+  date: string;
+}

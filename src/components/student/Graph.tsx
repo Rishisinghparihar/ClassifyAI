@@ -4,14 +4,12 @@ import { BarChart3 } from "lucide-react";
 
 interface AttendancePercentage {
   subject: string;
-  percentage: string;
+  percentage: number;
 }
-
-const SUBJECTS = ["", "","Maths", "", "", ""];
 
 const BarGraph: React.FC = () => {
   const [selectedBar, setSelectedBar] = useState<number | null>(null);
-  const [attendanceData, setAttendanceData] = useState<Record<string, number>>({});
+  const [attendanceData, setAttendanceData] = useState<AttendancePercentage[]>([]);
 
   useEffect(() => {
     const studentId = localStorage.getItem("studentId");
@@ -22,12 +20,13 @@ const BarGraph: React.FC = () => {
         const res = await fetch(`/api/attendance/percentage?studentId=${studentId}`);
         const result: AttendancePercentage[] = await res.json();
 
-        const mapped: Record<string, number> = {};
-        result.forEach((item) => {
-          mapped[item.subject] = Math.round(Number(item.percentage));
-        });
+        // Ensure percentage is a rounded number
+        const formatted = result.map((item) => ({
+          subject: item.subject,
+          percentage: Math.round(Number(item.percentage)),
+        }));
 
-        setAttendanceData(mapped);
+        setAttendanceData(formatted);
       } catch (err) {
         console.error("Error loading attendance graph data:", err);
       }
@@ -36,9 +35,9 @@ const BarGraph: React.FC = () => {
     fetchData();
   }, []);
 
-  const maxValue = Math.max(...Object.values(attendanceData), 0);
-  const total = Object.values(attendanceData).reduce((acc, val) => acc + val, 0);
-  const average = SUBJECTS.length ? Math.round(total / SUBJECTS.length) : 0;
+  const maxValue = Math.max(...attendanceData.map((item) => item.percentage), 0);
+  const total = attendanceData.reduce((acc, item) => acc + item.percentage, 0);
+  const average = attendanceData.length ? Math.round(total / attendanceData.length) : 0;
 
   const handleClick = (index: number) => {
     setSelectedBar(selectedBar === index ? null : index);
@@ -63,10 +62,9 @@ const BarGraph: React.FC = () => {
       <div className="p-4 px-10 min-h-[400px]">
         <div className="bg-gray-50/5 rounded-lg p-4 min-h-[240px]">
           <div className="flex items-end justify-between gap-1 h-40 sm:h-48 md:h-56 rounded-md p-2 shadow-inner overflow-x-auto">
-            {SUBJECTS.map((subject, index) => {
-              const value = attendanceData[subject] ?? 0;
+            {attendanceData.map((item, index) => {
+              const value = item.percentage;
               const height = Math.max((value / 100) * 140, 6);
-              const isFilled = subject in attendanceData;
               const isSelected = selectedBar === index;
 
               return (
@@ -76,20 +74,16 @@ const BarGraph: React.FC = () => {
                   onClick={() => handleClick(index)}
                 >
                   {/* Tooltip */}
-                  {isFilled && (
-                    <div className="mb-1 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 text-black text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap">
-                      {value}%
-                    </div>
-                  )}
+                  <div className="mb-1 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 text-black text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap">
+                    {value}%
+                  </div>
 
                   {/* Bar */}
                   <div
-                    className={`w-full max-w-8 rounded-t-md shadow-md relative overflow-hidden transition-all duration-300 ${
-                      isFilled ? "bg-cyan-500" : "bg-slate-700"
-                    }`}
+                    className="w-full max-w-8 rounded-t-md shadow-md relative overflow-hidden transition-all duration-300 bg-cyan-500"
                     style={{ height: `${height}px` }}
                   >
-                    {isFilled && isSelected && (
+                    {isSelected && (
                       <div
                         className="absolute inset-0 opacity-50"
                         style={{
@@ -110,12 +104,10 @@ const BarGraph: React.FC = () => {
                     className={`mt-1 text-[10px] font-medium ${
                       isSelected
                         ? "text-cyan-300 font-bold"
-                        : isFilled
-                        ? "text-gray-200"
-                        : "text-gray-500"
+                        : "text-gray-200"
                     }`}
                   >
-                    {subject}
+                    {item.subject}
                   </div>
                 </div>
               );
@@ -131,21 +123,21 @@ const BarGraph: React.FC = () => {
         </div>
 
         {/* Details Panel */}
-        {selectedBar !== null && attendanceData[SUBJECTS[selectedBar]] !== undefined ? (
+        {selectedBar !== null && attendanceData[selectedBar] !== undefined ? (
           <div className="mt-4 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg border border-blue-200 text-xs text-gray-200">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="font-semibold">{SUBJECTS[selectedBar]} Details</h3>
+                <h3 className="font-semibold">{attendanceData[selectedBar].subject} Details</h3>
                 <p>
                   Attendance:{" "}
                   <span className="font-bold text-cyan-300">
-                    {attendanceData[SUBJECTS[selectedBar]]}%
+                    {attendanceData[selectedBar].percentage}%
                   </span>
                 </p>
               </div>
               <div className="text-right">
                 <p>
-                  {attendanceData[SUBJECTS[selectedBar]] >= average
+                  {attendanceData[selectedBar].percentage >= average
                     ? "Above"
                     : "Below"}{" "}
                   average

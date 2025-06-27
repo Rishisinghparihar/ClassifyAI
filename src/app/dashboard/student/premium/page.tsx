@@ -1,58 +1,10 @@
 "use client";
-import { loadRazorpayScript, showSuccessMessage } from "@/lib/helper";
+import { loadRazorpayScript, monthlyPlans, showSuccessMessage } from "@/lib/helper";
 import { Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const monthlyPlans = [
-  {
-    title: "Starter",
-    price: 0,
-    bg: "from-cyan-500 to-cyan-700",
-    features: [
-      "QR Code Attendance",
-      "Manual Attendance",
-      "Exam & Assignment Tracker",
-    ],
-    extra: [
-      "Bunk Manager",
-      "Smart Study Plan Generator",
-      "AI Doubt Solver",
-      "Calendar Sync",
-    ],
-    popular: false,
-  },
-  {
-    title: "Pro",
-    price: 39,
-    bg: "from-emerald-400 to-emerald-600",
-    features: [
-      "QR Code Attendance",
-      "Manual Attendance",
-      "Exam & Assignment Tracker",
-      "Bunk Manager",
-      "Smart Study Plan Generator",
-    ],
-    extra: ["AI Doubt Solver", "Calendar Sync"],
-    popular: true,
-  },
-  {
-    title: "Ultimate",
-    price: 99,
-    bg: "from-orange-500 to-rose-500",
-    features: [
-      "QR Code Attendance",
-      "Manual Attendance",
-      "Exam & Assignment Tracker",
-      "Bunk Manager",
-      "Smart Study Plan Generator",
-      "AI Doubt Solver",
-      "Calendar Sync",
-    ],
-    extra: [],
-    popular: false,
-  },
-];
+
 
 const yearlyPlans = monthlyPlans.map((plan) => ({
   ...plan,
@@ -98,7 +50,7 @@ const Page = () => {
       await fetch("/api/student/payment/verify", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // fixed typo from "appilcation/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           razorpay_order_id: data.id,
