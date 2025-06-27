@@ -154,6 +154,16 @@ exports.Prisma.PremiumFeatureScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  date: 'date',
+  type: 'type',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -174,11 +184,18 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
+exports.EventType = exports.$Enums.EventType = {
+  HOLIDAY: 'HOLIDAY',
+  EXAM: 'EXAM',
+  EVENT: 'EVENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Attendance: 'Attendance',
   AttendanceToken: 'AttendanceToken',
-  PremiumFeature: 'PremiumFeature'
+  PremiumFeature: 'PremiumFeature',
+  Event: 'Event'
 };
 
 /**

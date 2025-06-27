@@ -31,11 +31,16 @@ const PremiumFeaturesCard = ({ studentId }: { studentId: string }) => {
 
   const planColor =
     premiumStatus?.plan === "Ultimate"
-      ? "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50"
+      ? "rounded-3xl p-6 border border-yellow-400/30 shadow-xl bg-gradient-to-tr from-yellow-100/20 via-yellow-400/10 to-yellow-500/20 backdrop-blur-md"
       : premiumStatus?.plan === "Pro"
-      ? "bg-gradient-to-tr from-gray-400/50 to-gray-600/50 text-gray-100"
+      ? "rounded-3xl p-6 border border-gray-400/30 shadow-xl bg-gradient-to-tr from-gray-100/20 via-gray-400/10 to-gray-500/20 backdrop-blur-md"
       : "bg-gradient-to-tl from-white/20 to-black/20 text-white";
 
+const pColor = premiumStatus?.plan === "Ultimate"
+      ? "text-yellow-600"
+      : premiumStatus?.plan === "Pro"
+      ? "text-gray-200"
+      : "";
   return (
     <div
       className={`w-[30rem] h-72 grid-cols-2 rounded-4xl grid items-center justify-center border border-cyan-500 ${planColor}`}
@@ -48,7 +53,7 @@ const PremiumFeaturesCard = ({ studentId }: { studentId: string }) => {
             ? `You're on ${premiumStatus.plan} Plan`
             : "Go Premium"}
         </h2>
-        <p className="mt-1 text-sm">
+        <p className={`mt-1 text-sm ${pColor}`}>
           {premiumStatus?.isPremium
             ? "Exclusive premium features enabled"
             : "Unlock exclusive features and perks"}

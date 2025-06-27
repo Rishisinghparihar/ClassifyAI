@@ -1,13 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { EventItem } from "@/lib/types";
 
 const AppCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [dayEvents, setDayEvents] = useState<EventItem[]>([]);
   const today = new Date();
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("/api/admin/event");
+        const data = await res.json();
+        console.log({ data });
+        if (data.success) {
+          setEvents(data.events);
+        }
+      } catch (error) {
+        console.log("Failed to fetch events", error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   const months = [
     "January",
@@ -82,10 +100,22 @@ const AppCalendar = () => {
     );
   };
 
+  const hasEvent = (day: number) => {
+    const dateStr = new Date(currentYear, currentMonth, day).toLocaleDateString(
+      "en-CA"
+    );
+    return events.some((event) => event.date.startsWith(dateStr));
+  };
+
   const handleDateClick = (day: number | undefined, type: string) => {
-    if (type === "current") {
+    if (type === "current" && day !== undefined) {
       const clickedDate = new Date(currentYear, currentMonth, day);
       setSelectedDate(clickedDate);
+      const clickedDateStr = new Date(currentYear, currentMonth, day).toLocaleDateString("en-CA");
+      const matched = events.filter((event) =>
+        event.date.startsWith(clickedDateStr)
+      );
+      setDayEvents(matched);
     }
   };
 
@@ -97,7 +127,7 @@ const AppCalendar = () => {
   return (
     <div className="w-full max-w-md mx-auto  to-black/20 bg-gradient-to-tl from-white/20  rounded-4xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white px-6 py-4">
+      <div className="bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white px-6 pt-4 pb-1">
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => navigateMonth(-1)}
@@ -119,7 +149,25 @@ const AppCalendar = () => {
         </div>
         {/* Selected date display */}
         {selectedDate ? (
-          <div className="">
+          dayEvents.length > 0 ? (
+            <div className="px-1 pb-2">
+              <ul className="">
+                {dayEvents.map((event) => (
+                  <li
+                    key={event.id}
+                    className="bg-yellow-500/10 border border-yellow-300/20 text-yellow-100 p-1 text-center  rounded-2xl"
+                  >
+                    <h4 className="font-bold text-sm">{event.title}</h4>
+                    <p className="text-xs">{event.description}</p>
+                    <p className="text-[10px] italic text-yellow-200">
+                      Type: {event.type}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            // No event, show selected date box
             <div className="bg-gray-50/5 border border-cyan-200 rounded-lg p-1 text-center">
               <p className="text-sm text-gray-100">Selected Date</p>
               <p className="font-semibold text-gray-100">
@@ -131,11 +179,12 @@ const AppCalendar = () => {
                 })}
               </p>
             </div>
-          </div>
+          )
         ) : (
+          // No date selected
           <button
             onClick={goToToday}
-            className="flex items-center w-full text-center justify-center gap-2 text-lg bg-white/20  px-3 py-[0.8rem] rounded-full hover:bg-white/30 transition-colors duration-200"
+            className="flex items-center w-full text-center justify-center gap-2 text-lg bg-white/20 px-3 py-[0.8rem] rounded-full hover:bg-white/30 transition-colors duration-200"
           >
             <Calendar size={14} />
             Today
@@ -171,21 +220,26 @@ const AppCalendar = () => {
           ))}
 
           {/* Current month days */}
-          {currentMonthDays.map((day) => (
-            <button
-              key={`current-${day}`}
-              onClick={() => handleDateClick(day, "current")}
-              className={`h-8 w-8 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 ${
-                isToday(day)
-                  ? "bg-blue-500 text-white font-semibold shadow-md"
-                  : isSelected(day)
-                  ? "bg-purple-500 text-white font-medium shadow-md"
-                  : "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
-              }`}
-            >
-              {day}
-            </button>
-          ))}
+          {currentMonthDays.map((day) => {
+            const isEventDay = hasEvent(day);
+            return (
+              <button
+                key={`current-${day}`}
+                onClick={() => handleDateClick(day, "current")}
+                className={`h-8 w-8 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 ${
+                  isToday(day)
+                    ? "bg-blue-500 text-white font-semibold shadow-md"
+                    : isSelected(day)
+                    ? "bg-purple-500 text-white font-medium shadow-md"
+                    : isEventDay
+                    ? "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50"
+                    : "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
+                }`}
+              >
+                {day}
+              </button>
+            );
+          })}
 
           {/* Next month days */}
           {nextMonthDays.map((day, index) => (

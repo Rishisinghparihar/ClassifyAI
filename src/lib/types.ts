@@ -38,3 +38,11 @@ export interface NumberCardsProps {
   title: string;
   value: string;
 }
+
+export interface EventItem{
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  type: string;
+}

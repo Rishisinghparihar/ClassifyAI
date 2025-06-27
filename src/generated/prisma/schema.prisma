@@ -52,6 +52,22 @@ model PremiumFeature {
   createdAt DateTime @default(now())
 }
 
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  type        EventType
+  createdBy   String // admin id or system identifier
+  createdAt   DateTime  @default(now())
+}
+
+enum EventType {
+  HOLIDAY
+  EXAM
+  EVENT
+}
+
 enum Role {
   STUDENT
   TEACHER

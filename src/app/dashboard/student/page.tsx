@@ -167,7 +167,7 @@ export default function StudentDashboard() {
                 }
               />
               <NumberCard
-                title="Attendace %"
+                title="Attendance %"
                 value={
                   isNaN(Number.parseInt(stats?.presentPercentage))
                     ? "..."
