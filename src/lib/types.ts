@@ -39,7 +39,7 @@ export interface NumberCardsProps {
   value: string;
 }
 
-export interface EventItem{
+export interface EventItem {
   id: string;
   title: string;
   description: string;
@@ -47,10 +47,26 @@ export interface EventItem{
   type: string;
 }
 
-export  interface AttendanceRecord {
+export interface AttendanceRecord {
   id: string;
   studentId: string;
   subject: string;
   status: string;
   date: string;
+}
+
+export interface Exam {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  subject?: string;
+}
+
+export interface BunkStats {
+  subject: string;
+  total: number;
+  present: number;
+  percentage: number;
+  safeBunks: number;
 }

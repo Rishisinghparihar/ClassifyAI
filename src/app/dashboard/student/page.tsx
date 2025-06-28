@@ -135,7 +135,7 @@ export default function StudentDashboard() {
           />
           <HorizontalBar
             content="Track upcoming exams and assignment deadlines"
-            linkRef="/exams"
+            linkRef="/dashboard/student/exams"
             title="Upcoming Exams"
           />
           <HorizontalBar
