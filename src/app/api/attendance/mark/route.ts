@@ -4,6 +4,9 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   try {
     const { token, studentId } = await req.json();
+    const today = new Date();
+const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
     if (!token || !studentId) {
       return NextResponse.json({ message: "Missing Data" }, { status: 400 });
     }
@@ -20,7 +23,7 @@ export async function POST(req: Request) {
       where: {
         studentId,
         subject: tokenRecord.subject,
-        date: new Date().toDateString(),
+        date: new Date(new Date().toDateString()), 
       },
     });
     if (existing) {
@@ -31,8 +34,8 @@ export async function POST(req: Request) {
       data: {
         student: { connect: { id: studentId } },
         subject: tokenRecord.subject,
-        date: new Date().toDateString(),
-        status: "PRESENT", // or the appropriate status value
+        date: startOfDay,
+        status: "ABSENT", // or the appropriate status value
         markedBy: "SYSTEM", // or the appropriate user identifier
       },
     });

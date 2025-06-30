@@ -97,3 +97,23 @@ export const eventTypeColors: Record<string, string> = {
   EXAM: "bg-gradient-to-tr from-red-200/20 to-red-400/20 text-red-50",
   EVENT: "bg-gradient-to-tr from-green-200/20 to-green-400/20 text-green-50",
 };
+
+export function extractJSON(rawText: string): any {
+  try {
+    const cleanedText = rawText.replace(/```json|```/g, "").trim();
+
+    const start = cleanedText.indexOf("{");
+    const end = cleanedText.lastIndexOf("}") + 1;
+
+    if (start === -1 || end === -1 || end <= start) {
+      console.error("Raw AI Response (unparsable):", rawText);
+      throw new Error("No valid JSON block found in the response");
+    }
+
+    const jsonString = cleanedText.slice(start, end);
+    return JSON.parse(jsonString);
+  } catch (err) {
+    console.error("❌ Failed to extract JSON:", err);
+    throw new Error("AI response did not contain valid JSON");
+  }
+}

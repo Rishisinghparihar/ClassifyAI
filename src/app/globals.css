@@ -84,7 +84,6 @@ pre {
   background-image: linear-gradient(-45deg, #0ff, #0af, #00f, #0af, #0ff);
   background-size: 300% 300%;
   animation: gradientMove 6s ease infinite;
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
