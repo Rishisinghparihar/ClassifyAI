@@ -1,76 +1,112 @@
 "use client";
-import { loadRazorpayScript, monthlyPlans, showSuccessMessage } from "@/lib/helper";
+import {
+  loadRazorpayScript,
+  monthlyPlans,
+  showSuccessMessage,
+} from "@/lib/helper";
 import { Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-
-
+import toast from "react-hot-toast";
 
 const yearlyPlans = monthlyPlans.map((plan) => ({
   ...plan,
-  price: plan.price === 0 ? 0 : plan.price * 10, // 2 months free
+  price: plan.price === 0 ? 0 : plan.price * 10,
 }));
 
 const Page = () => {
   const [isYearly, setIsYearly] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [progress, setProgress] = useState(0);
   const plans = isYearly ? yearlyPlans : monthlyPlans;
   const router = useRouter();
 
- const handlePayment = async (planName: string, price: number) => {
-  if (price === 0) {
-    router.push("/dashboard/student/home");
-    return;
-  }
+  const handlePayment = async (planName: string, price: number) => {
+    if (price === 0) {
+      router.push("/dashboard/student/home");
+      return;
+    }
 
-  const res = await fetch("/api/student/payment", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: localStorage.getItem("studentId"),
-      amount: price,
-    }),
-  });
+    const res = await fetch("/api/student/payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: localStorage.getItem("studentId"),
+        amount: price,
+      }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
+    const success = await loadRazorpayScript();
+    if (!success) {
+      toast.error("Failed to load Razorpay.");
+      return;
+    }
 
-  const success = await loadRazorpayScript();
-  if (!success) {
-    alert("Failed to load Razorpay. Please try again.");
-    return;
-  }
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: data.amount,
+      currency: "INR",
+      name: "ClassifyAI",
+      description: `${planName} Plan`,
+      order_id: data.id,
+      handler: async function (response: any) {
+        setIsVerifying(true);
+        setProgress(10);
 
-  const options = {
-    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-    amount: data.amount,
-    currency: "INR",
-    name: "ClassifyAI",
-    description: `${planName} Plan`,
-    order_id: data.id,
-    handler: async function (response: any) {
-      await fetch("/api/student/payment/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          razorpay_order_id: data.id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
-          userId: localStorage.getItem("studentId"),
-          planName,
-          billingCycle: isYearly ? "yearly" : "monthly",
-        }),
-      });
+        const interval = setInterval(() => {
+          setProgress((prev) => (prev < 90 ? prev + 5 : prev));
+        }, 200);
 
-      showSuccessMessage("Payment successful & premium features activated!");
-      router.push("/dashboard/student/");
-    },
-    theme: { color: "#06b6d4" },
+        const verifyRes = await fetch("/api/student/payment/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            razorpay_order_id: data.id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            userId: localStorage.getItem("studentId"),
+            planName,
+            billingCycle: isYearly ? "yearly" : "monthly",
+          }),
+        });
+
+        clearInterval(interval);
+        setProgress(100);
+        showSuccessMessage("Payment successful & premium features activated!");
+
+        const verifyData = await verifyRes.json();
+
+        if (verifyData.calendarSyncPending && verifyData.authUrl) {
+          toast(
+            (t) => (
+              <div className="text-sm">
+                <p className="mb-1">Please authorize Google Calendar access</p>
+                <a
+                  href={verifyData.authUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                  onClick={() => toast.dismiss(t.id)}
+                >
+                  Click here to connect Google Calendar
+                </a>
+              </div>
+            ),
+            { duration: 10000 }
+          );
+        }
+
+        setTimeout(() => {
+          router.push("/dashboard/student/");
+        }, 600);
+      },
+      theme: { color: "#06b6d4" },
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
   };
-
-  const rzp = new (window as any).Razorpay(options);
-  rzp.open();
-};
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 py-10 text-white">
@@ -138,7 +174,6 @@ const Page = () => {
 
             {/* Pricing Card */}
             <div className="relative w-full bg-white/10 text-white backdrop-blur-lg rounded-4xl shadow-lg pt-20 px-6 pb-6 flex flex-col justify-between min-h-[35rem]">
-              {/* Feature List */}
               <ul className="space-y-3 text-sm mb-6">
                 {monthlyPlans[0].features
                   .concat(monthlyPlans[0].extra)
@@ -147,7 +182,7 @@ const Page = () => {
                     return (
                       <li
                         key={i}
-                        className={`flex items-center text-base  gap-2 ${
+                        className={`flex items-center text-base gap-2 ${
                           included ? "text-cyan-300" : "text-red-400"
                         }`}
                       >
@@ -157,8 +192,6 @@ const Page = () => {
                     );
                   })}
               </ul>
-
-              {/* CTA Button */}
               <button
                 className="w-full py-6 text-xl bg-cyan-500 hover:bg-cyan-600 text-white rounded-4xl shadow transition"
                 onClick={() => handlePayment(plan.title, plan.price)}
@@ -169,6 +202,7 @@ const Page = () => {
           </div>
         ))}
       </div>
+
       {/* Back Button */}
       <div className="absolute top-4 right-4 z-10">
         <button
@@ -178,8 +212,24 @@ const Page = () => {
           <X size={40} />
         </button>
       </div>
+
+      {/* Verification Overlay */}
+      {isVerifying && (
+        <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50">
+          <div className="w-72 bg-white/10 p-6 rounded-2xl border border-white/20 text-white text-center">
+            <p className="mb-4 font-semibold">Activating Premium Features...</p>
+            <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-cyan-400 h-3 rounded-full transition-all duration-200"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <p className="mt-2 text-sm text-white/70">{progress}%</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Page;
+export default Page; 

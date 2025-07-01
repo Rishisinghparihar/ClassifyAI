@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(cuid())
-  name       String
-  email      String       @unique
-  role       Role
-  attendance Attendance[]
-  isPremium  Boolean      @default(false)
-  createdAt  DateTime     @default(now())
-   premiumFeatures  PremiumFeature[]  @relation("UserPremiumFeatures")
-   premiumExpiresAt   DateTime?         // <--- Add this line
+  id               String           @id @default(cuid())
+  name             String
+  email            String           @unique
+  role             Role
+  attendance       Attendance[]
+  isPremium        Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
+  premiumExpiresAt DateTime? // <--- Add this line
+  GoogleToken      GoogleToken[]
 }
 
 model Attendance {
@@ -36,30 +37,39 @@ model Attendance {
   markedBy  String // teacher id or "QR/Face"
 }
 
-model AttendanceToken{
-  id       String   @id @default(uuid())
-  token   String     @unique
-  subject String
-  professorId     String
-  issuedAt DateTime @default(now())
-  expiresAt DateTime
+model AttendanceToken {
+  id          String   @id @default(uuid())
+  token       String   @unique
+  subject     String
+  professorId String
+  issuedAt    DateTime @default(now())
+  expiresAt   DateTime
 }
 
 model PremiumFeature {
-  id       String   @id @default(cuid())
-  name     String   @unique // e.g., "AI_CHATBOT", "STUDY_PLAN"
-  users    User[]   @relation("UserPremiumFeatures")
+  id        String   @id @default(cuid())
+  name      String   @unique // e.g., "AI_CHATBOT", "STUDY_PLAN"
+  users     User[]   @relation("UserPremiumFeatures")
   createdAt DateTime @default(now())
 }
 
 model Event {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
   date        DateTime
   type        EventType
   createdBy   String // admin id or system identifier
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
+}
+
+model GoogleToken {
+  userId       String   @id
+  accessToken  String
+  refreshToken String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum EventType {

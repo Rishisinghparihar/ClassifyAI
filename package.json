@@ -13,6 +13,7 @@
     "@prisma/client": "^6.8.0",
     "@tailwindcss/typography": "^0.5.16",
     "anthropic": "^0.0.0",
+    "googleapis": "^150.0.1",
     "highlight.js": "^11.11.1",
     "html-to-image": "^1.11.13",
     "html5-qrcode": "^2.3.8",

@@ -1,7 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Sparkles, ClipboardList, CalendarCheck, Lightbulb, CalendarClock } from "lucide-react";
+import { useState } from "react";
+import {
+  Sparkles,
+  ClipboardList,
+  CalendarCheck,
+  Lightbulb,
+  CalendarClock,
+  ChevronLeft,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const StudyPlanPage = () => {
   const [syllabus, setSyllabus] = useState("");
@@ -14,7 +22,7 @@ const StudyPlanPage = () => {
     importantQuestions: string[];
     studyPlan: Record<string, string>;
   } | null>(null);
-
+  const router = useRouter();
   const handleGenerate = async () => {
     if (!syllabus.trim()) return;
 
@@ -57,7 +65,9 @@ const StudyPlanPage = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen flex-col text-cyan-200">
-        <div className="text-xl font-semibold mb-4">Generating Your Study Plan...</div>
+        <div className="text-xl font-semibold mb-4">
+          Generating Your Study Plan...
+        </div>
         <div className="relative w-64 h-4 bg-cyan-900 rounded-full overflow-hidden">
           <div
             className="absolute top-0 left-0 h-full bg-cyan-400 transition-all duration-300"
@@ -71,9 +81,19 @@ const StudyPlanPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-4">
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => router.push("/dashboard/student")}
+          className="flex items-center justify-center gap-2 rounded-full  text-white hover:text-cyan-300 transition-colors"
+        >
+          <ChevronLeft size={40} />
+        </button>
+      </div>
       {!planData && (
         <>
-          <h1 className="text-2xl font-bold text-cyan-300 mb-6">AI-Powered Study Plan</h1>
+          <h1 className="text-2xl font-bold text-cyan-300 mb-6">
+            AI-Powered Study Plan
+          </h1>
 
           <textarea
             placeholder="Paste your syllabus here..."
@@ -109,7 +129,10 @@ const StudyPlanPage = () => {
       {/* 🟩 Show STUDY PLAN */}
       {planData && (
         <div className="mt-10 space-y-8">
-          <Section title="Study Roadmap" icon={<Sparkles className="text-yellow-300" />}>
+          <Section
+            title="Study Roadmap"
+            icon={<Sparkles className="text-yellow-300" />}
+          >
             <ul className="list-disc pl-5 text-gray-300 space-y-1">
               {planData.roadmap.map((step, idx) => (
                 <li key={idx}>{step}</li>
@@ -117,7 +140,10 @@ const StudyPlanPage = () => {
             </ul>
           </Section>
 
-          <Section title="Important Topics" icon={<Lightbulb className="text-green-300" />}>
+          <Section
+            title="Important Topics"
+            icon={<Lightbulb className="text-green-300" />}
+          >
             <ul className="list-disc pl-5 text-gray-300 space-y-1">
               {planData.importantTopics.map((topic, idx) => (
                 <li key={idx}>{topic}</li>
@@ -125,7 +151,10 @@ const StudyPlanPage = () => {
             </ul>
           </Section>
 
-          <Section title="Important Questions" icon={<ClipboardList className="text-pink-400" />}>
+          <Section
+            title="Important Questions"
+            icon={<ClipboardList className="text-pink-400" />}
+          >
             <ul className="list-decimal pl-5 text-gray-300 space-y-1">
               {planData.importantQuestions.map((q, idx) => (
                 <li key={idx}>{q}</li>
@@ -133,7 +162,10 @@ const StudyPlanPage = () => {
             </ul>
           </Section>
 
-          <Section title="Daily Study Plan" icon={<CalendarCheck className="text-blue-300" />}>
+          <Section
+            title="Daily Study Plan"
+            icon={<CalendarCheck className="text-blue-300" />}
+          >
             <ul className="list-decimal pl-5 text-gray-300 space-y-1">
               {Object.entries(planData.studyPlan).map(([day, content]) => (
                 <li key={day}>

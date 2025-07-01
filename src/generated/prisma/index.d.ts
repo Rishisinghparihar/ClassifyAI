@@ -38,6 +38,11 @@ export type PremiumFeature = $Result.DefaultSelection<Prisma.$PremiumFeaturePayl
  * 
  */
 export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
+ * Model GoogleToken
+ * 
+ */
+export type GoogleToken = $Result.DefaultSelection<Prisma.$GoogleTokenPayload>
 
 /**
  * Enums
@@ -257,6 +262,16 @@ export class PrismaClient<
     * ```
     */
   get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.googleToken`: Exposes CRUD operations for the **GoogleToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GoogleTokens
+    * const googleTokens = await prisma.googleToken.findMany()
+    * ```
+    */
+  get googleToken(): Prisma.GoogleTokenDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -701,7 +716,8 @@ export namespace Prisma {
     Attendance: 'Attendance',
     AttendanceToken: 'AttendanceToken',
     PremiumFeature: 'PremiumFeature',
-    Event: 'Event'
+    Event: 'Event',
+    GoogleToken: 'GoogleToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -720,7 +736,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "attendance" | "attendanceToken" | "premiumFeature" | "event"
+      modelProps: "user" | "attendance" | "attendanceToken" | "premiumFeature" | "event" | "googleToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1094,6 +1110,80 @@ export namespace Prisma {
           }
         }
       }
+      GoogleToken: {
+        payload: Prisma.$GoogleTokenPayload<ExtArgs>
+        fields: Prisma.GoogleTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GoogleTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GoogleTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.GoogleTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GoogleTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          findMany: {
+            args: Prisma.GoogleTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>[]
+          }
+          create: {
+            args: Prisma.GoogleTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          createMany: {
+            args: Prisma.GoogleTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GoogleTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.GoogleTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          update: {
+            args: Prisma.GoogleTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.GoogleTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GoogleTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GoogleTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.GoogleTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoogleTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.GoogleTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGoogleToken>
+          }
+          groupBy: {
+            args: Prisma.GoogleTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GoogleTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GoogleTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<GoogleTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1183,6 +1273,7 @@ export namespace Prisma {
     attendanceToken?: AttendanceTokenOmit
     premiumFeature?: PremiumFeatureOmit
     event?: EventOmit
+    googleToken?: GoogleTokenOmit
   }
 
   /* Types for Logging */
@@ -1279,11 +1370,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     attendance: number
     premiumFeatures: number
+    GoogleToken: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | UserCountOutputTypeCountAttendanceArgs
     premiumFeatures?: boolean | UserCountOutputTypeCountPremiumFeaturesArgs
+    GoogleToken?: boolean | UserCountOutputTypeCountGoogleTokenArgs
   }
 
   // Custom InputTypes
@@ -1309,6 +1402,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPremiumFeaturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PremiumFeatureWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGoogleTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GoogleTokenWhereInput
   }
 
 
@@ -1529,6 +1629,7 @@ export namespace Prisma {
     premiumExpiresAt?: boolean
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
+    GoogleToken?: boolean | User$GoogleTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1566,6 +1667,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
+    GoogleToken?: boolean | User$GoogleTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1576,6 +1678,7 @@ export namespace Prisma {
     objects: {
       attendance: Prisma.$AttendancePayload<ExtArgs>[]
       premiumFeatures: Prisma.$PremiumFeaturePayload<ExtArgs>[]
+      GoogleToken: Prisma.$GoogleTokenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1981,6 +2084,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     attendance<T extends User$attendanceArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     premiumFeatures<T extends User$premiumFeaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$premiumFeaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    GoogleToken<T extends User$GoogleTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$GoogleTokenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2450,6 +2554,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PremiumFeatureScalarFieldEnum | PremiumFeatureScalarFieldEnum[]
+  }
+
+  /**
+   * User.GoogleToken
+   */
+  export type User$GoogleTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    where?: GoogleTokenWhereInput
+    orderBy?: GoogleTokenOrderByWithRelationInput | GoogleTokenOrderByWithRelationInput[]
+    cursor?: GoogleTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GoogleTokenScalarFieldEnum | GoogleTokenScalarFieldEnum[]
   }
 
   /**
@@ -6616,6 +6744,1064 @@ export namespace Prisma {
 
 
   /**
+   * Model GoogleToken
+   */
+
+  export type AggregateGoogleToken = {
+    _count: GoogleTokenCountAggregateOutputType | null
+    _min: GoogleTokenMinAggregateOutputType | null
+    _max: GoogleTokenMaxAggregateOutputType | null
+  }
+
+  export type GoogleTokenMinAggregateOutputType = {
+    userId: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GoogleTokenMaxAggregateOutputType = {
+    userId: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GoogleTokenCountAggregateOutputType = {
+    userId: number
+    accessToken: number
+    refreshToken: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GoogleTokenMinAggregateInputType = {
+    userId?: true
+    accessToken?: true
+    refreshToken?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GoogleTokenMaxAggregateInputType = {
+    userId?: true
+    accessToken?: true
+    refreshToken?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GoogleTokenCountAggregateInputType = {
+    userId?: true
+    accessToken?: true
+    refreshToken?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GoogleTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GoogleToken to aggregate.
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GoogleTokens to fetch.
+     */
+    orderBy?: GoogleTokenOrderByWithRelationInput | GoogleTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GoogleTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GoogleTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GoogleTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GoogleTokens
+    **/
+    _count?: true | GoogleTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GoogleTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GoogleTokenMaxAggregateInputType
+  }
+
+  export type GetGoogleTokenAggregateType<T extends GoogleTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateGoogleToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGoogleToken[P]>
+      : GetScalarType<T[P], AggregateGoogleToken[P]>
+  }
+
+
+
+
+  export type GoogleTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GoogleTokenWhereInput
+    orderBy?: GoogleTokenOrderByWithAggregationInput | GoogleTokenOrderByWithAggregationInput[]
+    by: GoogleTokenScalarFieldEnum[] | GoogleTokenScalarFieldEnum
+    having?: GoogleTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GoogleTokenCountAggregateInputType | true
+    _min?: GoogleTokenMinAggregateInputType
+    _max?: GoogleTokenMaxAggregateInputType
+  }
+
+  export type GoogleTokenGroupByOutputType = {
+    userId: string
+    accessToken: string
+    refreshToken: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GoogleTokenCountAggregateOutputType | null
+    _min: GoogleTokenMinAggregateOutputType | null
+    _max: GoogleTokenMaxAggregateOutputType | null
+  }
+
+  type GetGoogleTokenGroupByPayload<T extends GoogleTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GoogleTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GoogleTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GoogleTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], GoogleTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GoogleTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["googleToken"]>
+
+  export type GoogleTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["googleToken"]>
+
+  export type GoogleTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["googleToken"]>
+
+  export type GoogleTokenSelectScalar = {
+    userId?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GoogleTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "accessToken" | "refreshToken" | "createdAt" | "updatedAt", ExtArgs["result"]["googleToken"]>
+  export type GoogleTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type GoogleTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type GoogleTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $GoogleTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GoogleToken"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      accessToken: string
+      refreshToken: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["googleToken"]>
+    composites: {}
+  }
+
+  type GoogleTokenGetPayload<S extends boolean | null | undefined | GoogleTokenDefaultArgs> = $Result.GetResult<Prisma.$GoogleTokenPayload, S>
+
+  type GoogleTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GoogleTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GoogleTokenCountAggregateInputType | true
+    }
+
+  export interface GoogleTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GoogleToken'], meta: { name: 'GoogleToken' } }
+    /**
+     * Find zero or one GoogleToken that matches the filter.
+     * @param {GoogleTokenFindUniqueArgs} args - Arguments to find a GoogleToken
+     * @example
+     * // Get one GoogleToken
+     * const googleToken = await prisma.googleToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GoogleTokenFindUniqueArgs>(args: SelectSubset<T, GoogleTokenFindUniqueArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GoogleToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GoogleTokenFindUniqueOrThrowArgs} args - Arguments to find a GoogleToken
+     * @example
+     * // Get one GoogleToken
+     * const googleToken = await prisma.googleToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GoogleTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, GoogleTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GoogleToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenFindFirstArgs} args - Arguments to find a GoogleToken
+     * @example
+     * // Get one GoogleToken
+     * const googleToken = await prisma.googleToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GoogleTokenFindFirstArgs>(args?: SelectSubset<T, GoogleTokenFindFirstArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GoogleToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenFindFirstOrThrowArgs} args - Arguments to find a GoogleToken
+     * @example
+     * // Get one GoogleToken
+     * const googleToken = await prisma.googleToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GoogleTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, GoogleTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GoogleTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GoogleTokens
+     * const googleTokens = await prisma.googleToken.findMany()
+     * 
+     * // Get first 10 GoogleTokens
+     * const googleTokens = await prisma.googleToken.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const googleTokenWithUserIdOnly = await prisma.googleToken.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends GoogleTokenFindManyArgs>(args?: SelectSubset<T, GoogleTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GoogleToken.
+     * @param {GoogleTokenCreateArgs} args - Arguments to create a GoogleToken.
+     * @example
+     * // Create one GoogleToken
+     * const GoogleToken = await prisma.googleToken.create({
+     *   data: {
+     *     // ... data to create a GoogleToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends GoogleTokenCreateArgs>(args: SelectSubset<T, GoogleTokenCreateArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GoogleTokens.
+     * @param {GoogleTokenCreateManyArgs} args - Arguments to create many GoogleTokens.
+     * @example
+     * // Create many GoogleTokens
+     * const googleToken = await prisma.googleToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GoogleTokenCreateManyArgs>(args?: SelectSubset<T, GoogleTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GoogleTokens and returns the data saved in the database.
+     * @param {GoogleTokenCreateManyAndReturnArgs} args - Arguments to create many GoogleTokens.
+     * @example
+     * // Create many GoogleTokens
+     * const googleToken = await prisma.googleToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GoogleTokens and only return the `userId`
+     * const googleTokenWithUserIdOnly = await prisma.googleToken.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GoogleTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, GoogleTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GoogleToken.
+     * @param {GoogleTokenDeleteArgs} args - Arguments to delete one GoogleToken.
+     * @example
+     * // Delete one GoogleToken
+     * const GoogleToken = await prisma.googleToken.delete({
+     *   where: {
+     *     // ... filter to delete one GoogleToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GoogleTokenDeleteArgs>(args: SelectSubset<T, GoogleTokenDeleteArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GoogleToken.
+     * @param {GoogleTokenUpdateArgs} args - Arguments to update one GoogleToken.
+     * @example
+     * // Update one GoogleToken
+     * const googleToken = await prisma.googleToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GoogleTokenUpdateArgs>(args: SelectSubset<T, GoogleTokenUpdateArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GoogleTokens.
+     * @param {GoogleTokenDeleteManyArgs} args - Arguments to filter GoogleTokens to delete.
+     * @example
+     * // Delete a few GoogleTokens
+     * const { count } = await prisma.googleToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GoogleTokenDeleteManyArgs>(args?: SelectSubset<T, GoogleTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GoogleTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GoogleTokens
+     * const googleToken = await prisma.googleToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GoogleTokenUpdateManyArgs>(args: SelectSubset<T, GoogleTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GoogleTokens and returns the data updated in the database.
+     * @param {GoogleTokenUpdateManyAndReturnArgs} args - Arguments to update many GoogleTokens.
+     * @example
+     * // Update many GoogleTokens
+     * const googleToken = await prisma.googleToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GoogleTokens and only return the `userId`
+     * const googleTokenWithUserIdOnly = await prisma.googleToken.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GoogleTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, GoogleTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GoogleToken.
+     * @param {GoogleTokenUpsertArgs} args - Arguments to update or create a GoogleToken.
+     * @example
+     * // Update or create a GoogleToken
+     * const googleToken = await prisma.googleToken.upsert({
+     *   create: {
+     *     // ... data to create a GoogleToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GoogleToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GoogleTokenUpsertArgs>(args: SelectSubset<T, GoogleTokenUpsertArgs<ExtArgs>>): Prisma__GoogleTokenClient<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GoogleTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenCountArgs} args - Arguments to filter GoogleTokens to count.
+     * @example
+     * // Count the number of GoogleTokens
+     * const count = await prisma.googleToken.count({
+     *   where: {
+     *     // ... the filter for the GoogleTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends GoogleTokenCountArgs>(
+      args?: Subset<T, GoogleTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GoogleTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GoogleToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GoogleTokenAggregateArgs>(args: Subset<T, GoogleTokenAggregateArgs>): Prisma.PrismaPromise<GetGoogleTokenAggregateType<T>>
+
+    /**
+     * Group by GoogleToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoogleTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GoogleTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GoogleTokenGroupByArgs['orderBy'] }
+        : { orderBy?: GoogleTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GoogleTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGoogleTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GoogleToken model
+   */
+  readonly fields: GoogleTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GoogleToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GoogleTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GoogleToken model
+   */
+  interface GoogleTokenFieldRefs {
+    readonly userId: FieldRef<"GoogleToken", 'String'>
+    readonly accessToken: FieldRef<"GoogleToken", 'String'>
+    readonly refreshToken: FieldRef<"GoogleToken", 'String'>
+    readonly createdAt: FieldRef<"GoogleToken", 'DateTime'>
+    readonly updatedAt: FieldRef<"GoogleToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GoogleToken findUnique
+   */
+  export type GoogleTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which GoogleToken to fetch.
+     */
+    where: GoogleTokenWhereUniqueInput
+  }
+
+  /**
+   * GoogleToken findUniqueOrThrow
+   */
+  export type GoogleTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which GoogleToken to fetch.
+     */
+    where: GoogleTokenWhereUniqueInput
+  }
+
+  /**
+   * GoogleToken findFirst
+   */
+  export type GoogleTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which GoogleToken to fetch.
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GoogleTokens to fetch.
+     */
+    orderBy?: GoogleTokenOrderByWithRelationInput | GoogleTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GoogleTokens.
+     */
+    cursor?: GoogleTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GoogleTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GoogleTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GoogleTokens.
+     */
+    distinct?: GoogleTokenScalarFieldEnum | GoogleTokenScalarFieldEnum[]
+  }
+
+  /**
+   * GoogleToken findFirstOrThrow
+   */
+  export type GoogleTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which GoogleToken to fetch.
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GoogleTokens to fetch.
+     */
+    orderBy?: GoogleTokenOrderByWithRelationInput | GoogleTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GoogleTokens.
+     */
+    cursor?: GoogleTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GoogleTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GoogleTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GoogleTokens.
+     */
+    distinct?: GoogleTokenScalarFieldEnum | GoogleTokenScalarFieldEnum[]
+  }
+
+  /**
+   * GoogleToken findMany
+   */
+  export type GoogleTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which GoogleTokens to fetch.
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GoogleTokens to fetch.
+     */
+    orderBy?: GoogleTokenOrderByWithRelationInput | GoogleTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GoogleTokens.
+     */
+    cursor?: GoogleTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GoogleTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GoogleTokens.
+     */
+    skip?: number
+    distinct?: GoogleTokenScalarFieldEnum | GoogleTokenScalarFieldEnum[]
+  }
+
+  /**
+   * GoogleToken create
+   */
+  export type GoogleTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GoogleToken.
+     */
+    data: XOR<GoogleTokenCreateInput, GoogleTokenUncheckedCreateInput>
+  }
+
+  /**
+   * GoogleToken createMany
+   */
+  export type GoogleTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GoogleTokens.
+     */
+    data: GoogleTokenCreateManyInput | GoogleTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GoogleToken createManyAndReturn
+   */
+  export type GoogleTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many GoogleTokens.
+     */
+    data: GoogleTokenCreateManyInput | GoogleTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GoogleToken update
+   */
+  export type GoogleTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GoogleToken.
+     */
+    data: XOR<GoogleTokenUpdateInput, GoogleTokenUncheckedUpdateInput>
+    /**
+     * Choose, which GoogleToken to update.
+     */
+    where: GoogleTokenWhereUniqueInput
+  }
+
+  /**
+   * GoogleToken updateMany
+   */
+  export type GoogleTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GoogleTokens.
+     */
+    data: XOR<GoogleTokenUpdateManyMutationInput, GoogleTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which GoogleTokens to update
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * Limit how many GoogleTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GoogleToken updateManyAndReturn
+   */
+  export type GoogleTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update GoogleTokens.
+     */
+    data: XOR<GoogleTokenUpdateManyMutationInput, GoogleTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which GoogleTokens to update
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * Limit how many GoogleTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GoogleToken upsert
+   */
+  export type GoogleTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GoogleToken to update in case it exists.
+     */
+    where: GoogleTokenWhereUniqueInput
+    /**
+     * In case the GoogleToken found by the `where` argument doesn't exist, create a new GoogleToken with this data.
+     */
+    create: XOR<GoogleTokenCreateInput, GoogleTokenUncheckedCreateInput>
+    /**
+     * In case the GoogleToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GoogleTokenUpdateInput, GoogleTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * GoogleToken delete
+   */
+  export type GoogleTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+    /**
+     * Filter which GoogleToken to delete.
+     */
+    where: GoogleTokenWhereUniqueInput
+  }
+
+  /**
+   * GoogleToken deleteMany
+   */
+  export type GoogleTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GoogleTokens to delete
+     */
+    where?: GoogleTokenWhereInput
+    /**
+     * Limit how many GoogleTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GoogleToken without action
+   */
+  export type GoogleTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoogleToken
+     */
+    select?: GoogleTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GoogleToken
+     */
+    omit?: GoogleTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoogleTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6686,6 +7872,17 @@ export namespace Prisma {
   };
 
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+  export const GoogleTokenScalarFieldEnum: {
+    userId: 'userId',
+    accessToken: 'accessToken',
+    refreshToken: 'refreshToken',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GoogleTokenScalarFieldEnum = (typeof GoogleTokenScalarFieldEnum)[keyof typeof GoogleTokenScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6810,6 +8007,7 @@ export namespace Prisma {
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
+    GoogleToken?: GoogleTokenListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6822,6 +8020,7 @@ export namespace Prisma {
     premiumExpiresAt?: SortOrderInput | SortOrder
     attendance?: AttendanceOrderByRelationAggregateInput
     premiumFeatures?: PremiumFeatureOrderByRelationAggregateInput
+    GoogleToken?: GoogleTokenOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6837,6 +8036,7 @@ export namespace Prisma {
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
+    GoogleToken?: GoogleTokenListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7089,6 +8289,61 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
 
+  export type GoogleTokenWhereInput = {
+    AND?: GoogleTokenWhereInput | GoogleTokenWhereInput[]
+    OR?: GoogleTokenWhereInput[]
+    NOT?: GoogleTokenWhereInput | GoogleTokenWhereInput[]
+    userId?: StringFilter<"GoogleToken"> | string
+    accessToken?: StringFilter<"GoogleToken"> | string
+    refreshToken?: StringNullableFilter<"GoogleToken"> | string | null
+    createdAt?: DateTimeFilter<"GoogleToken"> | Date | string
+    updatedAt?: DateTimeFilter<"GoogleToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type GoogleTokenOrderByWithRelationInput = {
+    userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type GoogleTokenWhereUniqueInput = Prisma.AtLeast<{
+    userId?: string
+    AND?: GoogleTokenWhereInput | GoogleTokenWhereInput[]
+    OR?: GoogleTokenWhereInput[]
+    NOT?: GoogleTokenWhereInput | GoogleTokenWhereInput[]
+    accessToken?: StringFilter<"GoogleToken"> | string
+    refreshToken?: StringNullableFilter<"GoogleToken"> | string | null
+    createdAt?: DateTimeFilter<"GoogleToken"> | Date | string
+    updatedAt?: DateTimeFilter<"GoogleToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "userId">
+
+  export type GoogleTokenOrderByWithAggregationInput = {
+    userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GoogleTokenCountOrderByAggregateInput
+    _max?: GoogleTokenMaxOrderByAggregateInput
+    _min?: GoogleTokenMinOrderByAggregateInput
+  }
+
+  export type GoogleTokenScalarWhereWithAggregatesInput = {
+    AND?: GoogleTokenScalarWhereWithAggregatesInput | GoogleTokenScalarWhereWithAggregatesInput[]
+    OR?: GoogleTokenScalarWhereWithAggregatesInput[]
+    NOT?: GoogleTokenScalarWhereWithAggregatesInput | GoogleTokenScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"GoogleToken"> | string
+    accessToken?: StringWithAggregatesFilter<"GoogleToken"> | string
+    refreshToken?: StringNullableWithAggregatesFilter<"GoogleToken"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"GoogleToken"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GoogleToken"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -7099,6 +8354,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7111,6 +8367,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7123,6 +8380,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7135,6 +8393,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7408,6 +8667,61 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GoogleTokenCreateInput = {
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutGoogleTokenInput
+  }
+
+  export type GoogleTokenUncheckedCreateInput = {
+    userId: string
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GoogleTokenUpdateInput = {
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutGoogleTokenNestedInput
+  }
+
+  export type GoogleTokenUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GoogleTokenCreateManyInput = {
+    userId: string
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GoogleTokenUpdateManyMutationInput = {
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GoogleTokenUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7469,6 +8783,12 @@ export namespace Prisma {
     none?: PremiumFeatureWhereInput
   }
 
+  export type GoogleTokenListRelationFilter = {
+    every?: GoogleTokenWhereInput
+    some?: GoogleTokenWhereInput
+    none?: GoogleTokenWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -7479,6 +8799,10 @@ export namespace Prisma {
   }
 
   export type PremiumFeatureOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GoogleTokenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7743,6 +9067,30 @@ export namespace Prisma {
     _max?: NestedEnumEventTypeFilter<$PrismaModel>
   }
 
+  export type GoogleTokenCountOrderByAggregateInput = {
+    userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GoogleTokenMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GoogleTokenMinOrderByAggregateInput = {
+    userId?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AttendanceCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -7756,6 +9104,13 @@ export namespace Prisma {
     connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
   }
 
+  export type GoogleTokenCreateNestedManyWithoutUserInput = {
+    create?: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput> | GoogleTokenCreateWithoutUserInput[] | GoogleTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GoogleTokenCreateOrConnectWithoutUserInput | GoogleTokenCreateOrConnectWithoutUserInput[]
+    createMany?: GoogleTokenCreateManyUserInputEnvelope
+    connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+  }
+
   export type AttendanceUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -7767,6 +9122,13 @@ export namespace Prisma {
     create?: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput> | PremiumFeatureCreateWithoutUsersInput[] | PremiumFeatureUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: PremiumFeatureCreateOrConnectWithoutUsersInput | PremiumFeatureCreateOrConnectWithoutUsersInput[]
     connect?: PremiumFeatureWhereUniqueInput | PremiumFeatureWhereUniqueInput[]
+  }
+
+  export type GoogleTokenUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput> | GoogleTokenCreateWithoutUserInput[] | GoogleTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GoogleTokenCreateOrConnectWithoutUserInput | GoogleTokenCreateOrConnectWithoutUserInput[]
+    createMany?: GoogleTokenCreateManyUserInputEnvelope
+    connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7816,6 +9178,20 @@ export namespace Prisma {
     deleteMany?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
   }
 
+  export type GoogleTokenUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput> | GoogleTokenCreateWithoutUserInput[] | GoogleTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GoogleTokenCreateOrConnectWithoutUserInput | GoogleTokenCreateOrConnectWithoutUserInput[]
+    upsert?: GoogleTokenUpsertWithWhereUniqueWithoutUserInput | GoogleTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GoogleTokenCreateManyUserInputEnvelope
+    set?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    disconnect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    delete?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    update?: GoogleTokenUpdateWithWhereUniqueWithoutUserInput | GoogleTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GoogleTokenUpdateManyWithWhereWithoutUserInput | GoogleTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
+  }
+
   export type AttendanceUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -7841,6 +9217,20 @@ export namespace Prisma {
     update?: PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput | PremiumFeatureUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: PremiumFeatureUpdateManyWithWhereWithoutUsersInput | PremiumFeatureUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: PremiumFeatureScalarWhereInput | PremiumFeatureScalarWhereInput[]
+  }
+
+  export type GoogleTokenUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput> | GoogleTokenCreateWithoutUserInput[] | GoogleTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GoogleTokenCreateOrConnectWithoutUserInput | GoogleTokenCreateOrConnectWithoutUserInput[]
+    upsert?: GoogleTokenUpsertWithWhereUniqueWithoutUserInput | GoogleTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GoogleTokenCreateManyUserInputEnvelope
+    set?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    disconnect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    delete?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+    update?: GoogleTokenUpdateWithWhereUniqueWithoutUserInput | GoogleTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GoogleTokenUpdateManyWithWhereWithoutUserInput | GoogleTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAttendanceInput = {
@@ -7901,6 +9291,20 @@ export namespace Prisma {
 
   export type EnumEventTypeFieldUpdateOperationsInput = {
     set?: $Enums.EventType
+  }
+
+  export type UserCreateNestedOneWithoutGoogleTokenInput = {
+    create?: XOR<UserCreateWithoutGoogleTokenInput, UserUncheckedCreateWithoutGoogleTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoogleTokenInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutGoogleTokenNestedInput = {
+    create?: XOR<UserCreateWithoutGoogleTokenInput, UserUncheckedCreateWithoutGoogleTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoogleTokenInput
+    upsert?: UserUpsertWithoutGoogleTokenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoogleTokenInput, UserUpdateWithoutGoogleTokenInput>, UserUncheckedUpdateWithoutGoogleTokenInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8127,6 +9531,30 @@ export namespace Prisma {
     create: XOR<PremiumFeatureCreateWithoutUsersInput, PremiumFeatureUncheckedCreateWithoutUsersInput>
   }
 
+  export type GoogleTokenCreateWithoutUserInput = {
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GoogleTokenUncheckedCreateWithoutUserInput = {
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GoogleTokenCreateOrConnectWithoutUserInput = {
+    where: GoogleTokenWhereUniqueInput
+    create: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type GoogleTokenCreateManyUserInputEnvelope = {
+    data: GoogleTokenCreateManyUserInput | GoogleTokenCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AttendanceUpsertWithWhereUniqueWithoutStudentInput = {
     where: AttendanceWhereUniqueInput
     update: XOR<AttendanceUpdateWithoutStudentInput, AttendanceUncheckedUpdateWithoutStudentInput>
@@ -8180,6 +9608,33 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PremiumFeature"> | Date | string
   }
 
+  export type GoogleTokenUpsertWithWhereUniqueWithoutUserInput = {
+    where: GoogleTokenWhereUniqueInput
+    update: XOR<GoogleTokenUpdateWithoutUserInput, GoogleTokenUncheckedUpdateWithoutUserInput>
+    create: XOR<GoogleTokenCreateWithoutUserInput, GoogleTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type GoogleTokenUpdateWithWhereUniqueWithoutUserInput = {
+    where: GoogleTokenWhereUniqueInput
+    data: XOR<GoogleTokenUpdateWithoutUserInput, GoogleTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type GoogleTokenUpdateManyWithWhereWithoutUserInput = {
+    where: GoogleTokenScalarWhereInput
+    data: XOR<GoogleTokenUpdateManyMutationInput, GoogleTokenUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type GoogleTokenScalarWhereInput = {
+    AND?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
+    OR?: GoogleTokenScalarWhereInput[]
+    NOT?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
+    userId?: StringFilter<"GoogleToken"> | string
+    accessToken?: StringFilter<"GoogleToken"> | string
+    refreshToken?: StringNullableFilter<"GoogleToken"> | string | null
+    createdAt?: DateTimeFilter<"GoogleToken"> | Date | string
+    updatedAt?: DateTimeFilter<"GoogleToken"> | Date | string
+  }
+
   export type UserCreateWithoutAttendanceInput = {
     id?: string
     name: string
@@ -8189,6 +9644,7 @@ export namespace Prisma {
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -8200,6 +9656,7 @@ export namespace Prisma {
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -8227,6 +9684,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -8238,6 +9696,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPremiumFeaturesInput = {
@@ -8249,6 +9708,7 @@ export namespace Prisma {
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPremiumFeaturesInput = {
@@ -8260,6 +9720,7 @@ export namespace Prisma {
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPremiumFeaturesInput = {
@@ -8296,12 +9757,83 @@ export namespace Prisma {
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
+  export type UserCreateWithoutGoogleTokenInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
+    attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutGoogleTokenInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserCreateOrConnectWithoutGoogleTokenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGoogleTokenInput, UserUncheckedCreateWithoutGoogleTokenInput>
+  }
+
+  export type UserUpsertWithoutGoogleTokenInput = {
+    update: XOR<UserUpdateWithoutGoogleTokenInput, UserUncheckedUpdateWithoutGoogleTokenInput>
+    create: XOR<UserCreateWithoutGoogleTokenInput, UserUncheckedCreateWithoutGoogleTokenInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGoogleTokenInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGoogleTokenInput, UserUncheckedUpdateWithoutGoogleTokenInput>
+  }
+
+  export type UserUpdateWithoutGoogleTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGoogleTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
   export type AttendanceCreateManyStudentInput = {
     id?: string
     subject: string
     date?: Date | string
     status: string
     markedBy: string
+  }
+
+  export type GoogleTokenCreateManyUserInput = {
+    accessToken: string
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AttendanceUpdateWithoutStudentInput = {
@@ -8346,6 +9878,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GoogleTokenUpdateWithoutUserInput = {
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GoogleTokenUncheckedUpdateWithoutUserInput = {
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GoogleTokenUncheckedUpdateManyWithoutUserInput = {
+    accessToken?: StringFieldUpdateOperationsInput | string
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutPremiumFeaturesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -8355,6 +9908,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPremiumFeaturesInput = {
@@ -8366,6 +9920,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPremiumFeaturesInput = {
