@@ -60,24 +60,56 @@ const StudyPlanPage = () => {
       }, 1000);
     }
   };
+if (loading) {
+  const radius = 60;
+  const stroke = 8;
+  const normalizedRadius = radius - stroke * 0.5;
+  const circumference = 2 * Math.PI * normalizedRadius;
+  const strokeDashoffset =
+    circumference - (progress / 100) * circumference;
 
-  // 🟩 Show LOADING SCREEN
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen flex-col text-cyan-200">
-        <div className="text-xl font-semibold mb-4">
-          Generating Your Study Plan...
-        </div>
-        <div className="relative w-64 h-4 bg-cyan-900 rounded-full overflow-hidden">
-          <div
-            className="absolute top-0 left-0 h-full bg-cyan-400 transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <div className="mt-2">{progress}%</div>
-      </div>
-    );
-  }
+  return (
+  <div className="flex flex-col items-center justify-center min-h-screen bg-black/5 text-cyan-400">
+  <div className="relative w-36 h-36">
+    {/* Circular progress */}
+    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+      <circle
+        cx="18"
+        cy="18"
+        r="16"
+        stroke="#1e293b"
+        strokeWidth="3"
+        fill="none"
+      />
+      <circle
+        cx="18"
+        cy="18"
+        r="16"
+        stroke="#06b6d4"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+        strokeDasharray="100"
+        strokeDashoffset={`${100 - progress}`}
+      />
+    </svg>
+
+    {/* Logo centered absolutely */}
+    <div className="absolute inset-0 flex items-center justify-center">
+      <img
+        src="/only-logo.png"
+        alt="ClassifyAI"
+        className="w-16 h-16 object-contain"
+      />
+    </div>
+  </div>
+
+  <p className="mt-6 text-xl font-semibold">Generating Your Study Plan...</p>
+  <p className="text-sm text-cyan-300">{progress}%</p>
+</div>
+  );
+}
+
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-4">
