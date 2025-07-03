@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { Html5QrcodeScanner } from "html5-qrcode";
@@ -11,12 +12,10 @@ const ScanPage = () => {
 
   const handleScan = async (decodedText: string) => {
     if (scannedRef.current) {
-      console.log("Already scanned — ignoring.");
       return;
     }
     scannedRef.current = true;
 
-    console.log("QR Code scanned: ", decodedText);
 
     let data;
     try {
@@ -33,7 +32,6 @@ const ScanPage = () => {
           const el = document.getElementById("reader");
           if (el) el.innerHTML = "";
           scannerRef.current = null;
-          console.log("Scanner stopped after first scan");
         })
         .catch(console.error);
     }
@@ -61,13 +59,41 @@ const ScanPage = () => {
         toast.error(result.error || "Failed marking attendance");
       }
     } catch (error) {
-      console.error("Error marking attendance: ", error);
       toast.error("Error marking attendance");
     }
   };
 
   useEffect(() => {
-    console.log("ScanPage mounted");
+
+    const observeButtons = () => {
+      const observer = new MutationObserver(() => {
+        const buttons =
+          document.querySelectorAll<HTMLButtonElement>(
+            "#reader .html5-qrcode-scanner button"
+          );
+        buttons.forEach((button) => {
+          button.removeAttribute("style");
+          button.style.backgroundColor = "red";
+          button.style.color = "#06b6d4";
+          button.style.border = "1px solid #06b6d4";
+          button.style.padding = "0.5rem 1rem";
+          button.style.margin = "0.25rem";
+          button.style.borderRadius = "0.375rem";
+          button.style.cursor = "pointer";
+          button.style.transition = "background-color 0.2s ease-in-out";
+        });
+      });
+
+      const readerElem = document.getElementById("reader");
+      if (readerElem) {
+        observer.observe(readerElem, {
+          childList: true,
+          subtree: true,
+        });
+      }
+
+      return () => observer.disconnect();
+    };
 
     const setupScanner = () => {
       const readerElem = document.getElementById("reader");
@@ -77,44 +103,51 @@ const ScanPage = () => {
 
       const scanner = new Html5QrcodeScanner(
         "reader",
-        { fps: 10, qrbox: 250 },
+        { fps: 10, qrbox: 550 },
         false
       );
 
       scanner.render(handleScan, (err) => {
-        console.log("Error scanning QR Code:", err);
       });
 
       scannerRef.current = scanner;
     };
+
+    const disconnectObserver = observeButtons();
+
     const timeout = setTimeout(setupScanner, 300);
 
     return () => {
-      console.log("ScanPage unmounted");
+      disconnectObserver();
+
       if (scannerRef.current) {
         scannerRef.current
           .clear()
           .then(() => {
-            console.log("Scanner cleared");
             const el = document.getElementById("reader");
             if (el) el.innerHTML = "";
             scannerRef.current = null;
           })
           .catch((err) => {
-            console.error("Failed to clear scanner", err);
             const el = document.getElementById("reader");
             if (el) el.innerHTML = "";
             scannerRef.current = null;
           });
       }
+
       clearTimeout(timeout);
     };
   }, []);
 
   return (
-    <div>
-      <h2>Scan QR to mark Attendance</h2>
-      <div id="reader" className="w-full max-w-md mx-auto"></div>
+    <div className="flex min-h-screen items-center gap-60 bg-gradient-to-br from-gray-900/15 via-black/15 to-gray-800/15 text-white p-6 flex-col">
+      <h2 className="text-center text-4xl uppercase text-cyan-200">
+        Scan QR to mark Attendance
+      </h2>
+      <div
+        id="reader"
+        className="w-full max-w-3xl max-h-[40rem] mx-auto"
+      ></div>
     </div>
   );
 };
