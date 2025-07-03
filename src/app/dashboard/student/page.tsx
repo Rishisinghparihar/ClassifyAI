@@ -92,7 +92,7 @@ export default function StudentDashboard() {
           {loading ? (
             <p>Loading...</p>
           ) : todayAttendance.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="space-y-4 overflow-scroll max-h-[27rem] overflow-y-auto">
               {todayAttendance.map((att, idx) => (
                 <li
                   key={idx}

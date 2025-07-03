@@ -62,15 +62,13 @@ const Page = () => {
     if (!node) return;
 
     try {
-      // ⬇ create PNG (html‑to‑image copes with oklab colours)
       const dataUrl = await toPng(node, { cacheBust: true, pixelRatio: 2 });
 
-      // ⬇ inject into PDF
       const pdf = new jsPDF("p", "mm", "a4");
       const pageWidth = pdf.internal.pageSize.getWidth();
       const img = new Image();
       img.src = dataUrl;
-      await img.decode(); // wait for the browser to load it
+      await img.decode(); 
       const ratio = img.height / img.width;
       pdf.addImage(dataUrl, "PNG", 0, 0, pageWidth, pageWidth * ratio);
 
@@ -139,17 +137,17 @@ const Page = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-2/3 flex flex-col gap-6 overflow-y-auto pb-6 justify-start space-y-10 items-center ">
+        <div className="w-2/3 flex flex-col overflow-y-auto pb-6 justify-start space-y-3 items-center ">
           {/* Chart */}
           {!loading && stats.length > 0 && (
             <div className="bg-white/5 p-6 rounded-2xl max-w-xl border border-cyan-100/10 shadow-md backdrop-blur-md">
               <h2 className="text-2xl font-bold text-cyan-200 mb-4">
                 Attendance Overview
               </h2>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="101%" height={285}>
                 <LineChart data={chartData}>
-                  <CartesianGrid stroke="#334155" strokeDasharray="5 5" />
-                  <XAxis dataKey="subject" stroke="#94a3b8" />
+            
+                  <XAxis dataKey="subject" stroke="#94a3b8" strokeWidth={2} />
                   <YAxis stroke="#94a3b8" />
                   <Tooltip
                     contentStyle={{
@@ -164,7 +162,7 @@ const Page = () => {
                     type="monotone"
                     dataKey="percentage"
                     stroke="#06b6d4"
-                    strokeWidth={3}
+                    strokeWidth={0.5}
                     activeDot={{ r: 6 }}
                   />
                 </LineChart>
@@ -173,18 +171,18 @@ const Page = () => {
           )}
 
           {/* Bunk Planner */}
-          <div className="bg-white/5 p-6 rounded-2xl border border-cyan-100/10 shadow-md backdrop-blur-md">
+          <div className="bg-white/5 p-6 rounded-2xl border border-cyan-100/10 shadow-md backdrop-blur-md w-[37rem] overflow-hidden">
             <h2 className="text-2xl font-bold text-cyan-200 mb-4">
               Bunk Planner
             </h2>
-            <p className="text-gray-300 mb-2">
+            <p className="text-gray-300 text-lg mb-2">
               Check how many more classes you can bunk:
             </p>
             {stats.map((item, idx) => {
               const maxAllowed = Math.floor(item.total * 0.25);
               const remaining = maxAllowed - (item.total - item.present);
               return (
-                <div key={idx} className="mb-3">
+                <div key={idx} className="mb-3" >
                   <h3 className="text-lg text-cyan-100 font-semibold">
                     {item.subject}
                   </h3>

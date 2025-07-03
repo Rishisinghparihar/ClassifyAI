@@ -3,7 +3,7 @@ import React from "react";
 
 const NoInternetPage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-6">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900/15 via-black/15 to-gray-800/15 text-white p-6">
       <div className="text-center">
         <div className="flex justify-center mb-6">
           <Unplug size={64} className="text-red-400" />

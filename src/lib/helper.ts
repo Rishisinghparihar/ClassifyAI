@@ -117,3 +117,30 @@ export function extractJSON(rawText: string): any {
     throw new Error("AI response did not contain valid JSON");
   }
 }
+
+    export  const quoteArray = [
+        {
+          text: "You want something? Go get it. Period.",
+          author: "~Chris Gardner",
+        },
+        {
+          text: "I am not afraid of dying, I'm afraid of not trying.",
+          author: "~Jay Z",
+        },
+        {
+          text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+          author: "~Winston Churchill",
+        },
+        {
+          text: "Believe you can and you're halfway there.",
+          author: "~Theodore Roosevelt",
+        },
+        {
+          text: "If they say ‘it’s impossible’, remember it’s impossible for them, not for you.",
+          author: "~Jordan Belfort",
+        },
+        {
+          text: "Success usually comes to those who are too busy to be looking for it.",
+          author: "~Henry David Thoreau",
+        },
+      ];

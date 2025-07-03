@@ -68,6 +68,10 @@ pre {
   background-color: rgba(34, 211, 238, 0.6);
 }
 
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 @keyframes gradientMove {
   0% {
     background-position: 0% 50%;
