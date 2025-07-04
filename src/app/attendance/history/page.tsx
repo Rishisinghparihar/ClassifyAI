@@ -76,7 +76,7 @@ const AttendanceHistoryPage = () => {
           className="w-full pl-10 pr-3 py-2 rounded-4xl bg-transparent text-cyan-200 transition-all duration-200 placeholder:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
         />
       </div>
-      <ul className="space-y-4">
+      <ul className="space-y-4 overflow-y-auto max-h-[60vh]">
         {history
           .filter((record) =>
             record.subject.toLowerCase().includes(searchTerm.toLowerCase())
@@ -85,7 +85,7 @@ const AttendanceHistoryPage = () => {
             <li
               key={record.id}
               className={`p-4 rounded-xl border ${
-                record.status === "PRESENT"
+                record.status.toUpperCase() === "PRESENT"
                   ? "bg-green-500/10 border-green-300/30 text-green-200"
                   : record.status === "ABSENT"
                   ? "bg-red-500/10 border-red-300/30 text-red-200"

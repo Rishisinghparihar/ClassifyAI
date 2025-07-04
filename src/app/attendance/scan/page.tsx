@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 const ScanPage = () => {
   const scannerRef = useRef<Html5QrcodeScanner | null>(null);
@@ -148,6 +149,15 @@ const ScanPage = () => {
         id="reader"
         className="w-full max-w-3xl max-h-[40rem] mx-auto"
       ></div>
+       {/* Back Button */}
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => router.push("/dashboard/student")}
+          className="flex items-center justify-center gap-2 rounded-full text-white hover:text-cyan-300 transition-colors"
+        >
+          <ChevronLeft size={40} /> Back
+        </button>
+      </div>
     </div>
   );
 };

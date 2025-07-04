@@ -178,7 +178,7 @@ export default function StudentDashboard() {
           </div>
         </div>
         <div
-          className="absolute top-[1.3rem] right-[9rem] group cursor-pointer"
+          className="absolute top-[1.3rem] right-[10rem] group cursor-pointer"
           onClick={() => logout()}
         >
           <div className="relative flex items-center justify-center p-2 rounded-full  transition">
@@ -191,14 +191,14 @@ export default function StudentDashboard() {
 
         {premiumStatus?.features?.includes("AI_CHATBOT") && <ChatBot />}
 
-        <div className="ml-6 mt-4">
+        <div className="ml-8 mt-4">
           {premiumStatus?.isPremium ? (
             <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-green-300 bg-gradient-to-br from-green-800/40 to-cyan-700/40 shadow-md">
-              🌟 Premium User
+              🌟 Premium Student
             </span>
           ) : (
             <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-red-300 bg-gradient-to-br from-red-800/40 to-cyan-700/40 shadow-md">
-              Normal User
+              Normal Student
             </span>
           )}
         </div>

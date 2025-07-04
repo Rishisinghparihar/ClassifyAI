@@ -41,7 +41,7 @@ const HorizontalBar: React.FC<Props> = ({
       {locked && (
         <div className="absolute inset-0 rounded-4xl flex items-center justify-center">
           <div className="text-white text-sm bg-cyan-600 px-3 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            Gareeb premium khareed
+            Premium Feature
           </div>
         </div>
       )}
