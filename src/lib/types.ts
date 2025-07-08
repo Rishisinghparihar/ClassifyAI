@@ -70,3 +70,13 @@ export interface BunkStats {
   percentage: number;
   safeBunks: number;
 }
+
+export interface RecentAttendance {
+  id: string;
+  student: {
+    name: string;
+  };
+  subject: string;
+  date: string;
+  status: string;
+}
