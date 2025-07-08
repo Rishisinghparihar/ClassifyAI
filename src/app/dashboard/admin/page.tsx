@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { Tektur } from "next/font/google";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+import Logo from "@/components/admin/Logo";
 
 // ✅ Load Tektur font
 const tektur = Tektur({
@@ -20,13 +22,18 @@ export default function AdminDashboard() {
   return (
     <div className={`h-screen flex w-screen bg-black ${tektur.className}`}>
       {/* LEFT */}
-      <div className="border h-screen w-[19.33vw]"></div>
+      <div className=" h-screen w-[19.33vw]">
+        <Logo/>
+        <div className="grid place-items-center p-5">
+        <AdminSidebar/>
+        </div>
+      </div>
 
       {/* CENTER */}
       <div className="border h-screen w-[60.33vw]"></div>
 
       {/* RIGHT */}
-      <div className="border h-screen w-[20.33vw] relative right-side overflow-hidden">
+      <div className="h-screen w-[20.33vw] relative right-side overflow-hidden">
         <div className="text-white p-4 h-full flex flex-col gap-4">
           <div className="ml-40 mb-4">
             <ProfileCard />
