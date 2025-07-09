@@ -7,11 +7,12 @@ import { Tektur } from "next/font/google";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGauge,
   faUsers,
   faCalendarDays,
   faCrown,
   faGear,
+  faArrowRightFromBracket,
+  faChartSimple,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,11 +23,12 @@ const tektur = Tektur({
 });
 
 const links = [
-  { href: "/admin/dashboard", icon: faGauge, label: "Dashboard" },
-  { href: "/admin/users", icon: faUsers, label: "Manage Users" },
+  { href: "/dashboard/admin", icon: faChartSimple, label: "Dashboard" },
+  { href: "/dashboard/admin/users", icon: faUsers, label: "Manage Users" },
   { href: "/admin/events", icon: faCalendarDays, label: "Events" },
   { href: "/admin/premium", icon: faCrown, label: "Premium" },
   { href: "/admin/settings", icon: faGear, label: "Settings" },
+  { href: "/admin/logout", icon: faArrowRightFromBracket, label: "Logout" },
 ];
 
 const AdminSidebar = () => {
@@ -61,8 +63,8 @@ const AdminSidebar = () => {
               href={link.href}
               className={`px-3 py-2 rounded flex items-center justify-center text-3xl ${
                 pathname === link.href
-                  ? "text-cyan-600"
-                  : "hover:text-cyan-700/30"
+                  ? "text-orange-600"
+                  : "hover:text-orange-700/30"
               }`}
             >
               <FontAwesomeIcon icon={link.icon} />
