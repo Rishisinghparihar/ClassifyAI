@@ -1,3 +1,4 @@
+import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
@@ -71,6 +72,7 @@ export async function POST() {
       subject: `Your Monthly Attendance Report`,
       html,
     });
+    await logActivity(user.id, `Sent montly reports to ${user.name}`);
   }
   return NextResponse.json({ success: true, message: "Reports sent." });
 }

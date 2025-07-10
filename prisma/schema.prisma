@@ -25,6 +25,7 @@ model User {
   premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
   premiumExpiresAt DateTime? // <--- Add this line
   GoogleToken      GoogleToken[]
+  RecentActivity   RecentActivity[]
 }
 
 model Attendance {
@@ -70,6 +71,14 @@ model GoogleToken {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model RecentActivity {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String // description of the activity
+  timestamp DateTime @default(now())
 }
 
 enum EventType {

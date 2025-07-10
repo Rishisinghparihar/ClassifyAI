@@ -1,3 +1,4 @@
+import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -11,6 +12,7 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
+    await logActivity(user.id, `Login By ${user.name}-${user.role}`)
     return NextResponse.json({ user }, { status: 200 });
   } catch (err) {
     console.error(err);

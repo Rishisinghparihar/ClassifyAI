@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { logActivity } from "@/lib/helper";
 
 const planFeatureMap: Record<string, string[]> = {
   Starter: [],
@@ -72,7 +73,7 @@ export async function POST(req: NextRequest) {
         },
       },
     });
-
+  await logActivity(userId, `${userId} bought ${planName} premium.`)
     if (features.includes("CALENDAR_SYNC")) {
       const { google } = await import("googleapis");
       const userTokens = await prisma.googleToken.findUnique({

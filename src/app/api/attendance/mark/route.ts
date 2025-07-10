@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { logActivity } from "@/lib/helper";
 
 export async function POST(req: Request) {
   try {
@@ -39,7 +40,7 @@ const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate
         markedBy: "SYSTEM", // or the appropriate user identifier
       },
     });
-
+    await logActivity(studentId, `Marked attendance for ${tokenRecord.subject}.`)
     return NextResponse.json({ message: "Attendance marked" }, { status: 200 });
   } catch (error) {
     console.error("Error marking attendance:", error);

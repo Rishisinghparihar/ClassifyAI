@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { logActivity } from "@/lib/helper";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -31,6 +32,6 @@ export async function GET(req: NextRequest) {
       refreshToken: tokens.refresh_token ?? undefined,
     },
   });
-
+  await logActivity(userId, `Calendar Synced.`)
   return NextResponse.redirect("/dashboard"); // ✅ redirect after storing token
 }

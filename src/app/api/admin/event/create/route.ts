@@ -1,3 +1,4 @@
+import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
         createdBy,
       },
     });
+    await logActivity(createdBy, `${title} Event created`);
     return NextResponse.json(
       { message: "Event created successfully" },
       { status: 201 }

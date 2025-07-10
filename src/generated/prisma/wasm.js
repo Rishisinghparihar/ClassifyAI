@@ -172,6 +172,13 @@ exports.Prisma.GoogleTokenScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RecentActivityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  timestamp: 'timestamp'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -204,7 +211,8 @@ exports.Prisma.ModelName = {
   AttendanceToken: 'AttendanceToken',
   PremiumFeature: 'PremiumFeature',
   Event: 'Event',
-  GoogleToken: 'GoogleToken'
+  GoogleToken: 'GoogleToken',
+  RecentActivity: 'RecentActivity'
 };
 
 /**

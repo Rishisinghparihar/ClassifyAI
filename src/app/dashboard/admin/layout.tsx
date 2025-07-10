@@ -34,7 +34,7 @@ export default function AdminLayout({
       </div>
 
       {/* CENTER */}
-      <div className="border h-screen w-[60.33vw]">{children}</div>
+      <div className=" h-screen w-[60.33vw]">{children}</div>
 
       {/* RIGHT */}
       <div className="h-screen w-[20.33vw] relative right-side overflow-hidden">

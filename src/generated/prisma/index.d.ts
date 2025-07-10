@@ -43,6 +43,11 @@ export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
  * 
  */
 export type GoogleToken = $Result.DefaultSelection<Prisma.$GoogleTokenPayload>
+/**
+ * Model RecentActivity
+ * 
+ */
+export type RecentActivity = $Result.DefaultSelection<Prisma.$RecentActivityPayload>
 
 /**
  * Enums
@@ -272,6 +277,16 @@ export class PrismaClient<
     * ```
     */
   get googleToken(): Prisma.GoogleTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.recentActivity`: Exposes CRUD operations for the **RecentActivity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RecentActivities
+    * const recentActivities = await prisma.recentActivity.findMany()
+    * ```
+    */
+  get recentActivity(): Prisma.RecentActivityDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -717,7 +732,8 @@ export namespace Prisma {
     AttendanceToken: 'AttendanceToken',
     PremiumFeature: 'PremiumFeature',
     Event: 'Event',
-    GoogleToken: 'GoogleToken'
+    GoogleToken: 'GoogleToken',
+    RecentActivity: 'RecentActivity'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -736,7 +752,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "attendance" | "attendanceToken" | "premiumFeature" | "event" | "googleToken"
+      modelProps: "user" | "attendance" | "attendanceToken" | "premiumFeature" | "event" | "googleToken" | "recentActivity"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1184,6 +1200,80 @@ export namespace Prisma {
           }
         }
       }
+      RecentActivity: {
+        payload: Prisma.$RecentActivityPayload<ExtArgs>
+        fields: Prisma.RecentActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecentActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecentActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.RecentActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecentActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          findMany: {
+            args: Prisma.RecentActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>[]
+          }
+          create: {
+            args: Prisma.RecentActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          createMany: {
+            args: Prisma.RecentActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RecentActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.RecentActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          update: {
+            args: Prisma.RecentActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.RecentActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecentActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RecentActivityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>[]
+          }
+          upsert: {
+            args: Prisma.RecentActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecentActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.RecentActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRecentActivity>
+          }
+          groupBy: {
+            args: Prisma.RecentActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RecentActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecentActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<RecentActivityCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1274,6 +1364,7 @@ export namespace Prisma {
     premiumFeature?: PremiumFeatureOmit
     event?: EventOmit
     googleToken?: GoogleTokenOmit
+    recentActivity?: RecentActivityOmit
   }
 
   /* Types for Logging */
@@ -1371,12 +1462,14 @@ export namespace Prisma {
     attendance: number
     premiumFeatures: number
     GoogleToken: number
+    RecentActivity: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | UserCountOutputTypeCountAttendanceArgs
     premiumFeatures?: boolean | UserCountOutputTypeCountPremiumFeaturesArgs
     GoogleToken?: boolean | UserCountOutputTypeCountGoogleTokenArgs
+    RecentActivity?: boolean | UserCountOutputTypeCountRecentActivityArgs
   }
 
   // Custom InputTypes
@@ -1409,6 +1502,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGoogleTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GoogleTokenWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecentActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecentActivityWhereInput
   }
 
 
@@ -1630,6 +1730,7 @@ export namespace Prisma {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     GoogleToken?: boolean | User$GoogleTokenArgs<ExtArgs>
+    RecentActivity?: boolean | User$RecentActivityArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1668,6 +1769,7 @@ export namespace Prisma {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     GoogleToken?: boolean | User$GoogleTokenArgs<ExtArgs>
+    RecentActivity?: boolean | User$RecentActivityArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1679,6 +1781,7 @@ export namespace Prisma {
       attendance: Prisma.$AttendancePayload<ExtArgs>[]
       premiumFeatures: Prisma.$PremiumFeaturePayload<ExtArgs>[]
       GoogleToken: Prisma.$GoogleTokenPayload<ExtArgs>[]
+      RecentActivity: Prisma.$RecentActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2085,6 +2188,7 @@ export namespace Prisma {
     attendance<T extends User$attendanceArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     premiumFeatures<T extends User$premiumFeaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$premiumFeaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PremiumFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     GoogleToken<T extends User$GoogleTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$GoogleTokenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoogleTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    RecentActivity<T extends User$RecentActivityArgs<ExtArgs> = {}>(args?: Subset<T, User$RecentActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2578,6 +2682,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GoogleTokenScalarFieldEnum | GoogleTokenScalarFieldEnum[]
+  }
+
+  /**
+   * User.RecentActivity
+   */
+  export type User$RecentActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    where?: RecentActivityWhereInput
+    orderBy?: RecentActivityOrderByWithRelationInput | RecentActivityOrderByWithRelationInput[]
+    cursor?: RecentActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecentActivityScalarFieldEnum | RecentActivityScalarFieldEnum[]
   }
 
   /**
@@ -7802,6 +7930,1051 @@ export namespace Prisma {
 
 
   /**
+   * Model RecentActivity
+   */
+
+  export type AggregateRecentActivity = {
+    _count: RecentActivityCountAggregateOutputType | null
+    _min: RecentActivityMinAggregateOutputType | null
+    _max: RecentActivityMaxAggregateOutputType | null
+  }
+
+  export type RecentActivityMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    action: string | null
+    timestamp: Date | null
+  }
+
+  export type RecentActivityMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    action: string | null
+    timestamp: Date | null
+  }
+
+  export type RecentActivityCountAggregateOutputType = {
+    id: number
+    userId: number
+    action: number
+    timestamp: number
+    _all: number
+  }
+
+
+  export type RecentActivityMinAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    timestamp?: true
+  }
+
+  export type RecentActivityMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    timestamp?: true
+  }
+
+  export type RecentActivityCountAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    timestamp?: true
+    _all?: true
+  }
+
+  export type RecentActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecentActivity to aggregate.
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecentActivities to fetch.
+     */
+    orderBy?: RecentActivityOrderByWithRelationInput | RecentActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecentActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecentActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecentActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RecentActivities
+    **/
+    _count?: true | RecentActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecentActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecentActivityMaxAggregateInputType
+  }
+
+  export type GetRecentActivityAggregateType<T extends RecentActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecentActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecentActivity[P]>
+      : GetScalarType<T[P], AggregateRecentActivity[P]>
+  }
+
+
+
+
+  export type RecentActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecentActivityWhereInput
+    orderBy?: RecentActivityOrderByWithAggregationInput | RecentActivityOrderByWithAggregationInput[]
+    by: RecentActivityScalarFieldEnum[] | RecentActivityScalarFieldEnum
+    having?: RecentActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecentActivityCountAggregateInputType | true
+    _min?: RecentActivityMinAggregateInputType
+    _max?: RecentActivityMaxAggregateInputType
+  }
+
+  export type RecentActivityGroupByOutputType = {
+    id: string
+    userId: string
+    action: string
+    timestamp: Date
+    _count: RecentActivityCountAggregateOutputType | null
+    _min: RecentActivityMinAggregateOutputType | null
+    _max: RecentActivityMaxAggregateOutputType | null
+  }
+
+  type GetRecentActivityGroupByPayload<T extends RecentActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecentActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecentActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecentActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], RecentActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecentActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    timestamp?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recentActivity"]>
+
+  export type RecentActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    timestamp?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recentActivity"]>
+
+  export type RecentActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    timestamp?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recentActivity"]>
+
+  export type RecentActivitySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    timestamp?: boolean
+  }
+
+  export type RecentActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "timestamp", ExtArgs["result"]["recentActivity"]>
+  export type RecentActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RecentActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RecentActivityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RecentActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RecentActivity"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      action: string
+      timestamp: Date
+    }, ExtArgs["result"]["recentActivity"]>
+    composites: {}
+  }
+
+  type RecentActivityGetPayload<S extends boolean | null | undefined | RecentActivityDefaultArgs> = $Result.GetResult<Prisma.$RecentActivityPayload, S>
+
+  type RecentActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RecentActivityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RecentActivityCountAggregateInputType | true
+    }
+
+  export interface RecentActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RecentActivity'], meta: { name: 'RecentActivity' } }
+    /**
+     * Find zero or one RecentActivity that matches the filter.
+     * @param {RecentActivityFindUniqueArgs} args - Arguments to find a RecentActivity
+     * @example
+     * // Get one RecentActivity
+     * const recentActivity = await prisma.recentActivity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RecentActivityFindUniqueArgs>(args: SelectSubset<T, RecentActivityFindUniqueArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RecentActivity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RecentActivityFindUniqueOrThrowArgs} args - Arguments to find a RecentActivity
+     * @example
+     * // Get one RecentActivity
+     * const recentActivity = await prisma.recentActivity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RecentActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, RecentActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecentActivity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityFindFirstArgs} args - Arguments to find a RecentActivity
+     * @example
+     * // Get one RecentActivity
+     * const recentActivity = await prisma.recentActivity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RecentActivityFindFirstArgs>(args?: SelectSubset<T, RecentActivityFindFirstArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecentActivity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityFindFirstOrThrowArgs} args - Arguments to find a RecentActivity
+     * @example
+     * // Get one RecentActivity
+     * const recentActivity = await prisma.recentActivity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RecentActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, RecentActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RecentActivities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RecentActivities
+     * const recentActivities = await prisma.recentActivity.findMany()
+     * 
+     * // Get first 10 RecentActivities
+     * const recentActivities = await prisma.recentActivity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recentActivityWithIdOnly = await prisma.recentActivity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RecentActivityFindManyArgs>(args?: SelectSubset<T, RecentActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RecentActivity.
+     * @param {RecentActivityCreateArgs} args - Arguments to create a RecentActivity.
+     * @example
+     * // Create one RecentActivity
+     * const RecentActivity = await prisma.recentActivity.create({
+     *   data: {
+     *     // ... data to create a RecentActivity
+     *   }
+     * })
+     * 
+     */
+    create<T extends RecentActivityCreateArgs>(args: SelectSubset<T, RecentActivityCreateArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RecentActivities.
+     * @param {RecentActivityCreateManyArgs} args - Arguments to create many RecentActivities.
+     * @example
+     * // Create many RecentActivities
+     * const recentActivity = await prisma.recentActivity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RecentActivityCreateManyArgs>(args?: SelectSubset<T, RecentActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RecentActivities and returns the data saved in the database.
+     * @param {RecentActivityCreateManyAndReturnArgs} args - Arguments to create many RecentActivities.
+     * @example
+     * // Create many RecentActivities
+     * const recentActivity = await prisma.recentActivity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RecentActivities and only return the `id`
+     * const recentActivityWithIdOnly = await prisma.recentActivity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RecentActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, RecentActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RecentActivity.
+     * @param {RecentActivityDeleteArgs} args - Arguments to delete one RecentActivity.
+     * @example
+     * // Delete one RecentActivity
+     * const RecentActivity = await prisma.recentActivity.delete({
+     *   where: {
+     *     // ... filter to delete one RecentActivity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RecentActivityDeleteArgs>(args: SelectSubset<T, RecentActivityDeleteArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RecentActivity.
+     * @param {RecentActivityUpdateArgs} args - Arguments to update one RecentActivity.
+     * @example
+     * // Update one RecentActivity
+     * const recentActivity = await prisma.recentActivity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RecentActivityUpdateArgs>(args: SelectSubset<T, RecentActivityUpdateArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RecentActivities.
+     * @param {RecentActivityDeleteManyArgs} args - Arguments to filter RecentActivities to delete.
+     * @example
+     * // Delete a few RecentActivities
+     * const { count } = await prisma.recentActivity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RecentActivityDeleteManyArgs>(args?: SelectSubset<T, RecentActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecentActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RecentActivities
+     * const recentActivity = await prisma.recentActivity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RecentActivityUpdateManyArgs>(args: SelectSubset<T, RecentActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecentActivities and returns the data updated in the database.
+     * @param {RecentActivityUpdateManyAndReturnArgs} args - Arguments to update many RecentActivities.
+     * @example
+     * // Update many RecentActivities
+     * const recentActivity = await prisma.recentActivity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RecentActivities and only return the `id`
+     * const recentActivityWithIdOnly = await prisma.recentActivity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RecentActivityUpdateManyAndReturnArgs>(args: SelectSubset<T, RecentActivityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RecentActivity.
+     * @param {RecentActivityUpsertArgs} args - Arguments to update or create a RecentActivity.
+     * @example
+     * // Update or create a RecentActivity
+     * const recentActivity = await prisma.recentActivity.upsert({
+     *   create: {
+     *     // ... data to create a RecentActivity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RecentActivity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RecentActivityUpsertArgs>(args: SelectSubset<T, RecentActivityUpsertArgs<ExtArgs>>): Prisma__RecentActivityClient<$Result.GetResult<Prisma.$RecentActivityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RecentActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityCountArgs} args - Arguments to filter RecentActivities to count.
+     * @example
+     * // Count the number of RecentActivities
+     * const count = await prisma.recentActivity.count({
+     *   where: {
+     *     // ... the filter for the RecentActivities we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecentActivityCountArgs>(
+      args?: Subset<T, RecentActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecentActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RecentActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecentActivityAggregateArgs>(args: Subset<T, RecentActivityAggregateArgs>): Prisma.PrismaPromise<GetRecentActivityAggregateType<T>>
+
+    /**
+     * Group by RecentActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecentActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecentActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecentActivityGroupByArgs['orderBy'] }
+        : { orderBy?: RecentActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecentActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecentActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RecentActivity model
+   */
+  readonly fields: RecentActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RecentActivity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecentActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RecentActivity model
+   */
+  interface RecentActivityFieldRefs {
+    readonly id: FieldRef<"RecentActivity", 'String'>
+    readonly userId: FieldRef<"RecentActivity", 'String'>
+    readonly action: FieldRef<"RecentActivity", 'String'>
+    readonly timestamp: FieldRef<"RecentActivity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RecentActivity findUnique
+   */
+  export type RecentActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which RecentActivity to fetch.
+     */
+    where: RecentActivityWhereUniqueInput
+  }
+
+  /**
+   * RecentActivity findUniqueOrThrow
+   */
+  export type RecentActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which RecentActivity to fetch.
+     */
+    where: RecentActivityWhereUniqueInput
+  }
+
+  /**
+   * RecentActivity findFirst
+   */
+  export type RecentActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which RecentActivity to fetch.
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecentActivities to fetch.
+     */
+    orderBy?: RecentActivityOrderByWithRelationInput | RecentActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecentActivities.
+     */
+    cursor?: RecentActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecentActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecentActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecentActivities.
+     */
+    distinct?: RecentActivityScalarFieldEnum | RecentActivityScalarFieldEnum[]
+  }
+
+  /**
+   * RecentActivity findFirstOrThrow
+   */
+  export type RecentActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which RecentActivity to fetch.
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecentActivities to fetch.
+     */
+    orderBy?: RecentActivityOrderByWithRelationInput | RecentActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecentActivities.
+     */
+    cursor?: RecentActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecentActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecentActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecentActivities.
+     */
+    distinct?: RecentActivityScalarFieldEnum | RecentActivityScalarFieldEnum[]
+  }
+
+  /**
+   * RecentActivity findMany
+   */
+  export type RecentActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which RecentActivities to fetch.
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecentActivities to fetch.
+     */
+    orderBy?: RecentActivityOrderByWithRelationInput | RecentActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RecentActivities.
+     */
+    cursor?: RecentActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecentActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecentActivities.
+     */
+    skip?: number
+    distinct?: RecentActivityScalarFieldEnum | RecentActivityScalarFieldEnum[]
+  }
+
+  /**
+   * RecentActivity create
+   */
+  export type RecentActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RecentActivity.
+     */
+    data: XOR<RecentActivityCreateInput, RecentActivityUncheckedCreateInput>
+  }
+
+  /**
+   * RecentActivity createMany
+   */
+  export type RecentActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RecentActivities.
+     */
+    data: RecentActivityCreateManyInput | RecentActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RecentActivity createManyAndReturn
+   */
+  export type RecentActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * The data used to create many RecentActivities.
+     */
+    data: RecentActivityCreateManyInput | RecentActivityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecentActivity update
+   */
+  export type RecentActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RecentActivity.
+     */
+    data: XOR<RecentActivityUpdateInput, RecentActivityUncheckedUpdateInput>
+    /**
+     * Choose, which RecentActivity to update.
+     */
+    where: RecentActivityWhereUniqueInput
+  }
+
+  /**
+   * RecentActivity updateMany
+   */
+  export type RecentActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RecentActivities.
+     */
+    data: XOR<RecentActivityUpdateManyMutationInput, RecentActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which RecentActivities to update
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * Limit how many RecentActivities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecentActivity updateManyAndReturn
+   */
+  export type RecentActivityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * The data used to update RecentActivities.
+     */
+    data: XOR<RecentActivityUpdateManyMutationInput, RecentActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which RecentActivities to update
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * Limit how many RecentActivities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecentActivity upsert
+   */
+  export type RecentActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RecentActivity to update in case it exists.
+     */
+    where: RecentActivityWhereUniqueInput
+    /**
+     * In case the RecentActivity found by the `where` argument doesn't exist, create a new RecentActivity with this data.
+     */
+    create: XOR<RecentActivityCreateInput, RecentActivityUncheckedCreateInput>
+    /**
+     * In case the RecentActivity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecentActivityUpdateInput, RecentActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * RecentActivity delete
+   */
+  export type RecentActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+    /**
+     * Filter which RecentActivity to delete.
+     */
+    where: RecentActivityWhereUniqueInput
+  }
+
+  /**
+   * RecentActivity deleteMany
+   */
+  export type RecentActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecentActivities to delete
+     */
+    where?: RecentActivityWhereInput
+    /**
+     * Limit how many RecentActivities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecentActivity without action
+   */
+  export type RecentActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecentActivity
+     */
+    select?: RecentActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecentActivity
+     */
+    omit?: RecentActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecentActivityInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7883,6 +9056,16 @@ export namespace Prisma {
   };
 
   export type GoogleTokenScalarFieldEnum = (typeof GoogleTokenScalarFieldEnum)[keyof typeof GoogleTokenScalarFieldEnum]
+
+
+  export const RecentActivityScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    action: 'action',
+    timestamp: 'timestamp'
+  };
+
+  export type RecentActivityScalarFieldEnum = (typeof RecentActivityScalarFieldEnum)[keyof typeof RecentActivityScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8008,6 +9191,7 @@ export namespace Prisma {
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
     GoogleToken?: GoogleTokenListRelationFilter
+    RecentActivity?: RecentActivityListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8021,6 +9205,7 @@ export namespace Prisma {
     attendance?: AttendanceOrderByRelationAggregateInput
     premiumFeatures?: PremiumFeatureOrderByRelationAggregateInput
     GoogleToken?: GoogleTokenOrderByRelationAggregateInput
+    RecentActivity?: RecentActivityOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8037,6 +9222,7 @@ export namespace Prisma {
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
     GoogleToken?: GoogleTokenListRelationFilter
+    RecentActivity?: RecentActivityListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8344,6 +9530,56 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"GoogleToken"> | Date | string
   }
 
+  export type RecentActivityWhereInput = {
+    AND?: RecentActivityWhereInput | RecentActivityWhereInput[]
+    OR?: RecentActivityWhereInput[]
+    NOT?: RecentActivityWhereInput | RecentActivityWhereInput[]
+    id?: StringFilter<"RecentActivity"> | string
+    userId?: StringFilter<"RecentActivity"> | string
+    action?: StringFilter<"RecentActivity"> | string
+    timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RecentActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    timestamp?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RecentActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RecentActivityWhereInput | RecentActivityWhereInput[]
+    OR?: RecentActivityWhereInput[]
+    NOT?: RecentActivityWhereInput | RecentActivityWhereInput[]
+    userId?: StringFilter<"RecentActivity"> | string
+    action?: StringFilter<"RecentActivity"> | string
+    timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RecentActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    timestamp?: SortOrder
+    _count?: RecentActivityCountOrderByAggregateInput
+    _max?: RecentActivityMaxOrderByAggregateInput
+    _min?: RecentActivityMinOrderByAggregateInput
+  }
+
+  export type RecentActivityScalarWhereWithAggregatesInput = {
+    AND?: RecentActivityScalarWhereWithAggregatesInput | RecentActivityScalarWhereWithAggregatesInput[]
+    OR?: RecentActivityScalarWhereWithAggregatesInput[]
+    NOT?: RecentActivityScalarWhereWithAggregatesInput | RecentActivityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RecentActivity"> | string
+    userId?: StringWithAggregatesFilter<"RecentActivity"> | string
+    action?: StringWithAggregatesFilter<"RecentActivity"> | string
+    timestamp?: DateTimeWithAggregatesFilter<"RecentActivity"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -8355,6 +9591,7 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8368,6 +9605,7 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8381,6 +9619,7 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8394,6 +9633,7 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8722,6 +9962,54 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RecentActivityCreateInput = {
+    id?: string
+    action: string
+    timestamp?: Date | string
+    user: UserCreateNestedOneWithoutRecentActivityInput
+  }
+
+  export type RecentActivityUncheckedCreateInput = {
+    id?: string
+    userId: string
+    action: string
+    timestamp?: Date | string
+  }
+
+  export type RecentActivityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecentActivityNestedInput
+  }
+
+  export type RecentActivityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecentActivityCreateManyInput = {
+    id?: string
+    userId: string
+    action: string
+    timestamp?: Date | string
+  }
+
+  export type RecentActivityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecentActivityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8789,6 +10077,12 @@ export namespace Prisma {
     none?: GoogleTokenWhereInput
   }
 
+  export type RecentActivityListRelationFilter = {
+    every?: RecentActivityWhereInput
+    some?: RecentActivityWhereInput
+    none?: RecentActivityWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8803,6 +10097,10 @@ export namespace Prisma {
   }
 
   export type GoogleTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecentActivityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9091,6 +10389,27 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type RecentActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type RecentActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type RecentActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    timestamp?: SortOrder
+  }
+
   export type AttendanceCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -9111,6 +10430,13 @@ export namespace Prisma {
     connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
   }
 
+  export type RecentActivityCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput> | RecentActivityCreateWithoutUserInput[] | RecentActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecentActivityCreateOrConnectWithoutUserInput | RecentActivityCreateOrConnectWithoutUserInput[]
+    createMany?: RecentActivityCreateManyUserInputEnvelope
+    connect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+  }
+
   export type AttendanceUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -9129,6 +10455,13 @@ export namespace Prisma {
     connectOrCreate?: GoogleTokenCreateOrConnectWithoutUserInput | GoogleTokenCreateOrConnectWithoutUserInput[]
     createMany?: GoogleTokenCreateManyUserInputEnvelope
     connect?: GoogleTokenWhereUniqueInput | GoogleTokenWhereUniqueInput[]
+  }
+
+  export type RecentActivityUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput> | RecentActivityCreateWithoutUserInput[] | RecentActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecentActivityCreateOrConnectWithoutUserInput | RecentActivityCreateOrConnectWithoutUserInput[]
+    createMany?: RecentActivityCreateManyUserInputEnvelope
+    connect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9192,6 +10525,20 @@ export namespace Prisma {
     deleteMany?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
   }
 
+  export type RecentActivityUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput> | RecentActivityCreateWithoutUserInput[] | RecentActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecentActivityCreateOrConnectWithoutUserInput | RecentActivityCreateOrConnectWithoutUserInput[]
+    upsert?: RecentActivityUpsertWithWhereUniqueWithoutUserInput | RecentActivityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecentActivityCreateManyUserInputEnvelope
+    set?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    disconnect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    delete?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    connect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    update?: RecentActivityUpdateWithWhereUniqueWithoutUserInput | RecentActivityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecentActivityUpdateManyWithWhereWithoutUserInput | RecentActivityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecentActivityScalarWhereInput | RecentActivityScalarWhereInput[]
+  }
+
   export type AttendanceUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -9231,6 +10578,20 @@ export namespace Prisma {
     update?: GoogleTokenUpdateWithWhereUniqueWithoutUserInput | GoogleTokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: GoogleTokenUpdateManyWithWhereWithoutUserInput | GoogleTokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: GoogleTokenScalarWhereInput | GoogleTokenScalarWhereInput[]
+  }
+
+  export type RecentActivityUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput> | RecentActivityCreateWithoutUserInput[] | RecentActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecentActivityCreateOrConnectWithoutUserInput | RecentActivityCreateOrConnectWithoutUserInput[]
+    upsert?: RecentActivityUpsertWithWhereUniqueWithoutUserInput | RecentActivityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecentActivityCreateManyUserInputEnvelope
+    set?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    disconnect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    delete?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    connect?: RecentActivityWhereUniqueInput | RecentActivityWhereUniqueInput[]
+    update?: RecentActivityUpdateWithWhereUniqueWithoutUserInput | RecentActivityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecentActivityUpdateManyWithWhereWithoutUserInput | RecentActivityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecentActivityScalarWhereInput | RecentActivityScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAttendanceInput = {
@@ -9305,6 +10666,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutGoogleTokenInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoogleTokenInput, UserUpdateWithoutGoogleTokenInput>, UserUncheckedUpdateWithoutGoogleTokenInput>
+  }
+
+  export type UserCreateNestedOneWithoutRecentActivityInput = {
+    create?: XOR<UserCreateWithoutRecentActivityInput, UserUncheckedCreateWithoutRecentActivityInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecentActivityInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRecentActivityNestedInput = {
+    create?: XOR<UserCreateWithoutRecentActivityInput, UserUncheckedCreateWithoutRecentActivityInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecentActivityInput
+    upsert?: UserUpsertWithoutRecentActivityInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecentActivityInput, UserUpdateWithoutRecentActivityInput>, UserUncheckedUpdateWithoutRecentActivityInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9555,6 +10930,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RecentActivityCreateWithoutUserInput = {
+    id?: string
+    action: string
+    timestamp?: Date | string
+  }
+
+  export type RecentActivityUncheckedCreateWithoutUserInput = {
+    id?: string
+    action: string
+    timestamp?: Date | string
+  }
+
+  export type RecentActivityCreateOrConnectWithoutUserInput = {
+    where: RecentActivityWhereUniqueInput
+    create: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecentActivityCreateManyUserInputEnvelope = {
+    data: RecentActivityCreateManyUserInput | RecentActivityCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AttendanceUpsertWithWhereUniqueWithoutStudentInput = {
     where: AttendanceWhereUniqueInput
     update: XOR<AttendanceUpdateWithoutStudentInput, AttendanceUncheckedUpdateWithoutStudentInput>
@@ -9635,6 +11032,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"GoogleToken"> | Date | string
   }
 
+  export type RecentActivityUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecentActivityWhereUniqueInput
+    update: XOR<RecentActivityUpdateWithoutUserInput, RecentActivityUncheckedUpdateWithoutUserInput>
+    create: XOR<RecentActivityCreateWithoutUserInput, RecentActivityUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecentActivityUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecentActivityWhereUniqueInput
+    data: XOR<RecentActivityUpdateWithoutUserInput, RecentActivityUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecentActivityUpdateManyWithWhereWithoutUserInput = {
+    where: RecentActivityScalarWhereInput
+    data: XOR<RecentActivityUpdateManyMutationInput, RecentActivityUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecentActivityScalarWhereInput = {
+    AND?: RecentActivityScalarWhereInput | RecentActivityScalarWhereInput[]
+    OR?: RecentActivityScalarWhereInput[]
+    NOT?: RecentActivityScalarWhereInput | RecentActivityScalarWhereInput[]
+    id?: StringFilter<"RecentActivity"> | string
+    userId?: StringFilter<"RecentActivity"> | string
+    action?: StringFilter<"RecentActivity"> | string
+    timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
+  }
+
   export type UserCreateWithoutAttendanceInput = {
     id?: string
     name: string
@@ -9645,6 +11068,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -9657,6 +11081,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -9685,6 +11110,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -9697,6 +11123,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPremiumFeaturesInput = {
@@ -9709,6 +11136,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPremiumFeaturesInput = {
@@ -9721,6 +11149,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
+    RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPremiumFeaturesInput = {
@@ -9767,6 +11196,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
+    RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleTokenInput = {
@@ -9779,6 +11209,7 @@ export namespace Prisma {
     premiumExpiresAt?: Date | string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
+    RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleTokenInput = {
@@ -9807,6 +11238,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
+    RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleTokenInput = {
@@ -9819,6 +11251,75 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+    RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutRecentActivityInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
+    attendance?: AttendanceCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecentActivityInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.Role
+    isPremium?: boolean
+    createdAt?: Date | string
+    premiumExpiresAt?: Date | string | null
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
+    GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecentActivityInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecentActivityInput, UserUncheckedCreateWithoutRecentActivityInput>
+  }
+
+  export type UserUpsertWithoutRecentActivityInput = {
+    update: XOR<UserUpdateWithoutRecentActivityInput, UserUncheckedUpdateWithoutRecentActivityInput>
+    create: XOR<UserCreateWithoutRecentActivityInput, UserUncheckedCreateWithoutRecentActivityInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecentActivityInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecentActivityInput, UserUncheckedUpdateWithoutRecentActivityInput>
+  }
+
+  export type UserUpdateWithoutRecentActivityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendance?: AttendanceUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecentActivityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
+    GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AttendanceCreateManyStudentInput = {
@@ -9834,6 +11335,12 @@ export namespace Prisma {
     refreshToken?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type RecentActivityCreateManyUserInput = {
+    id?: string
+    action: string
+    timestamp?: Date | string
   }
 
   export type AttendanceUpdateWithoutStudentInput = {
@@ -9899,6 +11406,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RecentActivityUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecentActivityUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecentActivityUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutPremiumFeaturesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -9909,6 +11434,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPremiumFeaturesInput = {
@@ -9921,6 +11447,7 @@ export namespace Prisma {
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
+    RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPremiumFeaturesInput = {

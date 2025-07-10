@@ -1,3 +1,4 @@
+import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -39,9 +40,10 @@ export async function POST(req: NextRequest) {
           : undefined,
       },
       include: {
-        premiumFeatures: true,
+        premiumFeatures: false,
       },
     });
+    await logActivity(newUser.id, `${newUser.name} added by CLASSIFYAI-admin`)
     return NextResponse.json(newUser, { status: 201 });
   } catch (err) {
     console.error("Error during signup:", err);

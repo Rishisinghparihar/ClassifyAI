@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
 import { prisma } from "@/lib/prisma";
+import { logActivity } from "@/lib/helper";
 
 export async function POST(request: Request) {
   try {
@@ -24,16 +25,14 @@ export async function POST(request: Request) {
         professorId,
         issuedAt,
         expiresAt,
-      }}
-    )
+      },
+    });
+    await logActivity(professorId, `attendance token generated for ${subject}`);
     const payload = JSON.stringify({ token });
 
     const qrCodeDataUrl = await QRCode.toDataURL(payload);
 
-    return NextResponse.json(
-      { qrCodeDataUrl, token },
-      { status: 200 }
-    );
+    return NextResponse.json({ qrCodeDataUrl, token }, { status: 200 });
   } catch (error) {
     console.error("Error generating QR code:", error);
     return NextResponse.json(
