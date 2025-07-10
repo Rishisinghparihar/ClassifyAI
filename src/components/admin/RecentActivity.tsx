@@ -1,68 +1,82 @@
-import React, { useEffect, useState } from "react";
-import { RecentAttendance } from "@/lib/types";
-import { motion } from "framer-motion";
+"use client";
 
-const RecentActivity = ({ expanded }: { expanded: boolean }) => {
-  const [recent, setRecent] = useState<RecentAttendance[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Tektur } from "next/font/google";
+
+const tektur = Tektur({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+interface Activity {
+  id: string;
+  user: {
+    name: string;
+    role: string;
+  };
+  action: string;
+  timestamp: string;
+}
+
+const RecentActivity = () => {
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchRecent = async () => {
-      const res = await fetch("/api/admin/recent-attendance");
-      const data = await res.json();
-      if (data.success) {
-        setRecent(data.recent);
+    const fetchActivities = async () => {
+      try {
+        const res = await fetch("/api/admin/recent-activity");
+        const data = await res.json();
+        if (data.success) {
+          setActivities(data.activities);
+        } else {
+          setError(data.error || "Failed to fetch recent activities.");
+        }
+      } catch (err) {
+        setError("Error fetching recent activities.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-    fetchRecent();
+
+    fetchActivities();
   }, []);
 
   if (loading) {
-    return (
-      <p className="text-gray-400 text-sm animate-pulse">
-        Loading recent activity…
-      </p>
-    );
+    return <p className="text-gray-400">Loading recent activities…</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-400">{error}</p>;
+  }
+
+  if (activities.length === 0) {
+    return <p className="text-gray-400">No recent activities found.</p>;
   }
 
   return (
-    <div className="flex outline-none items-center justify-center w-full">
-      {recent.length === 0 && (
-        <p className="text-gray-400 text-xs">No attendance marked today.</p>
-      )}
-
-      <motion.div
-        layout
-        transition={{ duration: 0.5 }}
-        className="overflow-y-auto outline-none w-full scrollbar-hide"
-        style={{
-          maxHeight: expanded ? "30rem" : "12rem",
-        }}
-      >
-        <ul className="space-y-2 outline-none">
-          {recent.map((rec) => (
-            <li
-              key={rec.id}
-              className="flex justify-between outline-none items-center gap-30 px-4 py-3 hover:cursor-pointer hover:shadow transition-all duration-700 hover:shadow-amber-600 rounded bg-white/5 text-gray-200"
-            >
-              <article className="flex flex-col max-w-[29rem] w-[7rem]">
-                <span className="uppercase text-orange-100">
-                  {rec.student.name}
-                </span>
-                <span className="text-xs">{rec.subject}</span>
-              </article>
-              <span className="uppercase">
-                {rec.status.toUpperCase() === "PRESENT" ? (
-                  <span className="text-orange-600">present</span>
-                ) : (
-                  <span className="text-orange-700">absent</span>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
+    <div>
+      <h3 className={`text-lg font-semibold text-orange-800 mb-4 ${tektur.className}`}>Recent Activity</h3>
+      <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+        {activities.map((activity, idx) => (
+          <motion.li
+            key={activity.id}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: idx * 0.05 }}
+            className="p-3 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-200"
+          >
+            <span className="font-medium text-orange-600">
+              {activity.user.name} ({activity.user.role}):
+            </span>{" "}
+            {activity.action}
+            <div className="text-xs text-gray-400">
+              {new Date(activity.timestamp).toLocaleString()}
+            </div>
+          </motion.li>
+        ))}
+      </ul>
     </div>
   );
 };

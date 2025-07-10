@@ -2,6 +2,12 @@
 
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { motion } from "framer-motion";
+import { Tektur } from "next/font/google";
+
+const tektur = Tektur({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const dummyData = [
   { date: "Mon", attendance: 75 },
@@ -20,14 +26,14 @@ const AttendanceGraph = () => {
       transition={{ duration: 0.5 }}
       className="h-[300px]"
     >
-      <h3 className="text-lg font-semibold text-cyan-300 mb-4">Weekly Attendance</h3>
+      <h3 className={`text-lg font-semibold text-orange-700 ${tektur.className} mb-4 `}>Weekly Attendance</h3>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={dummyData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+          <CartesianGrid stroke="#444" />
           <XAxis dataKey="date" stroke="#ccc" />
           <YAxis stroke="#ccc" />
-          <Tooltip />
-          <Line type="monotone" dataKey="attendance" stroke="#06b6d4" strokeWidth={2} />
+          <Tooltip  />
+          <Line type="monotone" dataKey="attendance" stroke="#b30000" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </motion.div>

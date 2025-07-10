@@ -1,7 +1,6 @@
 "use client";
 
 import ProfileCard from "@/components/admin/ProfileCard";
-import RecentActivity from "@/components/admin/RecentActivity";
 import UpComingEvents from "@/components/admin/UpComingEvents";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -9,6 +8,7 @@ import { useState } from "react";
 import { Tektur } from "next/font/google";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import Logo from "@/components/admin/Logo";
+import RecentAttendancePage from "@/components/admin/RecentAttendance";
 
 // ✅ Load Tektur font
 const tektur = Tektur({
@@ -87,9 +87,9 @@ export default function AdminLayout({
               >
                 <div className="grid place-items-center max-w-full h-full">
                   <h1 className={`${tektur.className} text-2xl mb-2`}>
-                    Recent Activity
+                    Recent Attendance
                   </h1>
-                  <RecentActivity expanded={expanded === "recent"} />
+                  <RecentAttendancePage expanded={expanded === "recent"} />
                   <button
                     onClick={() =>
                       setExpanded(expanded === "recent" ? null : "recent")
