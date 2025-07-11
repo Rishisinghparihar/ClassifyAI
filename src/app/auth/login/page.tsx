@@ -23,7 +23,8 @@ const Page = () => {
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem(`${(data.user.role).toLowerCase()}Id`, data.user.id);
+      console.log(`${(data.user.role).toLowerCase()}Id`);
       showSuccessMessage("Login Successful");
       router.push(`/dashboard/${data.user.role.toLowerCase()}`);
     } else {

@@ -28,7 +28,7 @@ const links = [
   { href: "/admin/events", icon: faCalendarDays, label: "Events" },
   { href: "/admin/premium", icon: faCrown, label: "Premium" },
   { href: "/admin/settings", icon: faGear, label: "Settings" },
-  { href: "/admin/logout", icon: faArrowRightFromBracket, label: "Logout" },
+  { href: "/dashboard/admin/logout", icon: faArrowRightFromBracket, label: "Logout" },
 ];
 
 const AdminSidebar = () => {

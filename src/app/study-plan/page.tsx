@@ -1,145 +1,248 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
-import toast from "react-hot-toast";
+import { useState } from "react";
+import {
+  Sparkles,
+  ClipboardList,
+  CalendarCheck,
+  Lightbulb,
+  CalendarClock,
+  ChevronLeft,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const ScanPage = () => {
-  const router = useRouter();
-  const scannerRef = useRef<Html5QrcodeScanner | null>(null);
-  const scannedRef = useRef(false);
-
+const StudyPlanPage = () => {
+  const [syllabus, setSyllabus] = useState("");
+  const [examDate, setExamDate] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [planData, setPlanData] = useState<{
+    roadmap: string[];
+    importantTopics: string[];
+    importantQuestions: string[];
+    studyPlan: Record<string, string>;
+  } | null>(null);
+  const router = useRouter();
+  const handleGenerate = async () => {
+    if (!syllabus.trim()) return;
 
-  const handleScan = async (decodedText: string) => {
-    if (scannedRef.current) {
-      console.log("Already scanned — ignoring.");
-      return;
-    }
-    scannedRef.current = true;
+    setProgress(0);
     setLoading(true);
 
-    let data;
-    try {
-      data = JSON.parse(decodedText);
-    } catch {
-      toast.error("Invalid QR code format");
-      setLoading(false);
-      return;
-    }
-
-    if (scannerRef.current) {
-      scannerRef.current.clear().then(() => {
-        const el = document.getElementById("reader");
-        if (el) el.innerHTML = "";
-        scannerRef.current = null;
-      }).catch(console.error);
-    }
-
-    try {
-      const res = await fetch("/api/attendance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          studentId: data.studentId,
-          subject: data.subject,
-          status: "Present",
-          markedby: "CLASSIFYAI",
-        }),
+    // Simulate loading progress
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 95) {
+          clearInterval(interval);
+          return prev;
+        }
+        return prev + Math.floor(Math.random() * 5) + 1;
       });
-      const result = await res.json();
-      if (res.ok) {
-        toast.success("Attendance Recorded!");
-        setTimeout(() => {
-          router.replace("/dashboard/student");
-        }, 1000); // show toast & loader before redirect
-      } else {
-        toast.error(result.error || "Failed marking attendance");
-        setLoading(false);
+    }, 150);
+
+    try {
+      const res = await fetch("/api/study-plan/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ syllabus, examDate }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setPlanData(data.data);
+        setProgress(100);
       }
-    } catch (error) {
-      console.error("Error marking attendance: ", error);
-      toast.error("Error marking attendance");
-      setLoading(false);
+    } catch (err) {
+      console.error("Failed to generate plan:", err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false); // Hide loading after showing 100%
+      }, 1000);
     }
   };
+  if (loading) {
+    const radius = 60;
+    const stroke = 8;
+    const normalizedRadius = radius - stroke * 0.5;
+    const circumference = 2 * Math.PI * normalizedRadius;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
 
-  useEffect(() => {
-    const el = document.getElementById("reader");
-    if (el) el.innerHTML = "";
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black/5 text-cyan-400">
+        <div className="relative w-36 h-36">
+          {/* Circular progress */}
+          <svg
+            className="w-full h-full transform -rotate-90"
+            viewBox="0 0 36 36"
+          >
+            <circle
+              cx="18"
+              cy="18"
+              r="16"
+              stroke="#1e293b"
+              strokeWidth="3"
+              fill="none"
+            />
+            <circle
+              cx="18"
+              cy="18"
+              r="16"
+              stroke="#06b6d4"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+              strokeDasharray="100"
+              strokeDashoffset={`${100 - progress}`}
+            />
+          </svg>
 
-    const scanner = new Html5QrcodeScanner(
-      "reader",
-      { fps: 10, qrbox: 250 },
-      false
+          {/* Logo centered absolutely */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img
+              src="/only-logo.png"
+              alt="ClassifyAI"
+              className="w-16 h-16 object-contain"
+            />
+          </div>
+        </div>
+
+        <p className="mt-6 text-xl font-semibold">
+          Generating Your Study Plan...
+        </p>
+        <p className="text-sm text-cyan-300">{progress}%</p>
+      </div>
     );
-
-    scanner.render(handleScan, (err) => {
-      console.error("Error scanning QR Code:", err);
-    });
-
-    scannerRef.current = scanner;
-
-    return () => {
-      if (scannerRef.current) {
-        scannerRef.current.clear().then(() => {
-          const el = document.getElementById("reader");
-          if (el) el.innerHTML = "";
-        }).catch(console.error);
-      }
-    };
-  }, []);
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      {loading ? (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black/5 text-cyan-400">
-          <div className="relative w-36 h-36">
-            <svg
-              className="w-full h-full transform -rotate-90"
-              viewBox="0 0 36 36"
-            >
-              <circle
-                cx="18"
-                cy="18"
-                r="16"
-                stroke="#1e293b"
-                strokeWidth="3"
-                fill="none"
-              />
-              <circle
-                cx="18"
-                cy="18"
-                r="16"
-                stroke="#06b6d4"
-                strokeWidth="3"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray="100"
-                strokeDashoffset="25"
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img
-                src="/only-logo.png"
-                alt="ClassifyAI"
-                className="w-16 h-16 object-contain"
-              />
+    <div className=" mx-auto py-10 px-4">
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => router.push("/dashboard/student")}
+          className="flex items-center justify-center gap-2 rounded-full  text-white hover:text-cyan-300 transition-colors"
+        >
+          <ChevronLeft size={40} />
+        </button>
+      </div>
+      {!planData && (
+        <div className="max-w-6xl h-[55rem] mx-auto bg-white/5 border-4 border-cyan-100/20 rounded-3xl shadow-xl p-8 backdrop-blur-md ">
+          <h1 className="text-3xl font-bold text-cyan-300 mb-2 text-center">
+            🚀 AI-Powered Study Plan
+          </h1>
+          <p className="text-center text-cyan-100 mb-6">
+            Let us craft the perfect plan for you. Paste your syllabus, pick
+            your exam date, and hit generate!
+          </p>
+
+          {/* Syllabus */}
+          <div className="relative w-full mb-6">
+            <textarea
+              placeholder="📄 Paste your syllabus"
+              value={syllabus}
+              onChange={(e) => setSyllabus(e.target.value)}
+              rows={6}
+              className="peer w-full placeholder:text-cyan-50 p-4 border h-[30rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
+            />
+            <p className="text-xs text-cyan-300 mt-1">
+              We recommend copying your syllabus exactly as provided by your
+              teacher.
+            </p>
+          </div>
+
+          {/* Exam Date */}
+          <div className="relative w-full mb-6">
+            <input
+              id="examDate"
+              type="date"
+              value={examDate}
+              onChange={(e) => setExamDate(e.target.value)}
+              className="peer w-full p-4 border border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition placeholder-transparent"
+              placeholder="📅 Exam Date"
+            />
+            <p className="text-xs text-cyan-300 mt-1">
+              Select the date of your final exam.
+            </p>
+          </div>
+
+          {/* Button */}
+          <button
+            disabled={loading}
+            onClick={handleGenerate}
+            className="group w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transform transition hover:-translate-y-1 hover:shadow-cyan-500/30 active:scale-95"
+          >
+            <span className="inline-flex items-center gap-2">
+              ✨ Generate Study Plan
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* 🟩 Show STUDY PLAN */}
+      {planData && (
+        <div className="mt-10 space-y-8 gap-5 flex ">
+          <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
+            <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+              <CalendarCheck className="text-blue-300" />
+              <h2 className="text-xl font-semibold text-cyan-200">
+                Daily Study Plan
+              </h2>
+            </div>
+            <ul className="list-decimal text-lg pl-5 text-gray-300 space-y-3.5">
+              {Object.entries(planData.studyPlan).map(([day, content]) => (
+                <li key={day}>
+                  <strong>{day}:</strong> {content}
+                </li>
+              ))}
+            </ul>
+          </section>
+          <div>
+            <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
+              <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+                <Sparkles className="text-yellow-300" />
+                <h2 className="text-xl font-semibold text-cyan-200">
+                  Study Roadmap
+                </h2>
+              </div>
+              <ul className="list-disc pl-5 text-gray-300 space-y-3.5">
+                {planData.roadmap.map((step, idx) => (
+                  <li key={idx}>{step}</li>
+                ))}
+              </ul>
+            </section>
+            <div className="flex gap-5 mt-5">
+              <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
+                <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+                  <Lightbulb className="text-green-300" />
+                  <h2 className="text-xl font-semibold text-cyan-200">
+                    Important Topics
+                  </h2>
+                </div>
+                <ul className="list-disc pl-5 text-gray-300 space-y-2">
+                  {planData.importantTopics.map((topic, idx) => (
+                    <li key={idx}>{topic}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
+                <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+                  <ClipboardList className="text-pink-400" />
+                  <h2 className="text-xl font-semibold text-cyan-200">
+                    Important Questions
+                  </h2>
+                </div>
+                <ul className="list-decimal pl-5 text-gray-300 space-y-1">
+                  {planData.importantQuestions.map((q, idx) => (
+                    <li key={idx}>{q}</li>
+                  ))}
+                </ul>
+              </section>
             </div>
           </div>
-          <p className="mt-4 text-lg font-medium">Marking Attendance…</p>
         </div>
-      ) : (
-        <>
-          <h2 className="text-center text-xl font-bold my-4">Scan QR Code</h2>
-          <div id="reader" className="w-full max-w-md mx-auto"></div>
-        </>
       )}
     </div>
   );
 };
 
-export default ScanPage;
+export default StudyPlanPage;
