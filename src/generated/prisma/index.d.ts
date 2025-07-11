@@ -1553,8 +1553,20 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    year: number | null
+    semester: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    year: number | null
+    semester: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1565,6 +1577,9 @@ export namespace Prisma {
     isPremium: boolean | null
     createdAt: Date | null
     premiumExpiresAt: Date | null
+    branch: string | null
+    year: number | null
+    semester: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1575,6 +1590,9 @@ export namespace Prisma {
     isPremium: boolean | null
     createdAt: Date | null
     premiumExpiresAt: Date | null
+    branch: string | null
+    year: number | null
+    semester: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1585,9 +1603,22 @@ export namespace Prisma {
     isPremium: number
     createdAt: number
     premiumExpiresAt: number
+    branch: number
+    year: number
+    semester: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    year?: true
+    semester?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    year?: true
+    semester?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1597,6 +1628,9 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     premiumExpiresAt?: true
+    branch?: true
+    year?: true
+    semester?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1607,6 +1641,9 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     premiumExpiresAt?: true
+    branch?: true
+    year?: true
+    semester?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1617,6 +1654,9 @@ export namespace Prisma {
     isPremium?: true
     createdAt?: true
     premiumExpiresAt?: true
+    branch?: true
+    year?: true
+    semester?: true
     _all?: true
   }
 
@@ -1658,6 +1698,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1688,6 +1740,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1700,7 +1754,12 @@ export namespace Prisma {
     isPremium: boolean
     createdAt: Date
     premiumExpiresAt: Date | null
+    branch: string | null
+    year: number | null
+    semester: number | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1727,6 +1786,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     premiumExpiresAt?: boolean
+    branch?: boolean
+    year?: boolean
+    semester?: boolean
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
     GoogleToken?: boolean | User$GoogleTokenArgs<ExtArgs>
@@ -1742,6 +1804,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     premiumExpiresAt?: boolean
+    branch?: boolean
+    year?: boolean
+    semester?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1752,6 +1817,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     premiumExpiresAt?: boolean
+    branch?: boolean
+    year?: boolean
+    semester?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1762,9 +1830,12 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: boolean
     premiumExpiresAt?: boolean
+    branch?: boolean
+    year?: boolean
+    semester?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt" | "premiumExpiresAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "isPremium" | "createdAt" | "premiumExpiresAt" | "branch" | "year" | "semester", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | User$attendanceArgs<ExtArgs>
     premiumFeatures?: boolean | User$premiumFeaturesArgs<ExtArgs>
@@ -1791,6 +1862,9 @@ export namespace Prisma {
       isPremium: boolean
       createdAt: Date
       premiumExpiresAt: Date | null
+      branch: string | null
+      year: number | null
+      semester: number | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2225,6 +2299,9 @@ export namespace Prisma {
     readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly premiumExpiresAt: FieldRef<"User", 'DateTime'>
+    readonly branch: FieldRef<"User", 'String'>
+    readonly year: FieldRef<"User", 'Int'>
+    readonly semester: FieldRef<"User", 'Int'>
   }
     
 
@@ -8995,7 +9072,10 @@ export namespace Prisma {
     role: 'role',
     isPremium: 'isPremium',
     createdAt: 'createdAt',
-    premiumExpiresAt: 'premiumExpiresAt'
+    premiumExpiresAt: 'premiumExpiresAt',
+    branch: 'branch',
+    year: 'year',
+    semester: 'semester'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9147,6 +9227,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'EventType'
    */
   export type EnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventType'>
@@ -9161,16 +9255,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -9188,6 +9282,9 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    branch?: StringNullableFilter<"User"> | string | null
+    year?: IntNullableFilter<"User"> | number | null
+    semester?: IntNullableFilter<"User"> | number | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
     GoogleToken?: GoogleTokenListRelationFilter
@@ -9202,6 +9299,9 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     premiumExpiresAt?: SortOrderInput | SortOrder
+    branch?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    semester?: SortOrderInput | SortOrder
     attendance?: AttendanceOrderByRelationAggregateInput
     premiumFeatures?: PremiumFeatureOrderByRelationAggregateInput
     GoogleToken?: GoogleTokenOrderByRelationAggregateInput
@@ -9219,6 +9319,9 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    branch?: StringNullableFilter<"User"> | string | null
+    year?: IntNullableFilter<"User"> | number | null
+    semester?: IntNullableFilter<"User"> | number | null
     attendance?: AttendanceListRelationFilter
     premiumFeatures?: PremiumFeatureListRelationFilter
     GoogleToken?: GoogleTokenListRelationFilter
@@ -9233,9 +9336,14 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     premiumExpiresAt?: SortOrderInput | SortOrder
+    branch?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    semester?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -9249,6 +9357,9 @@ export namespace Prisma {
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     premiumExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    branch?: StringNullableWithAggregatesFilter<"User"> | string | null
+    year?: IntNullableWithAggregatesFilter<"User"> | number | null
+    semester?: IntNullableWithAggregatesFilter<"User"> | number | null
   }
 
   export type AttendanceWhereInput = {
@@ -9588,6 +9699,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
@@ -9602,6 +9716,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
@@ -9616,6 +9733,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
@@ -9630,6 +9750,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -9644,6 +9767,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -9654,6 +9780,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -9664,6 +9793,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AttendanceCreateInput = {
@@ -10059,6 +10191,32 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type AttendanceListRelationFilter = {
     every?: AttendanceWhereInput
     some?: AttendanceWhereInput
@@ -10112,6 +10270,14 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     premiumExpiresAt?: SortOrder
+    branch?: SortOrder
+    year?: SortOrder
+    semester?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    year?: SortOrder
+    semester?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10122,6 +10288,9 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     premiumExpiresAt?: SortOrder
+    branch?: SortOrder
+    year?: SortOrder
+    semester?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10132,6 +10301,14 @@ export namespace Prisma {
     isPremium?: SortOrder
     createdAt?: SortOrder
     premiumExpiresAt?: SortOrder
+    branch?: SortOrder
+    year?: SortOrder
+    semester?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    year?: SortOrder
+    semester?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10196,6 +10373,40 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -10285,21 +10496,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type EnumEventTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
     in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
@@ -10335,24 +10531,6 @@ export namespace Prisma {
     type?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10482,6 +10660,18 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type AttendanceUpdateManyWithoutStudentNestedInput = {
@@ -10646,10 +10836,6 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type EnumEventTypeFieldUpdateOperationsInput = {
     set?: $Enums.EventType
   }
@@ -10730,6 +10916,31 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10804,38 +11015,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumEventTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10851,6 +11030,40 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventType | EnumEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventType[] | ListEnumEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventTypeFilter<$PrismaModel> | $Enums.EventType
   }
 
   export type NestedEnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11066,6 +11279,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
     RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
@@ -11079,6 +11295,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
     RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
@@ -11108,6 +11327,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
     RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
@@ -11121,6 +11343,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
     RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
@@ -11134,6 +11359,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
     RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
@@ -11147,6 +11375,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
     RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
@@ -11184,6 +11415,9 @@ export namespace Prisma {
     isPremium?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    branch?: StringNullableFilter<"User"> | string | null
+    year?: IntNullableFilter<"User"> | number | null
+    semester?: IntNullableFilter<"User"> | number | null
   }
 
   export type UserCreateWithoutGoogleTokenInput = {
@@ -11194,6 +11428,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     RecentActivity?: RecentActivityCreateNestedManyWithoutUserInput
@@ -11207,6 +11444,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     RecentActivity?: RecentActivityUncheckedCreateNestedManyWithoutUserInput
@@ -11236,6 +11476,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
@@ -11249,6 +11492,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
@@ -11262,6 +11508,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenCreateNestedManyWithoutUserInput
@@ -11275,6 +11524,9 @@ export namespace Prisma {
     isPremium?: boolean
     createdAt?: Date | string
     premiumExpiresAt?: Date | string | null
+    branch?: string | null
+    year?: number | null
+    semester?: number | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     premiumFeatures?: PremiumFeatureUncheckedCreateNestedManyWithoutUsersInput
     GoogleToken?: GoogleTokenUncheckedCreateNestedManyWithoutUserInput
@@ -11304,6 +11556,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
@@ -11317,6 +11572,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     premiumFeatures?: PremiumFeatureUncheckedUpdateManyWithoutUsersNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -11432,6 +11690,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUpdateManyWithoutStudentNestedInput
     GoogleToken?: GoogleTokenUpdateManyWithoutUserNestedInput
     RecentActivity?: RecentActivityUpdateManyWithoutUserNestedInput
@@ -11445,6 +11706,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     attendance?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     GoogleToken?: GoogleTokenUncheckedUpdateManyWithoutUserNestedInput
     RecentActivity?: RecentActivityUncheckedUpdateManyWithoutUserNestedInput
@@ -11458,6 +11722,9 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branch?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 

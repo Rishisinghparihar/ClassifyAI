@@ -80,3 +80,12 @@ export interface RecentAttendance {
   date: string;
   status: string;
 }
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  isPremium: boolean;
+  createdAt: string;
+   premiumFeatures: { name: string }[];
+};

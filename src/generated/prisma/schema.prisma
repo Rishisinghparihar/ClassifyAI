@@ -23,9 +23,12 @@ model User {
   isPremium        Boolean          @default(false)
   createdAt        DateTime         @default(now())
   premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
-  premiumExpiresAt DateTime? // <--- Add this line
+  premiumExpiresAt DateTime?
   GoogleToken      GoogleToken[]
   RecentActivity   RecentActivity[]
+  branch           String?
+  year             Int?
+  semester         Int?
 }
 
 model Attendance {
@@ -49,7 +52,7 @@ model AttendanceToken {
 
 model PremiumFeature {
   id        String   @id @default(cuid())
-  name      String   @unique // e.g., "AI_CHATBOT", "STUDY_PLAN"
+  name      String   @unique
   users     User[]   @relation("UserPremiumFeatures")
   createdAt DateTime @default(now())
 }
@@ -77,7 +80,7 @@ model RecentActivity {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  action    String // description of the activity
+  action    String
   timestamp DateTime @default(now())
 }
 

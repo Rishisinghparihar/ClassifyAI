@@ -127,7 +127,10 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   isPremium: 'isPremium',
   createdAt: 'createdAt',
-  premiumExpiresAt: 'premiumExpiresAt'
+  premiumExpiresAt: 'premiumExpiresAt',
+  branch: 'branch',
+  year: 'year',
+  semester: 'semester'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {
