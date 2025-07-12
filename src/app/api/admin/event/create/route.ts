@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         createdBy,
       },
     });
-    await logActivity(createdBy, `${title} Event created`);
+    await logActivity(newEvent.id, createdBy, `${title} Event created`);
     return NextResponse.json(
       { message: "Event created successfully" },
       { status: 201 }

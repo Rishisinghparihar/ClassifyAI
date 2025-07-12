@@ -11,6 +11,15 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -21,6 +30,7 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+    await logActivity(userId, user.name, "Removed premium by ClassifyAI-admin");
     return NextResponse.json({
       success: true,
       message: "Premium features removed",

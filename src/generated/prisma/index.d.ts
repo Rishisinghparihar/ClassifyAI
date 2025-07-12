@@ -8019,6 +8019,7 @@ export namespace Prisma {
   export type RecentActivityMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    userName: string | null
     action: string | null
     timestamp: Date | null
   }
@@ -8026,6 +8027,7 @@ export namespace Prisma {
   export type RecentActivityMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    userName: string | null
     action: string | null
     timestamp: Date | null
   }
@@ -8033,6 +8035,7 @@ export namespace Prisma {
   export type RecentActivityCountAggregateOutputType = {
     id: number
     userId: number
+    userName: number
     action: number
     timestamp: number
     _all: number
@@ -8042,6 +8045,7 @@ export namespace Prisma {
   export type RecentActivityMinAggregateInputType = {
     id?: true
     userId?: true
+    userName?: true
     action?: true
     timestamp?: true
   }
@@ -8049,6 +8053,7 @@ export namespace Prisma {
   export type RecentActivityMaxAggregateInputType = {
     id?: true
     userId?: true
+    userName?: true
     action?: true
     timestamp?: true
   }
@@ -8056,6 +8061,7 @@ export namespace Prisma {
   export type RecentActivityCountAggregateInputType = {
     id?: true
     userId?: true
+    userName?: true
     action?: true
     timestamp?: true
     _all?: true
@@ -8135,7 +8141,8 @@ export namespace Prisma {
 
   export type RecentActivityGroupByOutputType = {
     id: string
-    userId: string
+    userId: string | null
+    userName: string | null
     action: string
     timestamp: Date
     _count: RecentActivityCountAggregateOutputType | null
@@ -8160,53 +8167,58 @@ export namespace Prisma {
   export type RecentActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    userName?: boolean
     action?: boolean
     timestamp?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }, ExtArgs["result"]["recentActivity"]>
 
   export type RecentActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    userName?: boolean
     action?: boolean
     timestamp?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }, ExtArgs["result"]["recentActivity"]>
 
   export type RecentActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    userName?: boolean
     action?: boolean
     timestamp?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }, ExtArgs["result"]["recentActivity"]>
 
   export type RecentActivitySelectScalar = {
     id?: boolean
     userId?: boolean
+    userName?: boolean
     action?: boolean
     timestamp?: boolean
   }
 
-  export type RecentActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "timestamp", ExtArgs["result"]["recentActivity"]>
+  export type RecentActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "userName" | "action" | "timestamp", ExtArgs["result"]["recentActivity"]>
   export type RecentActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }
   export type RecentActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }
   export type RecentActivityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | RecentActivity$userArgs<ExtArgs>
   }
 
   export type $RecentActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RecentActivity"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
+      userId: string | null
+      userName: string | null
       action: string
       timestamp: Date
     }, ExtArgs["result"]["recentActivity"]>
@@ -8603,7 +8615,7 @@ export namespace Prisma {
    */
   export interface Prisma__RecentActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends RecentActivity$userArgs<ExtArgs> = {}>(args?: Subset<T, RecentActivity$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8635,6 +8647,7 @@ export namespace Prisma {
   interface RecentActivityFieldRefs {
     readonly id: FieldRef<"RecentActivity", 'String'>
     readonly userId: FieldRef<"RecentActivity", 'String'>
+    readonly userName: FieldRef<"RecentActivity", 'String'>
     readonly action: FieldRef<"RecentActivity", 'String'>
     readonly timestamp: FieldRef<"RecentActivity", 'DateTime'>
   }
@@ -9033,6 +9046,25 @@ export namespace Prisma {
   }
 
   /**
+   * RecentActivity.user
+   */
+  export type RecentActivity$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * RecentActivity without action
    */
   export type RecentActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9141,6 +9173,7 @@ export namespace Prisma {
   export const RecentActivityScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    userName: 'userName',
     action: 'action',
     timestamp: 'timestamp'
   };
@@ -9646,15 +9679,17 @@ export namespace Prisma {
     OR?: RecentActivityWhereInput[]
     NOT?: RecentActivityWhereInput | RecentActivityWhereInput[]
     id?: StringFilter<"RecentActivity"> | string
-    userId?: StringFilter<"RecentActivity"> | string
+    userId?: StringNullableFilter<"RecentActivity"> | string | null
+    userName?: StringNullableFilter<"RecentActivity"> | string | null
     action?: StringFilter<"RecentActivity"> | string
     timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type RecentActivityOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
     action?: SortOrder
     timestamp?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -9665,15 +9700,17 @@ export namespace Prisma {
     AND?: RecentActivityWhereInput | RecentActivityWhereInput[]
     OR?: RecentActivityWhereInput[]
     NOT?: RecentActivityWhereInput | RecentActivityWhereInput[]
-    userId?: StringFilter<"RecentActivity"> | string
+    userId?: StringNullableFilter<"RecentActivity"> | string | null
+    userName?: StringNullableFilter<"RecentActivity"> | string | null
     action?: StringFilter<"RecentActivity"> | string
     timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type RecentActivityOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
     action?: SortOrder
     timestamp?: SortOrder
     _count?: RecentActivityCountOrderByAggregateInput
@@ -9686,7 +9723,8 @@ export namespace Prisma {
     OR?: RecentActivityScalarWhereWithAggregatesInput[]
     NOT?: RecentActivityScalarWhereWithAggregatesInput | RecentActivityScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RecentActivity"> | string
-    userId?: StringWithAggregatesFilter<"RecentActivity"> | string
+    userId?: StringNullableWithAggregatesFilter<"RecentActivity"> | string | null
+    userName?: StringNullableWithAggregatesFilter<"RecentActivity"> | string | null
     action?: StringWithAggregatesFilter<"RecentActivity"> | string
     timestamp?: DateTimeWithAggregatesFilter<"RecentActivity"> | Date | string
   }
@@ -10096,48 +10134,55 @@ export namespace Prisma {
 
   export type RecentActivityCreateInput = {
     id?: string
+    userName?: string | null
     action: string
     timestamp?: Date | string
-    user: UserCreateNestedOneWithoutRecentActivityInput
+    user?: UserCreateNestedOneWithoutRecentActivityInput
   }
 
   export type RecentActivityUncheckedCreateInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    userName?: string | null
     action: string
     timestamp?: Date | string
   }
 
   export type RecentActivityUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutRecentActivityNestedInput
+    user?: UserUpdateOneWithoutRecentActivityNestedInput
   }
 
   export type RecentActivityUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RecentActivityCreateManyInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    userName?: string | null
     action: string
     timestamp?: Date | string
   }
 
   export type RecentActivityUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RecentActivityUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10567,9 +10612,15 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type RecentActivityCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    userName?: SortOrder
     action?: SortOrder
     timestamp?: SortOrder
   }
@@ -10577,6 +10628,7 @@ export namespace Prisma {
   export type RecentActivityMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    userName?: SortOrder
     action?: SortOrder
     timestamp?: SortOrder
   }
@@ -10584,6 +10636,7 @@ export namespace Prisma {
   export type RecentActivityMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    userName?: SortOrder
     action?: SortOrder
     timestamp?: SortOrder
   }
@@ -10860,10 +10913,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutRecentActivityNestedInput = {
+  export type UserUpdateOneWithoutRecentActivityNestedInput = {
     create?: XOR<UserCreateWithoutRecentActivityInput, UserUncheckedCreateWithoutRecentActivityInput>
     connectOrCreate?: UserCreateOrConnectWithoutRecentActivityInput
     upsert?: UserUpsertWithoutRecentActivityInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecentActivityInput, UserUpdateWithoutRecentActivityInput>, UserUncheckedUpdateWithoutRecentActivityInput>
   }
@@ -11145,12 +11200,14 @@ export namespace Prisma {
 
   export type RecentActivityCreateWithoutUserInput = {
     id?: string
+    userName?: string | null
     action: string
     timestamp?: Date | string
   }
 
   export type RecentActivityUncheckedCreateWithoutUserInput = {
     id?: string
+    userName?: string | null
     action: string
     timestamp?: Date | string
   }
@@ -11266,7 +11323,8 @@ export namespace Prisma {
     OR?: RecentActivityScalarWhereInput[]
     NOT?: RecentActivityScalarWhereInput | RecentActivityScalarWhereInput[]
     id?: StringFilter<"RecentActivity"> | string
-    userId?: StringFilter<"RecentActivity"> | string
+    userId?: StringNullableFilter<"RecentActivity"> | string | null
+    userName?: StringNullableFilter<"RecentActivity"> | string | null
     action?: StringFilter<"RecentActivity"> | string
     timestamp?: DateTimeFilter<"RecentActivity"> | Date | string
   }
@@ -11597,6 +11655,7 @@ export namespace Prisma {
 
   export type RecentActivityCreateManyUserInput = {
     id?: string
+    userName?: string | null
     action: string
     timestamp?: Date | string
   }
@@ -11666,18 +11725,21 @@ export namespace Prisma {
 
   export type RecentActivityUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RecentActivityUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RecentActivityUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -1,14 +1,18 @@
+"use client";
 import LinkCards from "@/components/admin/LinkCards";
 import UserTable from "@/components/admin/UserTable";
 import { Tektur } from "next/font/google";
-import React from "react";
+import React, { useState } from "react";
+import useSWR from "swr";
 
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
-
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const ManageUsers = () => {
+  const [role, setRole] = useState<"STUDENT" | "TEACHER">("STUDENT");
+  const { mutate } = useSWR(`/api/admin/users?role=${role}`, fetcher);
   return (
     <div>
       <div className="h-[65vh] overflow-scroll scrollbar-hide">
@@ -17,11 +21,11 @@ const ManageUsers = () => {
         >
           Manage Users
         </h1>
-        <UserTable />
+        <UserTable/>
       </div>
       <div className="flex gap-5 h-[15vw]">
-          <LinkCards for = "student"/>
-          <LinkCards for = "teacher"/>
+        <LinkCards forRole="student" onActionComplete={() => mutate()} />
+        <LinkCards forRole="teacher" onActionComplete={() => mutate()} />
       </div>
     </div>
   );

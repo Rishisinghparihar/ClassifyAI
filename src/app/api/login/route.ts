@@ -12,7 +12,11 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-    await logActivity(user.id, `Login By ${user.name}-${user.role}`)
+    await logActivity(
+      user.id,
+      user.name,
+      `${user.name} (${user.role}) logged in to the ClassifyAI.`
+    );
     return NextResponse.json({ user }, { status: 200 });
   } catch (err) {
     console.error(err);

@@ -178,6 +178,7 @@ exports.Prisma.GoogleTokenScalarFieldEnum = {
 exports.Prisma.RecentActivityScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  userName: 'userName',
   action: 'action',
   timestamp: 'timestamp'
 };

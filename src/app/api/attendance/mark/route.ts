@@ -6,7 +6,11 @@ export async function POST(req: Request) {
   try {
     const { token, studentId } = await req.json();
     const today = new Date();
-const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const startOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
 
     if (!token || !studentId) {
       return NextResponse.json({ message: "Missing Data" }, { status: 400 });
@@ -24,11 +28,23 @@ const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate
       where: {
         studentId,
         subject: tokenRecord.subject,
-        date: new Date(new Date().toDateString()), 
+        date: new Date(new Date().toDateString()),
       },
     });
     if (existing) {
       return NextResponse.json({ message: "Already marked" }, { status: 409 });
+    }
+
+    const student = await prisma.user.findUnique({
+      where: { id: studentId },
+      select: { name: true },
+    });
+
+    if (!student) {
+      return NextResponse.json(
+        { message: "Student not found" },
+        { status: 404 }
+      );
     }
 
     await prisma.attendance.create({
@@ -40,7 +56,11 @@ const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate
         markedBy: "SYSTEM", // or the appropriate user identifier
       },
     });
-    await logActivity(studentId, `Marked attendance for ${tokenRecord.subject}.`)
+    await logActivity(
+      studentId,
+      student.name,
+      `Marked attendance for ${tokenRecord.subject}.`
+    );
     return NextResponse.json({ message: "Attendance marked" }, { status: 200 });
   } catch (error) {
     console.error("Error marking attendance:", error);

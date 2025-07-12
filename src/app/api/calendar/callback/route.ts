@@ -20,6 +20,14 @@ export async function GET(req: NextRequest) {
 
   const { tokens } = await oauth2Client.getToken(code);
 
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true },
+  });
+
+  if (!user) {
+    return NextResponse.json({ message: "Student not found" }, { status: 404 });
+  }
   await prisma.googleToken.upsert({
     where: { userId },
     update: {
@@ -32,6 +40,6 @@ export async function GET(req: NextRequest) {
       refreshToken: tokens.refresh_token ?? undefined,
     },
   });
-  await logActivity(userId, `Calendar Synced.`)
+  await logActivity(userId, user.name, `Calendar Synced.`);
   return NextResponse.redirect("/dashboard"); // ✅ redirect after storing token
 }

@@ -1,21 +1,23 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tektur } from "next/font/google";
-
 
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const LinkCards = (props: { for?: "student" | "teacher" }) => {
+const LinkCards = ({
+  forRole,
+  onActionComplete,
+}: {
+  forRole: "student" | "teacher";
+  onActionComplete?: () => void;
+}) => {
   const [modalOpen, setModalOpen] = useState<"add" | "remove" | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,204 +25,207 @@ const LinkCards = (props: { for?: "student" | "teacher" }) => {
     year: "",
     semester: "",
   });
-  const handleOpen = (type: "add" | "remove") => {
-    setModalOpen(type);
-    setFormData({ name: "", email: "", branch: "", year: "", semester: "" });
-    setMessage(null);
-  };
+  const [message, setMessage] = useState<null | {
+    type: "success" | "error";
+    text: string;
+  }>(null);
 
-  const handleClose = () => {
-    setModalOpen(null);
-    setLoading(false);
-    setMessage(null);
-  };
-
-  const handleKey = (e: KeyboardEvent) => {
-    if (e.key === "Escape") handleClose();
-  };
-
-  useEffect(() => {
-    if (modalOpen) {
-      document.addEventListener("keydown", handleKey);
-    }
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [modalOpen]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage(null);
-
+  const handleSubmit = async () => {
     if (!formData.name || !formData.email) {
-      setMessage({ type: "error", text: "Name and Email are required" });
+      setMessage({ type: "error", text: "Name & Email are required" });
+      return;
+    }
+    if (
+      forRole === "student" && modalOpen === "add" &&
+      (!formData.branch || !formData.year || !formData.semester)
+    ) {
+      setMessage({
+        type: "error",
+        text: "Branch, Year & Semester are required",
+      });
       return;
     }
 
     setLoading(true);
-    try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          role: props.for?.toUpperCase() ?? "STUDENT",
-          ...(props.for === "student" && {
-            branch: formData.branch,
-            year: parseInt(formData.year),
-            semester: parseInt(formData.semester),
-          }),
-        }),
-      });
+    const res = await fetch("/api/admin/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: modalOpen,
+        name: formData.name,
+        email: formData.email,
+        role: forRole.toUpperCase(),
+        branch: forRole === "student" ? formData.branch : undefined,
+        year: forRole === "student" ? formData.year : undefined,
+        semester: forRole === "student" ? formData.semester : undefined,
+      }),
+    });
 
-      if (res.ok) {
-        setMessage({ type: "success", text: "Added successfully" });
-        setTimeout(handleClose, 1500);
-      } else {
-        const data = await res.json();
-        setMessage({ type: "error", text: data.error || "Failed to add" });
-      }
-    } catch (err) {
-      setMessage({ type: "error", text: "Server error" });
-    } finally {
-      setLoading(false);
+    if (res.ok) {
+      setMessage({
+        type: "success",
+        text: `${modalOpen === "add" ? "Added" : "Removed"} successfully`,
+      });
+      onActionComplete?.();
+      setTimeout(() => {
+        setModalOpen(null);
+        setFormData({
+          name: "",
+          email: "",
+          branch: "",
+          year: "",
+          semester: "",
+        });
+        setMessage(null);
+      }, 1500);
+    } else {
+      setMessage({ type: "error", text: "Action failed" });
     }
+    setLoading(false);
   };
-  const title =
-    props.for === "student" ? "Add or Remove Student" : "Add or Remove Student";
-  const activity =
-    props.for === "student"
-      ? "Recent Student Activity"
-      : "Recent Teacher Activity";
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    if (modalOpen) window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [modalOpen]);
+
+  const closeModal = () => {
+    setModalOpen(null);
+    setMessage(null);
+    setFormData({ name: "", email: "", branch: "", year: "", semester: "" });
+  };
 
   return (
-    <div className="h-full border rounded-4xl border-orange-400 w-full flex p-5 justify-center bg-orange-700/5">
+    <div
+      className={`h-full border rounded-4xl border-orange-400 w-full flex p-5 justify-center bg-orange-700/5`}
+    >
       <div>
-        <h5 className="text-xl text-center">{title}</h5>
+        <h5 className="text-xl text-center">
+          Add or Remove {forRole === "student" ? "Student" : "Teacher"}
+        </h5>
         <div className="flex gap-10 mt-10">
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => handleOpen("add")}
               className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-5"
+              onClick={() => setModalOpen("add")}
             >
-              Add {props.for === "student" ? "Student" : "Teacher"}
+              Add {forRole}
             </button>
             <button
-              onClick={() => handleOpen("remove")}
               className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-5"
+              onClick={() => setModalOpen("remove")}
             >
-              Remove {props.for === "student" ? "Student" : "Teacher"}
+              Remove {forRole}
             </button>
           </div>
           <div>
-            <h6>{activity}</h6>
+            <h6>Recent {forRole} Activity</h6>
           </div>
         </div>
       </div>
-      {/* Modal */}
+
       <AnimatePresence>
         {modalOpen && (
           <motion.div
-            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/65 flex justify-center items-center z-50"
+            onClick={closeModal}
           >
-            <motion.div
-              className="bg-orange-900/15 rounded-3xl p-6 w-full max-w-md shadow-lg"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
+            <div
+              className="from-orange-800/50 via-orange-300/50 to-orange-800/50 bg-gradient-to-bl p-6 rounded-lg shadow-lg text-black w-[400px]"
+              onClick={(e) => e.stopPropagation()}
             >
-              <h2 className={` ${tektur.className} text-2xl mb-4 text-orange-300 font-semibold`}>
-                {modalOpen === "add" ? "Add" : "Remove"}{" "}
-                {props.for === "student" ? "Student" : "Teacher"}
+              <h2 className={`${tektur.className} text-xl mb-4`}>
+                {modalOpen === "add" ? "Add" : "Remove"} {forRole}
               </h2>
+              <input
+                type="text"
+                placeholder="Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                className="w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                className="w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2"
+              />
 
-              <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  className="ring outline-none focus:ring-2 transition-all duration-500  ring-orange-300 rounded-xl p-2"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className="ring outline-none focus:ring-2 transition-all duration-500  ring-orange-300 rounded-xl p-2"
-                  autoComplete="off"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                {props.for === "student" && (
-                  <>
-                    <input
-                      type="text"
-                      name="branch"
-                      placeholder="Branch"
-                      className="ring outline-none focus:ring-2 transition-all duration-500  ring-orange-300 rounded-xl p-2"
-                      value={formData.branch}
-                      onChange={handleChange}
-                    />
-                    <input
-                      type="number"
-                      name="year"
-                      placeholder="Year"
-                      className="ring outline-none focus:ring-2 transition-all duration-500  ring-orange-300 rounded-xl p-2"
-                      value={formData.year}
-                      onChange={handleChange}
-                    />
-                    <input
-                      type="number"
-                      name="semester"
-                      placeholder="Semester"
-                      className="ring outline-none focus:ring-2 transition-all duration-500  ring-orange-300 rounded-xl p-2"
-                      value={formData.semester}
-                      onChange={handleChange}
-                    />
-                  </>
-                )}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-orange-500 cursor-pointer transition-all duration-500 text-white rounded-xl py-2 hover:bg-orange-700"
-                >
-                  {loading
-                    ? "Submitting..."
-                    : modalOpen === "add"
-                    ? "Add"
-                    : "Remove"}
-                </button>
-              </form>
+              {forRole === "student" && modalOpen === "add" && (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Branch"
+                    value={formData.branch}
+                    onChange={(e) =>
+                      setFormData({ ...formData, branch: e.target.value })
+                    }
+                    className="w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Year"
+                    value={formData.year}
+                    onChange={(e) =>
+                      setFormData({ ...formData, year: e.target.value })
+                    }
+                    className="w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Semester"
+                    value={formData.semester}
+                    onChange={(e) =>
+                      setFormData({ ...formData, semester: e.target.value })
+                    }
+                    className="w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2"
+                  />
+                </>
+              )}
 
               {message && (
-                <p
-                  className={`mt-2 text-sm ${
+                <div
+                  className={`mb-2 ${
                     message.type === "success"
                       ? "text-green-600"
                       : "text-red-600"
                   }`}
                 >
                   {message.text}
-                </p>
+                </div>
               )}
 
-              <button
-                onClick={handleClose}
-                className="mt-4 text-sm text-orange-500 hover:text-orange-50 cursor-pointer"
-              >
-                Cancel
-              </button>
-            </motion.div>
+              <div className="flex flex-col justify-end gap-2">
+                <button
+                  className="px-4 py-2 w-full bg-orange-500 text-white rounded cursor-pointer hover:bg-orange-600 transition-all duration-500"
+                  disabled={loading}
+                  onClick={handleSubmit}
+                >
+                  {loading
+                    ? "Processing..."
+                    : modalOpen === "add"
+                    ? "Add"
+                    : "Remove"}
+                </button>
+                <span
+                  className="text-sm text-orange-50 cursor-pointer hover:text-orange-600 transition-all duration-500"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </span>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

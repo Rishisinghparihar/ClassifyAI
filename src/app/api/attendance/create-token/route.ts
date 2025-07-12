@@ -13,6 +13,17 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+       const professor = await prisma.user.findUnique({
+      where: { id: professorID },
+      select: { name: true },
+    });
+
+    if (!professor) {
+      return NextResponse.json(
+        { message: "Professor not found" },
+        { status: 404 }
+      );
+    }
     const token = uuidv4();
     const issuedAt = new Date();
     const expiresAt = new Date(issuedAt.getTime() + 10 * 60 * 1000);
@@ -27,7 +38,7 @@ export async function POST(request: Request) {
         expiresAt,
       },
     });
-    await logActivity(professorId, `attendance token generated for ${subject}`);
+    await logActivity(professorId, professor.name,`attendance token generated for ${subject}`);
     const payload = JSON.stringify({ token });
 
     const qrCodeDataUrl = await QRCode.toDataURL(payload);

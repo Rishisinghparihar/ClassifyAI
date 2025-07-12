@@ -61,6 +61,17 @@ export async function POST(req: NextRequest) {
         create: { name: featureName },
       });
     }
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "Student not found" },
+        { status: 404 }
+      );
+    }
 
     // Connect the user to premium features
     await prisma.user.update({
@@ -73,7 +84,11 @@ export async function POST(req: NextRequest) {
         },
       },
     });
-  await logActivity(userId, `${userId} bought ${planName} premium.`)
+    await logActivity(
+      userId,
+      user?.name,
+      `${userId} bought ${planName} premium.`
+    );
     if (features.includes("CALENDAR_SYNC")) {
       const { google } = await import("googleapis");
       const userTokens = await prisma.googleToken.findUnique({

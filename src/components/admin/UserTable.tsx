@@ -1,34 +1,35 @@
 "use client";
+
 import { User } from "@/lib/types";
 import { motion } from "framer-motion";
 import { Tektur } from "next/font/google";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Loader2, Users } from "lucide-react";
+import useSWR from "swr";
 
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const UserTable = () => {
   const [role, setRole] = useState<"STUDENT" | "TEACHER">("STUDENT");
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(`/api/admin/users?role=${role}`)
-      .then((res) => res.json())
-      .then((data) => setUsers(data.users))
-      .finally(() => setLoading(false));
-  }, [role]);
+  const { data, isLoading, error } = useSWR<{ users: User[] }>(
+    `/api/admin/users?role=${role}`,
+    fetcher
+  );
+
+  const users = data?.users || [];
+
   return (
-    <div className={`p-8  text-white ${tektur.className}`}>
+    <div className={`p-8 text-white ${tektur.className}`}>
+      {/* Toggle */}
       <div className="flex gap-4 mb-6 items-center justify-center">
         <span
-          className={`${
-            role === "STUDENT" ? "text-orange-500" : "text-gray-400"
-          }`}
+          className={`${role === "STUDENT" ? "text-orange-500" : "text-gray-400"}`}
         >
           Students
         </span>
@@ -45,18 +46,18 @@ const UserTable = () => {
           ></span>
         </button>
         <span
-          className={`${
-            role === "TEACHER" ? "text-orange-500" : "text-gray-400"
-          }`}
+          className={`${role === "TEACHER" ? "text-orange-500" : "text-gray-400"}`}
         >
           Teachers
         </span>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center py-16">
           <Loader2 className="animate-spin text-orange-600 w-10 h-10" />
         </div>
+      ) : error ? (
+        <div className="text-red-500 text-center">Failed to load users.</div>
       ) : users.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-orange-400">
           <Users className="w-12 h-12 mb-2" />

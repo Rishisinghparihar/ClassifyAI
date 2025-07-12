@@ -1,11 +1,20 @@
 import toast from "react-hot-toast";
 import { prisma } from "./prisma";
 
-export const logActivity = async (userId: string, action: string) => {
-  return prisma.recentActivity.create({
-    data: { userId, action },
+export const logActivity = async (
+  userId: string,
+  userName: string,
+  action: string
+) => {
+  await prisma.recentActivity.create({
+    data: {
+      userId,
+      userName,
+      action,
+    },
   });
 };
+
 
 
 export const monthlyPlans = [
