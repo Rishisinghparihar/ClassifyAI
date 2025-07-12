@@ -68,14 +68,14 @@ const UserTable = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="w-full text-left border-collapse"
+          className="w-full text-left rounded-2xl  border-collapse"
         >
           <thead>
-            <tr className="bg-orange-900 text-orange-100">
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Premium</th>
-              <th className="px-4 py-2">Created At</th>
+            <tr className="bg-orange-900 rounded-2xl text-orange-100">
+              <th className="px-4 py-2 rounded-l-2xl">Name</th>
+              <th className="px-4 py-2 ">Email</th>
+              <th className="px-4 py-2 ">Premium</th>
+              <th className="px-4 py-2 rounded-r-2xl">Created At</th>
             </tr>
           </thead>
           <tbody>

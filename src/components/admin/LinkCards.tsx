@@ -3,11 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tektur } from "next/font/google";
+import useSWR from "swr";
 
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const LinkCards = ({
   forRole,
@@ -30,13 +33,19 @@ const LinkCards = ({
     text: string;
   }>(null);
 
+  const { data: recentUser, isLoading: loadingRecent } = useSWR(
+    `/api/admin/recent-user?role=${forRole.toUpperCase()}`,
+    fetcher
+  );
+
   const handleSubmit = async () => {
     if (!formData.name || !formData.email) {
       setMessage({ type: "error", text: "Name & Email are required" });
       return;
     }
     if (
-      forRole === "student" && modalOpen === "add" &&
+      forRole === "student" &&
+      modalOpen === "add" &&
       (!formData.branch || !formData.year || !formData.semester)
     ) {
       setMessage({
@@ -121,7 +130,20 @@ const LinkCards = ({
             </button>
           </div>
           <div>
-            <h6>Recent {forRole} Activity</h6>
+            <h6 className="text-xl mb-4 text-center">Recent Activity</h6>
+            <div className="">
+            {loadingRecent && <p>Loading...</p>}
+            {!loadingRecent && recentUser?.name ? (
+              <p className=" ">
+                Recently added: <strong className="text-orange-200">{recentUser.name}</strong>{" "}
+                <span className="text-xs text-gray-500">
+                  ({new Date(recentUser.createdAt).toLocaleDateString()})
+                </span>
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500 text-center">No {forRole} found</p>
+            )}
+          </div>
           </div>
         </div>
       </div>
@@ -133,7 +155,7 @@ const LinkCards = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/65 flex justify-center items-center z-50"
+            className="fixed inset-0 bg-black/85 flex justify-center items-center z-50"
             onClick={closeModal}
           >
             <div
