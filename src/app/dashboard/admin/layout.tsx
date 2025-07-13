@@ -26,7 +26,7 @@ export default function AdminLayout({
   return (
     <div className={`h-screen flex w-screen bg-black ${tektur.className}`}>
       {/* LEFT */}
-      <div className=" h-screen w-[15.33vw]">
+      <div className=" h-screen w-[18.33vw]">
         <Logo />
         <div className="grid place-items-center p-5">
           <AdminSidebar />

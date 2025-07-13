@@ -89,3 +89,13 @@ export type User = {
   createdAt: string;
    premiumFeatures: { name: string }[];
 };
+
+export type PremiumUser = {
+  id: string;
+  name: string;
+  email: string;
+  plan: "PRO" | "ULTIMATE";
+  startDate: string;  // ISO date
+  endDate: string;    // ISO date
+  status: "ACTIVE" | "EXPIRED";
+};

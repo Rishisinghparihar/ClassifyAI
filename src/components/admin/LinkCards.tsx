@@ -124,7 +124,7 @@ const LinkCards = ({
                 Remove {forRole}
               </button>
             </div>
-            <div>
+            <div className="mt-7">
               <h6 className="text-xl mb-4 text-center">Recent Activity</h6>
               <div>
                 {loadingRecent && <p>Loading...</p>}

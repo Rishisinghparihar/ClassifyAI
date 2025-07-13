@@ -26,7 +26,7 @@ const links = [
   { href: "/dashboard/admin", icon: faChartSimple, label: "Dashboard" },
   { href: "/dashboard/admin/users", icon: faUsers, label: "Manage Users" },
   { href: "/dashboard/admin/events", icon: faCalendarDays, label: "Events" },
-  { href: "/admin/premium", icon: faCrown, label: "Premium" },
+  { href: "/dashboard/admin/premium", icon: faCrown, label: "Premium" },
   { href: "/admin/settings", icon: faGear, label: "Settings" },
   { href: "/dashboard/admin/logout", icon: faArrowRightFromBracket, label: "Logout" },
 ];
