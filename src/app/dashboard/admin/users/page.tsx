@@ -45,7 +45,7 @@ const ManageUsers = () => {
       </motion.div>
 
       <motion.div
-        className="flex gap-5 h-[15vw]"
+        className="flex gap-15 h-[15vw] items-center justify-center"
         initial="hidden"
         animate="visible"
         variants={{

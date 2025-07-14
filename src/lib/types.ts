@@ -99,3 +99,23 @@ export type PremiumUser = {
   endDate: string;    // ISO date
   status: "ACTIVE" | "EXPIRED";
 };
+
+export type Stats = {
+  totalUsers: number;
+  premiumUsers: number;
+  proUsers: number;
+  ultimateUsers: number;
+  expiredPremiums: number;
+};
+
+export type Expiration = {
+  id: string;
+  name: string;
+  date: string;
+};
+
+export type Activity = {
+  id: string;
+  text: string;
+  date: string;
+};

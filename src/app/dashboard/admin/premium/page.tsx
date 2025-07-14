@@ -1,70 +1,53 @@
 "use client";
-import PremiumChart from "@/components/admin/PremiumChart";
+
 import PremiumHeader from "@/components/admin/PremiumHeader";
 import PremiumUsersTable from "@/components/admin/PremiumUsersTable";
+import RecentPremiumActivity from "@/components/admin/RecentPremiumActivity";
 import SearchFilterBar from "@/components/admin/SearchFilterBar";
 import StatsRow from "@/components/admin/StatsRow";
-import { PremiumUser } from "@/lib/types";
-import { Tektur } from "next/font/google";
-import React, { useState } from "react";
-
-const tektur = Tektur({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import UpcomingExpirations from "@/components/admin/UpcomingExpiration";
+import { PremiumUser, Stats } from "@/lib/types";
+import React, { useEffect, useState } from "react";
 
 const Page = () => {
-  const totalPremiumUsers = 34;
-  const stats = {
-    totalUsers: 500,
-    premiumUsers: 34,
-    proUsers: 20,
-    ultimateUsers: 14,
-    expiredPremiums: 3,
-  };
-  const premiumUsers: PremiumUser[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john@example.com",
-      plan: "ULTIMATE",
-      startDate: "2025-06-01",
-      endDate: "2026-06-01",
-      status: "ACTIVE",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      plan: "PRO",
-      startDate: "2025-05-01",
-      endDate: "2026-05-01",
-      status: "EXPIRED",
-    },
-  ];
+  const [totalPremiumUsers, setTotalPremiumUsers] = useState<number>(0);
+  const [allUsers, setAllUsers] = useState<PremiumUser[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  useEffect(() => {
+    const fetchPremiumCount = async () => {
+      try {
+        const res = await fetch("/api/users/premium-count");
+        const data = await res.json();
+        if (data.success) {
+          console.log({ data });
+          setTotalPremiumUsers(data.totalPremiums);
+        }
+      } catch (err) {
+        console.error("Failed to fetch premium count", err);
+      }
+    };
 
-    const allUsers: PremiumUser[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john@example.com",
-      plan: "ULTIMATE",
-      startDate: "2025-06-01",
-      endDate: "2026-06-01",
-      status: "ACTIVE",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      plan: "PRO",
-      startDate: "2025-05-01",
-      endDate: "2026-05-01",
-      status: "EXPIRED",
-    },
-  ];
+    const fetchStats = async () => {
+      const res = await fetch("/api/users/stats");
+      const data = await res.json();
+      if (data.success) {
+        setStats(data.stats);
+      }
+    };
 
-    const [searchTerm, setSearchTerm] = useState("");
+    const fetchPremiumUsers = async () => {
+      const res = await fetch("/api/users/premium-count/all");
+      const data = await res.json();
+      if (data.success) {
+        setAllUsers(data.users);
+      }
+    };
+
+    fetchPremiumUsers();
+    fetchStats();
+    fetchPremiumCount();
+  }, []);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("All");
 
   const filteredUsers = allUsers.filter((user) => {
@@ -80,27 +63,37 @@ const Page = () => {
 
     return matchesSearch && matchesFilter;
   });
+
+  if (!stats) return <div>Loading stats...</div>;
+
   return (
-    <div className="h-screen">
-      <div className="space-y-6">
-        <PremiumHeader totalPremiumStudents={totalPremiumUsers} />
-      </div>
-      <div>
-        <div className="space-y-10 mt-10">
-          <StatsRow stats={stats} />
-        </div>
-        <div className="my-10">
-          <SearchFilterBar
-            onSearch={setSearchTerm}
-            onFilter={setFilter}
-            currentFilter={filter}
-          />
-        </div>
-        <div className="mt-10">
-          <PremiumUsersTable users={premiumUsers} />
-        </div>
-        <div className="">
-            <PremiumChart/>
+    <div className="min-h-screen py-8 px-4 lg:px-10 space-y-10 overflow-y-auto">
+      {/* Header */}
+      <PremiumHeader totalPremiumStudents={totalPremiumUsers} />
+
+      {/* Stats */}
+      <StatsRow stats={stats} />
+
+      {/* Filter */}
+      <SearchFilterBar
+        onSearch={setSearchTerm}
+        onFilter={setFilter}
+        currentFilter={filter}
+      />
+
+      {/* Table + Recent Activity side by side */}
+      <div className="overflow-x-auto">
+        <div className=" gap-6 min-w-[800px]">
+          {/* Table - takes more space */}
+          <div className="min-w-[500px]">
+            <PremiumUsersTable users={filteredUsers} />
+          </div>
+
+          {/* Recent Activity - narrower */}
+          <div className="flex gap-10 mt-16 min-w-[250px]">
+            <RecentPremiumActivity />
+            <UpcomingExpirations />
+          </div>
         </div>
       </div>
     </div>
