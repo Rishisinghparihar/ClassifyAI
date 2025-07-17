@@ -9,6 +9,7 @@ import UpcomingExpirations from "@/components/admin/UpcomingExpiration";
 import { PremiumUser, Stats } from "@/lib/types";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { titleArrayForPremiumPage } from "@/lib/helper";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -85,7 +86,7 @@ const Page = () => {
 
       {/* Stats */}
       <motion.div variants={fadeInUp} initial="hidden" animate="visible">
-        <StatsRow stats={stats} />
+        <StatsRow stats={stats} titleArray={titleArrayForPremiumPage}/>
       </motion.div>
 
       {/* Filter */}

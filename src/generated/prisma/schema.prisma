@@ -63,7 +63,8 @@ model Event {
   description String?
   date        DateTime
   type        EventType
-  createdBy   String // admin id or system identifier
+  active      Boolean   @default(true)
+  createdBy   String
   createdAt   DateTime  @default(now())
 }
 

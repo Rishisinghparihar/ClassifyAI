@@ -5943,6 +5943,7 @@ export namespace Prisma {
     description: string | null
     date: Date | null
     type: $Enums.EventType | null
+    active: boolean | null
     createdBy: string | null
     createdAt: Date | null
   }
@@ -5953,6 +5954,7 @@ export namespace Prisma {
     description: string | null
     date: Date | null
     type: $Enums.EventType | null
+    active: boolean | null
     createdBy: string | null
     createdAt: Date | null
   }
@@ -5963,6 +5965,7 @@ export namespace Prisma {
     description: number
     date: number
     type: number
+    active: number
     createdBy: number
     createdAt: number
     _all: number
@@ -5975,6 +5978,7 @@ export namespace Prisma {
     description?: true
     date?: true
     type?: true
+    active?: true
     createdBy?: true
     createdAt?: true
   }
@@ -5985,6 +5989,7 @@ export namespace Prisma {
     description?: true
     date?: true
     type?: true
+    active?: true
     createdBy?: true
     createdAt?: true
   }
@@ -5995,6 +6000,7 @@ export namespace Prisma {
     description?: true
     date?: true
     type?: true
+    active?: true
     createdBy?: true
     createdAt?: true
     _all?: true
@@ -6078,6 +6084,7 @@ export namespace Prisma {
     description: string | null
     date: Date
     type: $Enums.EventType
+    active: boolean
     createdBy: string
     createdAt: Date
     _count: EventCountAggregateOutputType | null
@@ -6105,6 +6112,7 @@ export namespace Prisma {
     description?: boolean
     date?: boolean
     type?: boolean
+    active?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["event"]>
@@ -6115,6 +6123,7 @@ export namespace Prisma {
     description?: boolean
     date?: boolean
     type?: boolean
+    active?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["event"]>
@@ -6125,6 +6134,7 @@ export namespace Prisma {
     description?: boolean
     date?: boolean
     type?: boolean
+    active?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["event"]>
@@ -6135,11 +6145,12 @@ export namespace Prisma {
     description?: boolean
     date?: boolean
     type?: boolean
+    active?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "date" | "type" | "createdBy" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "date" | "type" | "active" | "createdBy" | "createdAt", ExtArgs["result"]["event"]>
 
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Event"
@@ -6150,6 +6161,7 @@ export namespace Prisma {
       description: string | null
       date: Date
       type: $Enums.EventType
+      active: boolean
       createdBy: string
       createdAt: Date
     }, ExtArgs["result"]["event"]>
@@ -6580,6 +6592,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Event", 'String'>
     readonly date: FieldRef<"Event", 'DateTime'>
     readonly type: FieldRef<"Event", 'EventType'>
+    readonly active: FieldRef<"Event", 'Boolean'>
     readonly createdBy: FieldRef<"Event", 'String'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
   }
@@ -9152,6 +9165,7 @@ export namespace Prisma {
     description: 'description',
     date: 'date',
     type: 'type',
+    active: 'active',
     createdBy: 'createdBy',
     createdAt: 'createdAt'
   };
@@ -9566,6 +9580,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Event"> | string | null
     date?: DateTimeFilter<"Event"> | Date | string
     type?: EnumEventTypeFilter<"Event"> | $Enums.EventType
+    active?: BoolFilter<"Event"> | boolean
     createdBy?: StringFilter<"Event"> | string
     createdAt?: DateTimeFilter<"Event"> | Date | string
   }
@@ -9576,6 +9591,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     date?: SortOrder
     type?: SortOrder
+    active?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -9589,6 +9605,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Event"> | string | null
     date?: DateTimeFilter<"Event"> | Date | string
     type?: EnumEventTypeFilter<"Event"> | $Enums.EventType
+    active?: BoolFilter<"Event"> | boolean
     createdBy?: StringFilter<"Event"> | string
     createdAt?: DateTimeFilter<"Event"> | Date | string
   }, "id">
@@ -9599,6 +9616,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     date?: SortOrder
     type?: SortOrder
+    active?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     _count?: EventCountOrderByAggregateInput
@@ -9615,6 +9633,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Event"> | string | null
     date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     type?: EnumEventTypeWithAggregatesFilter<"Event"> | $Enums.EventType
+    active?: BoolWithAggregatesFilter<"Event"> | boolean
     createdBy?: StringWithAggregatesFilter<"Event"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
@@ -10013,6 +10032,7 @@ export namespace Prisma {
     description?: string | null
     date: Date | string
     type: $Enums.EventType
+    active?: boolean
     createdBy: string
     createdAt?: Date | string
   }
@@ -10023,6 +10043,7 @@ export namespace Prisma {
     description?: string | null
     date: Date | string
     type: $Enums.EventType
+    active?: boolean
     createdBy: string
     createdAt?: Date | string
   }
@@ -10033,6 +10054,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10043,6 +10065,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10053,6 +10076,7 @@ export namespace Prisma {
     description?: string | null
     date: Date | string
     type: $Enums.EventType
+    active?: boolean
     createdBy: string
     createdAt?: Date | string
   }
@@ -10063,6 +10087,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10073,6 +10098,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10554,6 +10580,7 @@ export namespace Prisma {
     description?: SortOrder
     date?: SortOrder
     type?: SortOrder
+    active?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -10564,6 +10591,7 @@ export namespace Prisma {
     description?: SortOrder
     date?: SortOrder
     type?: SortOrder
+    active?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }
@@ -10574,6 +10602,7 @@ export namespace Prisma {
     description?: SortOrder
     date?: SortOrder
     type?: SortOrder
+    active?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
   }

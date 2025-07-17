@@ -10,7 +10,6 @@ import AdminSidebar from "@/components/admin/AdminSidebar";
 import Logo from "@/components/admin/Logo";
 import RecentAttendancePage from "@/components/admin/RecentAttendance";
 
-// ✅ Load Tektur font
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],

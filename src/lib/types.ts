@@ -119,3 +119,19 @@ export type Activity = {
   text: string;
   date: string;
 };
+
+export type EventStats = {
+  totalEvents: number;
+  exams: number;
+  holidays: number;
+  others: number;
+};
+
+export type Event = {
+  id: string;
+  title: string;
+  date: string;
+  type: string; // e.g. Exam, Holiday, Other
+  description?: string
+  active: boolean;
+};

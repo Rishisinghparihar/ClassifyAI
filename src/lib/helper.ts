@@ -15,7 +15,19 @@ export const logActivity = async (
   });
 };
 
+export const titleArrayForPremiumPage = [
+  "Total Users",
+  "Premium Users" ,
+  "Ultimate Users",
+  "Pro Users"
+]
 
+export const titleArrayForEventPage =[
+  "Total Events",
+  "Exams",
+  "Holidays",
+  "Others"
+]
 
 export const monthlyPlans = [
   {
