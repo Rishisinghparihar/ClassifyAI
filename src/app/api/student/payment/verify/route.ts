@@ -1,7 +1,9 @@
-import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 import { logActivity } from "@/lib/helper";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 const planFeatureMap: Record<string, string[]> = {
   Starter: [],
@@ -10,50 +12,42 @@ const planFeatureMap: Record<string, string[]> = {
 };
 
 export async function POST(req: NextRequest) {
-  const {
-    razorpay_order_id,
-    razorpay_payment_id,
-    razorpay_signature,
-    userId,
-    planName,
-    billingCycle,
-  } = await req.json();
+  const { sessionId } = await req.json();
 
-  if (
-    !razorpay_order_id ||
-    !razorpay_payment_id ||
-    !razorpay_signature ||
-    !userId ||
-    !planName ||
-    !billingCycle
-  ) {
-    return NextResponse.json(
-      { error: "Missing required fields" },
-      { status: 400 }
-    );
+  if (!sessionId) {
+    return NextResponse.json({ error: "Missing sessionId" }, { status: 400 });
   }
-
-  const now = new Date();
-  const expiresAt =
-    billingCycle === "yearly"
-      ? new Date(now.setFullYear(now.getFullYear() + 1))
-      : new Date(now.setMonth(now.getMonth() + 1));
-
-  // Verify signature
-  const body = `${razorpay_order_id}|${razorpay_payment_id}`;
-  const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-    .update(body)
-    .digest("hex");
-
-  if (expectedSignature !== razorpay_signature) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  }
-
-  const features = planFeatureMap[planName] || [];
 
   try {
-    // Ensure each PremiumFeature exists
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (!session || session.payment_status !== "paid") {
+      return NextResponse.json(
+        { error: "Payment not completed" },
+        { status: 400 }
+      );
+    }
+
+    const userId = session.metadata?.userId;
+    const planName = session.metadata?.planName || "Starter";
+    const billingCycle = session.metadata?.billingCycle || "monthly";
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User ID missing in session metadata" },
+        { status: 400 }
+      );
+    }
+
+    const now = new Date();
+    const expiresAt =
+      billingCycle === "yearly"
+        ? new Date(now.setFullYear(now.getFullYear() + 1))
+        : new Date(now.setMonth(now.getMonth() + 1));
+
+    const features = planFeatureMap[planName] || [];
+
+    // Ensure PremiumFeature records exist
     for (const featureName of features) {
       await prisma.premiumFeature.upsert({
         where: { name: featureName },
@@ -61,6 +55,7 @@ export async function POST(req: NextRequest) {
         create: { name: featureName },
       });
     }
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { name: true },
@@ -68,12 +63,11 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "Student not found" },
+        { error: "Student not found" },
         { status: 404 }
       );
     }
 
-    // Connect the user to premium features
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -84,64 +78,19 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
     await logActivity(
       userId,
       user?.name,
       `${userId} bought ${planName} premium.`
     );
-    if (features.includes("CALENDAR_SYNC")) {
-      const { google } = await import("googleapis");
-      const userTokens = await prisma.googleToken.findUnique({
-        where: { userId },
-      });
-      if (userTokens?.accessToken) {
-        const oauth2Client = new google.auth.OAuth2(
-          process.env.GOOGLE_CLIENT_ID!,
-          process.env.GOOGLE_CLIENT_SECRET!,
-          process.env.GOOGLE_REDIRECT_URI!
-        );
-
-        oauth2Client.setCredentials({
-          access_token: userTokens.accessToken,
-          refresh_token: userTokens.refreshToken,
-        });
-
-        const calendar = google.calendar({ version: "v3", auth: oauth2Client });
-        const upcomingEvents = await prisma.event.findMany({
-          where: {
-            date: {
-              gte: new Date(),
-            },
-          },
-        });
-
-        for (const event of upcomingEvents) {
-          await calendar.events.insert({
-            calendarId: "primary",
-            requestBody: {
-              summary: event.title,
-              description: `${event.description ?? ""}\nType: ${event.type}`,
-              start: {
-                dateTime: event.date.toISOString(),
-                timeZone: "Asia/Kolkata",
-              },
-              end: {
-                dateTime: new Date(
-                  new Date(event.date).getTime() + 60 * 60 * 1000
-                ).toISOString(),
-                timeZone: "Asia/Kolkata",
-              },
-            },
-          });
-        }
-      } else {
-        console.log("User has not authorized Google Calendar yet.");
-      }
-    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Failed to assign premium features:", error);
-    return NextResponse.json({ error: "Update failed" }, { status: 500 });
+    console.error("Payment verification failed:", error);
+    return NextResponse.json(
+      { error: "Failed to verify payment" },
+      { status: 500 }
+    );
   }
 }

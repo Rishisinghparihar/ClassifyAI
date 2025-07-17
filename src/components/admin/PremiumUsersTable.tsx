@@ -1,13 +1,47 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { PremiumUser } from "@/lib/types";
-
-
+import PremiumCancelModal from "../ui/PremiumCancelModal";
+import { useRouter } from "next/navigation";
+import { showSuccessMessage } from "@/lib/helper";
 
 const PremiumUsersTable = ({ users }: { users: PremiumUser[] }) => {
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<PremiumUser | null>(null);
+  const router = useRouter();
+  const handleCancelConfirm = async (reason: string) => {
+    if (!selectedUser) return;
+
+    try {
+      const res = await fetch("/api/admin/remove-premium", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: selectedUser.id,
+          reason,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // optionally refresh page or remove user from UI
+        showSuccessMessage("Premium removed");
+        router.refresh();
+      } else {
+        console.error(data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowCancelModal(false);
+      setSelectedUser(null);
+    }
+  };
+
   return (
     <div className="px-6">
       <div className="rounded-xl shadow overflow-hidden">
@@ -68,7 +102,15 @@ const PremiumUsersTable = ({ users }: { users: PremiumUser[] }) => {
                       <Button size="sm" variant="secondary">
                         Downgrade
                       </Button>
-                      <Button size="sm" variant="destructive">
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setShowCancelModal(true);
+                          console.log(showCancelModal, selectedUser);
+                        }}
+                      >
                         Cancel
                       </Button>
                     </td>
@@ -77,6 +119,12 @@ const PremiumUsersTable = ({ users }: { users: PremiumUser[] }) => {
               </tbody>
             </table>
           </div>
+          <PremiumCancelModal
+            isOpen={showCancelModal}
+            onClose={() => setShowCancelModal(false)}
+            onConfirm={handleCancelConfirm}
+            message={`Are you sure you want to cancel premium for ${selectedUser?.name}?`}
+          />
 
           {/* Fade overlays */}
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-gray-900 to-transparent z-20"></div>

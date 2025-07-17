@@ -4,6 +4,7 @@ import { Tektur } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import { Event } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
+import { showErrorMessage } from "@/lib/helper";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -82,7 +83,7 @@ const AddEventModal = ({
       onSuccess();
       onClose();
     } else {
-      alert("Failed to " + (mode === "add" ? "create" : "update") + " event");
+      showErrorMessage("Failed to " + (mode === "add" ? "create" : "update") + " event");
     }
   };
 
