@@ -3,15 +3,17 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { id } = context.params;
+
   try {
-    const professorId = params.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
     const tokens = await prisma.attendanceToken.findMany({
       where: {
-        professorId,
+        professorId: id,
         issuedAt: {
           gte: today,
         },
@@ -20,6 +22,7 @@ export async function GET(
         issuedAt: "desc",
       },
     });
+
     return NextResponse.json(tokens);
   } catch (error) {
     console.error("Error fetching tokens:", error);
