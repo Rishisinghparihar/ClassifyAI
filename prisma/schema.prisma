@@ -63,8 +63,8 @@ model Event {
   description String?
   date        DateTime
   type        EventType
-  active  Boolean  @default(true)
-  createdBy   String 
+  active      Boolean   @default(true)
+  createdBy   String
   createdAt   DateTime  @default(now())
 }
 
@@ -84,6 +84,14 @@ model RecentActivity {
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action    String
   timestamp DateTime @default(now())
+}
+
+model SupportRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
 }
 
 enum EventType {

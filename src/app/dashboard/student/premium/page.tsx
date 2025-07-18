@@ -1,5 +1,5 @@
 "use client";
-import { monthlyPlans, showSuccessMessage } from "@/lib/helper";
+import { monthlyPlans, showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -21,13 +21,14 @@ const handlePayment = async (
   billingCycle: string
 ) => {
   if (price === 0) {
-    router.push("/dashboard/student/home");
+    showErrorMessage("Price Problem Occurs!")
+    router.push("/dashboard/student");
     return;
   }
 
   const userId = localStorage.getItem("studentId");
   if (!userId) {
-    toast.error("Please login again.");
+    showErrorMessage("Please login again.");
     router.push("/auth/login");
     return;
   }
@@ -48,7 +49,7 @@ const handlePayment = async (
   if (data.url) {
     window.location.href = data.url; // redirect to Stripe Checkout
   } else {
-    toast.error("Failed to create payment session");
+    showErrorMessage("Failed to create payment session");
   }
 };
 

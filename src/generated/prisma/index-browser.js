@@ -184,6 +184,14 @@ exports.Prisma.RecentActivityScalarFieldEnum = {
   timestamp: 'timestamp'
 };
 
+exports.Prisma.SupportRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -217,7 +225,8 @@ exports.Prisma.ModelName = {
   PremiumFeature: 'PremiumFeature',
   Event: 'Event',
   GoogleToken: 'GoogleToken',
-  RecentActivity: 'RecentActivity'
+  RecentActivity: 'RecentActivity',
+  SupportRequest: 'SupportRequest'
 };
 
 /**

@@ -14,11 +14,13 @@ const PremiumCancelModal = ({
   onClose,
   onConfirm,
   message,
+  loading
 }: {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (reason: string) => void;
   message?: string;
+  loading?: boolean
 }) => {
   const [reason, setReason] = useState("");
 
@@ -62,7 +64,7 @@ const PremiumCancelModal = ({
                 onClick={() => onConfirm(reason)}
                 className="px-3 py-1 rounded bg-red-600"
               >
-                Confirm
+             {loading ? "Processing…" : "Confirm"}
               </button>
             </div>
           </motion.div>

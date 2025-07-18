@@ -23,35 +23,35 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("All");
 
+  const fetchPremiumCount = async () => {
+    try {
+      const res = await fetch("/api/users/premium-count");
+      const data = await res.json();
+      if (data.success) {
+        setTotalPremiumUsers(data.totalPremiums);
+      }
+    } catch (err) {
+      console.error("Failed to fetch premium count", err);
+    }
+  };
+
+  const fetchStats = async () => {
+    const res = await fetch("/api/users/stats");
+    const data = await res.json();
+    if (data.success) {
+      setStats(data.stats);
+    }
+  };
+
+  const fetchPremiumUsers = async () => {
+    const res = await fetch("/api/users/premium-count/all");
+    const data = await res.json();
+    if (data.success) {
+      setAllUsers(data.users);
+    }
+  };
+
   useEffect(() => {
-    const fetchPremiumCount = async () => {
-      try {
-        const res = await fetch("/api/users/premium-count");
-        const data = await res.json();
-        if (data.success) {
-          setTotalPremiumUsers(data.totalPremiums);
-        }
-      } catch (err) {
-        console.error("Failed to fetch premium count", err);
-      }
-    };
-
-    const fetchStats = async () => {
-      const res = await fetch("/api/users/stats");
-      const data = await res.json();
-      if (data.success) {
-        setStats(data.stats);
-      }
-    };
-
-    const fetchPremiumUsers = async () => {
-      const res = await fetch("/api/users/premium-count/all");
-      const data = await res.json();
-      if (data.success) {
-        setAllUsers(data.users);
-      }
-    };
-
     fetchPremiumUsers();
     fetchStats();
     fetchPremiumCount();
@@ -71,7 +71,12 @@ const Page = () => {
     return matchesSearch && matchesFilter;
   });
 
-  if (!stats) return <div className="text-center mt-52 animate-pulse text-2xl">Loading...</div>;
+  if (!stats)
+    return (
+      <div className="text-center mt-52 animate-pulse text-2xl">
+        Loading...
+      </div>
+    );
 
   return (
     <motion.div
@@ -86,7 +91,7 @@ const Page = () => {
 
       {/* Stats */}
       <motion.div variants={fadeInUp} initial="hidden" animate="visible">
-        <StatsRow stats={stats} titleArray={titleArrayForPremiumPage}/>
+        <StatsRow stats={stats} titleArray={titleArrayForPremiumPage} />
       </motion.div>
 
       {/* Filter */}
@@ -115,7 +120,10 @@ const Page = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <PremiumUsersTable users={filteredUsers} />
+                <PremiumUsersTable
+                  users={filteredUsers}
+                  onRefresh={fetchPremiumUsers}
+                />
               </motion.div>
             </AnimatePresence>
           </motion.div>

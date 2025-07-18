@@ -26,6 +26,9 @@ export default function RootLayout({
   
   return (
     <html lang="en" className={lora.variable}>
+    <head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    </head>
       <body className="font-lora antialiased relative min-h-screen overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center blur-sm scale-110 z-0"
