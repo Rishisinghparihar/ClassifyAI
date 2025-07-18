@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -47,7 +49,7 @@ export default function SuccessPage() {
         }, 1000);
       } catch (err) {
         showErrorMessage("Payment verification failed.");
-      //  router.replace("/dashboard/student");
+        router.replace("/dashboard/student");
       } finally {
         clearInterval(interval);
       }
