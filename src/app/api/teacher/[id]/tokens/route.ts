@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  context: { params: { id: string } }
+  { params }: any
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   try {
     const today = new Date();
