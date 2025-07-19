@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Tektur } from "next/font/google";
@@ -25,12 +27,19 @@ const DashboardStats = () => {
 
   useEffect(() => {
     const fetchSummary = async () => {
-      const res = await fetch("/api/admin/summary");
-      const data = await res.json();
-      if (!data.error) {
-        setSummary(data);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/summary`
+        );
+        const data = await res.json();
+        if (!data.error) {
+          setSummary(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch admin summary:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchSummary();
   }, []);
@@ -77,7 +86,7 @@ const DashboardStats = () => {
             transition={{ duration: 0.4, delay: index * 0.1 }}
             className="bg-white/5 rounded-2xl p-4 text-center"
           >
-            <h3 className={`${tektur.className}  text-gray-400`}>
+            <h3 className={`${tektur.className} text-gray-400`}>
               {stat.label}
             </h3>
             <p
