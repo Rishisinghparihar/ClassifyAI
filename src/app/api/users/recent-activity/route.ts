@@ -15,6 +15,7 @@ export async function GET() {
 
     const result = activities.map((a) => ({
       id: a.id,
+      username: a.userName,
       text: a.action,
       date: a.timestamp.toISOString().split("T")[0],
     }));

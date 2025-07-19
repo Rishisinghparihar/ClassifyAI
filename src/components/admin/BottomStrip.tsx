@@ -41,11 +41,15 @@ const BottomStrip = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center text-cyan-300">Loading dashboard data...</p>;
+    return (
+      <p className="text-center text-cyan-300">Loading dashboard data...</p>
+    );
   }
 
   if (!data?.success) {
-    return <p className="text-center text-red-400">Failed to load dashboard data.</p>;
+    return (
+      <p className="text-center text-red-400">Failed to load dashboard data.</p>
+    );
   }
 
   return (
@@ -57,13 +61,25 @@ const BottomStrip = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h2 className={`text-lg font-bold text-green-300 mb-3 ${tektur.className}`}>🌟 Top Attending Students</h2>
-        {data.topStudents.map((student) => (
-          <div key={student.name} className="flex justify-between text-green-100 py-1">
-            <span>{student.name}</span>
-            <span>{student.percentage}%</span>
-          </div>
-        ))}
+        <h2
+          className={`text-lg font-bold text-green-300 mb-3 ${tektur.className}`}
+        >
+          🌟 Top Attending Students
+        </h2>
+
+        {data.topStudents.length === 0 ? (
+          <p className="text-center text-green-200">No top students found </p>
+        ) : (
+          data.topStudents.map((student) => (
+            <div
+              key={student.name}
+              className="flex justify-between text-green-100 py-1"
+            >
+              <span>{student.name}</span>
+              <span>{student.percentage}%</span>
+            </div>
+          ))
+        )}
       </motion.div>
 
       {/* At-Risk Students */}
@@ -73,13 +89,25 @@ const BottomStrip = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h2 className={`text-lg font-bold text-red-300 mb-3 ${tektur.className}`}>🚨 At-Risk Students</h2>
-        {data.atRiskStudents.map((student) => (
-          <div key={student.name} className="flex justify-between text-red-100 py-1">
-            <span>{student.name}</span>
-            <span>{student.percentage}%</span>
-          </div>
-        ))}
+        <h2
+          className={`text-lg font-bold text-red-300 mb-3 ${tektur.className}`}
+        >
+          🚨 At-Risk Students
+        </h2>
+
+        {data.atRiskStudents.length === 0 ? (
+          <p className="text-center text-red-200">No student at risk</p>
+        ) : (
+          data.atRiskStudents.map((student) => (
+            <div
+              key={student.name}
+              className="flex justify-between text-red-100 py-1"
+            >
+              <span>{student.name}</span>
+              <span>{student.percentage}%</span>
+            </div>
+          ))
+        )}
       </motion.div>
 
       {/* Teacher Activity */}
@@ -89,13 +117,25 @@ const BottomStrip = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h2 className={`text-lg font-bold text-cyan-300 mb-3 ${tektur.className}`}>👩‍🏫 Teacher Activity Today</h2>
-        {data.teacherActivity.map((teacher) => (
-          <div key={teacher.name} className="flex justify-between text-cyan-100 py-1">
-            <span>{teacher.name}</span>
-            <span>{teacher.count} classes</span>
-          </div>
-        ))}
+        <h2
+          className={`text-lg font-bold text-cyan-300 mb-3 ${tektur.className}`}
+        >
+          👩‍🏫 Teacher Activity Today
+        </h2>
+
+        {data.teacherActivity.length === 0 ? (
+          <p className="text-center text-cyan-200">No teacher activity found</p>
+        ) : (
+          data.teacherActivity.map((teacher) => (
+            <div
+              key={teacher.name}
+              className="flex justify-between text-cyan-100 py-1"
+            >
+              <span>{teacher.name}</span>
+              <span>{teacher.count} classes</span>
+            </div>
+          ))
+        )}
       </motion.div>
     </div>
   );

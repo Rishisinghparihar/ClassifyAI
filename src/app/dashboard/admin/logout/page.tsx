@@ -10,7 +10,7 @@ const Logout = () => {
   useEffect(() => {
     localStorage.removeItem("adminId");
     showSuccessMessage("Admin Logged out!")
-    router.push("/auth/login");
+    router.replace("/auth/login");
   }, [router]);
 
   return null;

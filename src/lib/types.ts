@@ -118,6 +118,7 @@ export type Activity = {
   id: string;
   text: string;
   date: string;
+  username:string
 };
 
 export type EventStats = {
@@ -134,4 +135,12 @@ export type Event = {
   type: string; // e.g. Exam, Holiday, Other
   description?: string
   active: boolean;
+};
+
+export type SupportRequest = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
 };

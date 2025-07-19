@@ -17,17 +17,17 @@ export const logActivity = async (
 
 export const titleArrayForPremiumPage = [
   "Total Users",
-  "Premium Users" ,
+  "Premium Users",
   "Ultimate Users",
-  "Pro Users"
-]
+  "Pro Users",
+];
 
-export const titleArrayForEventPage =[
+export const titleArrayForEventPage = [
   "Total Events",
   "Exams",
   "Holidays",
-  "Others"
-]
+  "Others",
+];
 
 export const monthlyPlans = [
   {
@@ -80,10 +80,10 @@ export const monthlyPlans = [
 ];
 
 export function showSuccessMessage(message: string) {
-toast.dismiss();
+  toast.dismiss();
   toast.success(message, {
     style: {
-      background: "rgba(0, 0, 0, 0.5)", 
+      background: "rgba(0, 0, 0, 0.5)",
       color: "#fff",
       fontWeight: "bold",
       backdropFilter: "blur(4px)",
@@ -122,7 +122,8 @@ export const loadRazorpayScript = (): Promise<boolean> => {
 };
 
 export const eventTypeColors: Record<string, string> = {
-  HOLIDAY: "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50",
+  HOLIDAY:
+    "bg-gradient-to-tr from-yellow-200/20 to-yellow-400/20 text-yellow-50",
   EXAM: "bg-gradient-to-tr from-red-200/20 to-red-400/20 text-red-50",
   EVENT: "bg-gradient-to-tr from-green-200/20 to-green-400/20 text-green-50",
 };
@@ -147,29 +148,107 @@ export function extractJSON(rawText: string): any {
   }
 }
 
-    export  const quoteArray = [
-        {
-          text: "You want something? Go get it. Period.",
-          author: "~Chris Gardner",
-        },
-        {
-          text: "I am not afraid of dying, I'm afraid of not trying.",
-          author: "~Jay Z",
-        },
-        {
-          text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-          author: "~Winston Churchill",
-        },
-        {
-          text: "Believe you can and you're halfway there.",
-          author: "~Theodore Roosevelt",
-        },
-        {
-          text: "If they say ‘it’s impossible’, remember it’s impossible for them, not for you.",
-          author: "~Jordan Belfort",
-        },
-        {
-          text: "Success usually comes to those who are too busy to be looking for it.",
-          author: "~Henry David Thoreau",
-        },
-      ];
+export const quoteArray = [
+  {
+    text: "You want something? Go get it. Period.",
+    author: "~Chris Gardner",
+  },
+  {
+    text: "I am not afraid of dying, I'm afraid of not trying.",
+    author: "~Jay Z",
+  },
+  {
+    text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+    author: "~Winston Churchill",
+  },
+  {
+    text: "Believe you can and you're halfway there.",
+    author: "~Theodore Roosevelt",
+  },
+  {
+    text: "If they say ‘it’s impossible’, remember it’s impossible for them, not for you.",
+    author: "~Jordan Belfort",
+  },
+  {
+    text: "Success usually comes to those who are too busy to be looking for it.",
+    author: "~Henry David Thoreau",
+  },
+];
+
+export const SECTIONS = [
+  { key: "email", label: "Change Admin Email" },
+  { key: "logs", label: "Manage Activity Logs" },
+  { key: "contact", label: "Contact Message" },
+  { key: "plans", label: "Manage  Plans" },
+  { key: "export", label: "Export Logs" },
+];
+
+export const verificationEmailHTML = (code: string) => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify your email</title>
+    <style>
+      body {
+        background-color: #0f172a;
+        color: #f8fafc;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background-color: #1e293b;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #38bdf8;
+      }
+      .header {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #38bdf8;
+        margin-bottom: 20px;
+      }
+      .content {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #e2e8f0;
+      }
+      .code {
+        display: inline-block;
+        background-color: #0ea5e9;
+        color: #000;
+        font-weight: bold;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+      .footer {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #64748b;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">ClassifyAI</div>
+      <div class="content">
+        <p>Hello Admin,</p>
+        <p>We received a request to change your admin email address.</p>
+        <p>Please use the following verification code to confirm the change:</p>
+        <div class="code">${code}</div>
+        <p>If you didn’t request this change, please ignore this email.</p>
+      </div>
+      <div class="footer">
+        © ${new Date().getFullYear()} ClassifyAI. All rights reserved.
+      </div>
+    </div>
+  </body>
+  </html>
+`;

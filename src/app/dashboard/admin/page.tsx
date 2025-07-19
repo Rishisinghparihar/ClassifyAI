@@ -46,7 +46,7 @@ const DashboardStats = () => {
 
   if (loading || !summary) {
     return (
-      <p className="text-gray-400 text-2xl text-center mt-80">Loading stats…</p>
+      <p className="text-gray-400 text-2xl text-center mt-80">Loading...</p>
     );
   }
 
