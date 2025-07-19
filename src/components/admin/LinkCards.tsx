@@ -35,7 +35,7 @@ const LinkCards = ({
   }>(null);
 
   const { data: recentUser, isLoading: loadingRecent } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/recent-user?role=${forRole.toUpperCase()}`,
+    `/api/admin/recent-user?role=${forRole.toUpperCase()}`,
     fetcher
   );
 
@@ -57,7 +57,7 @@ const LinkCards = ({
     }
 
     setLoading(true);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/signup`, {
+    const res = await fetch(`/api/admin/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

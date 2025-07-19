@@ -9,7 +9,6 @@ const tektur = Tektur({
   weight: ["400", "500", "600", "700"],
 });
 
-
 const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,7 +16,7 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event`);
+        const res = await fetch(`/api/admin/event`);
         const data = await res.json();
         if (data.success) {
           setEvents(data.events);
@@ -39,12 +38,19 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
     );
   }
 
-  return (
-    <div className="flex outline-none items-center justify-center w-full">
-      {events.length === 0 && (
-        <p className="text-gray-400 text-xs">No upcoming events found.</p>
-      )}
-
+return (
+  <div className="w-full">
+    {loading ? (
+      <p className="text-gray-400 text-xs animate-pulse text-center">
+        Loading upcoming events…
+      </p>
+    ) : events.length === 0 ? (
+      <div className="flex justify-center w-full">
+        <p className="text-gray-400 text-xs text-center">
+          No upcoming events found.
+        </p>
+      </div>
+    ) : (
       <motion.div
         layout
         transition={{ duration: 0.5 }}
@@ -60,7 +66,11 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
               className="flex justify-between outline-none items-center px-2 py-3 hover:cursor-pointer hover:shadow transition-all duration-700 hover:shadow-amber-600 rounded bg-white/5 text-gray-200"
             >
               <article className="flex flex-col max-w-[19rem] p-4">
-                <h3 className={`font-medium text-orange-100 ${tektur.className}`}>{event.title}</h3>
+                <h3
+                  className={`font-medium text-orange-100 ${tektur.className}`}
+                >
+                  {event.title}
+                </h3>
                 <p
                   className="text-xs text-gray-400 truncate"
                   title={event.description}
@@ -82,8 +92,10 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
           ))}
         </ul>
       </motion.div>
-    </div>
-  );
+    )}
+  </div>
+);
+
 };
 
 export default UpComingEvents;

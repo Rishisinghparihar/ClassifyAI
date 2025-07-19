@@ -33,7 +33,7 @@ const AttendanceHistoryPage = () => {
     const fetchHistory = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance/history?studentId=${studentId}&page=${page}&limit=${limit}`
+          `/api/attendance/history?studentId=${studentId}&page=${page}&limit=${limit}`
         );
         const data = await res.json();
         if (data.success) {

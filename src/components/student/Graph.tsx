@@ -17,7 +17,7 @@ const BarGraph: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance/percentage?studentId=${studentId}`);
+        const res = await fetch(`/api/attendance/percentage?studentId=${studentId}`);
         const result: AttendancePercentage[] = await res.json();
 
         // Ensure percentage is a rounded number

@@ -33,7 +33,7 @@ const handlePayment = async (
     return;
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/student/payment`, {
+  const res = await fetch(`/api/student/payment`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

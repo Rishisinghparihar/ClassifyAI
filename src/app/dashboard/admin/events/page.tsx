@@ -24,13 +24,13 @@ const Page = () => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const fetchEvents = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/all`);
+    const res = await fetch(`/api/admin/event/all`);
     const data = await res.json();
     if (data.success) setEvents(data.events);
   };
 
   const fetchStats = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/stats`);
+    const res = await fetch(`/api/admin/event/stats`);
     const data = await res.json();
     if (data.success) setStats(data.stats);
   };
@@ -42,7 +42,7 @@ const Page = () => {
 
   const handleDelete = async () => {
     if (!selectedEvent) return;
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/delete`, {
+    await fetch(`/api/admin/event/delete`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ eventId: selectedEvent.id }),

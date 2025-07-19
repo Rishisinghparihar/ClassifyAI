@@ -25,8 +25,8 @@ const PremiumUsersTable = ({
     try {
       const endpoint =
         action === "cancel"
-          ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/remove-premium`
-          : `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/downgrade-premium`;
+          ? `/api/admin/remove-premium`
+          : `/api/admin/downgrade-premium`;
 
       const res = await fetch(endpoint, {
         method: "POST",

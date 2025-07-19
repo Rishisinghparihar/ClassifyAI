@@ -17,7 +17,7 @@ const PremiumFeaturesCard = ({ studentId }: { studentId: string }) => {
 
   const fetchPremiumStatus = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/student/status?studentId=${studentId}`);
+      const res = await fetch(`/api/student/status?studentId=${studentId}`);
       const data: PremiumStatusResponse = await res.json();
       setPremiumStatus(data);
     } catch (error) {

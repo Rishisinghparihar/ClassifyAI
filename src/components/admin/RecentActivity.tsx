@@ -26,7 +26,7 @@ const RecentActivity = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/recent-activity`);
+        const res = await fetch(`/api/admin/recent-activity`);
         const data = await res.json();
         if (data.success) {
           setActivities(data.activities);

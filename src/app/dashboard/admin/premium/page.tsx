@@ -25,7 +25,7 @@ const Page = () => {
 
   const fetchPremiumCount = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/premium-count`);
+      const res = await fetch(`/api/users/premium-count`);
       const data = await res.json();
       if (data.success) {
         setTotalPremiumUsers(data.totalPremiums);
@@ -36,7 +36,7 @@ const Page = () => {
   };
 
   const fetchStats = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/stats`);
+    const res = await fetch(`/api/users/stats`);
     const data = await res.json();
     if (data.success) {
       setStats(data.stats);
@@ -44,7 +44,7 @@ const Page = () => {
   };
 
   const fetchPremiumUsers = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/premium-count/all`);
+    const res = await fetch(`/api/users/premium-count/all`);
     const data = await res.json();
     if (data.success) {
       setAllUsers(data.users);

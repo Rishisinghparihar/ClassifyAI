@@ -29,7 +29,7 @@ const DashboardStats = () => {
     const fetchSummary = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/summary`
+          `/api/admin/summary`
         );
         const data = await res.json();
         if (!data.error) {

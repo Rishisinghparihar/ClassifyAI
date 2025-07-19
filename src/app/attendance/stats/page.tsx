@@ -33,7 +33,7 @@ const Page = () => {
     const fetchStats = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance/bunk-manager?studentId=${studentId}`
+          `/api/attendance/bunk-manager?studentId=${studentId}`
         );
         const data = await res.json();
         if (data.status) {

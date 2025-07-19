@@ -10,7 +10,7 @@ export default function TeacherDashboard() {
   const fetchTokens = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/teacher/${teacherId}/tokens`);
+      const res = await fetch(`/api/teacher/${teacherId}/tokens`);
       const data = await res.json();
       if (res.ok) {
         setTokens(data);

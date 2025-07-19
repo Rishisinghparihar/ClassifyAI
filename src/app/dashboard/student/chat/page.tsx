@@ -33,7 +33,7 @@ const router = useRouter();
     setInput("");
     setIsBotTyping(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ask`, {
+      const res = await fetch(`/api/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: input, model }),

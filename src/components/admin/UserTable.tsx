@@ -18,7 +18,7 @@ const UserTable = () => {
   const [role, setRole] = useState<"STUDENT" | "TEACHER">("STUDENT");
 
   const { data, isLoading, error } = useSWR<{ users: User[] }>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/users?role=${role}`,
+    `/api/admin/users?role=${role}`,
     fetcher
   );
 

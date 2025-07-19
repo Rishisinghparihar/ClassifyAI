@@ -38,7 +38,7 @@ const ScanPage = () => {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance`, {
+      const res = await fetch(`/api/attendance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
