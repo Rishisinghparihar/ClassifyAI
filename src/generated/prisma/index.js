@@ -229,6 +229,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -246,6 +250,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -254,8 +259,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id               String           @id @default(cuid())\n  name             String\n  email            String           @unique\n  role             Role\n  attendance       Attendance[]\n  isPremium        Boolean          @default(false)\n  createdAt        DateTime         @default(now())\n  premiumFeatures  PremiumFeature[] @relation(\"UserPremiumFeatures\")\n  premiumExpiresAt DateTime?\n  GoogleToken      GoogleToken[]\n  RecentActivity   RecentActivity[]\n  branch           String?\n  year             Int?\n  semester         Int?\n}\n\nmodel Attendance {\n  id        String   @id @default(uuid())\n  student   User     @relation(fields: [studentId], references: [id])\n  studentId String\n  subject   String\n  date      DateTime @default(now())\n  status    String // \"present\", \"absent\", \"late\"\n  markedBy  String // teacher id or \"QR/Face\"\n}\n\nmodel AttendanceToken {\n  id          String   @id @default(uuid())\n  token       String   @unique\n  subject     String\n  professorId String\n  issuedAt    DateTime @default(now())\n  expiresAt   DateTime\n}\n\nmodel PremiumFeature {\n  id        String   @id @default(cuid())\n  name      String   @unique\n  users     User[]   @relation(\"UserPremiumFeatures\")\n  createdAt DateTime @default(now())\n}\n\nmodel Event {\n  id          String    @id @default(cuid())\n  title       String\n  description String?\n  date        DateTime\n  type        EventType\n  active      Boolean   @default(true)\n  createdBy   String\n  createdAt   DateTime  @default(now())\n}\n\nmodel GoogleToken {\n  userId       String   @id\n  accessToken  String\n  refreshToken String?\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n}\n\nmodel RecentActivity {\n  id        String   @id @default(cuid())\n  userId    String?\n  userName  String?\n  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)\n  action    String\n  timestamp DateTime @default(now())\n}\n\nmodel SupportRequest {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  message   String\n  createdAt DateTime @default(now())\n}\n\nenum EventType {\n  HOLIDAY\n  EXAM\n  EVENT\n}\n\nenum Role {\n  STUDENT\n  TEACHER\n  ADMIN\n}\n\nenum PremiumFeatureType {\n  AI_CHATBOT\n  STUDY_PLAN\n  CALENDAR_SYNC\n}\n",
-  "inlineSchemaHash": "9ef2fc5248151fca4039942c70c9d2b4aedc7eb53d5a301b7e1c8b9af78bf1f9",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id               String           @id @default(cuid())\n  name             String\n  email            String           @unique\n  role             Role\n  attendance       Attendance[]\n  isPremium        Boolean          @default(false)\n  createdAt        DateTime         @default(now())\n  premiumFeatures  PremiumFeature[] @relation(\"UserPremiumFeatures\")\n  premiumExpiresAt DateTime?\n  GoogleToken      GoogleToken[]\n  RecentActivity   RecentActivity[]\n  branch           String?\n  year             Int?\n  semester         Int?\n}\n\nmodel Attendance {\n  id        String   @id @default(uuid())\n  student   User     @relation(fields: [studentId], references: [id])\n  studentId String\n  subject   String\n  date      DateTime @default(now())\n  status    String // \"present\", \"absent\", \"late\"\n  markedBy  String // teacher id or \"QR/Face\"\n}\n\nmodel AttendanceToken {\n  id          String   @id @default(uuid())\n  token       String   @unique\n  subject     String\n  professorId String\n  issuedAt    DateTime @default(now())\n  expiresAt   DateTime\n}\n\nmodel PremiumFeature {\n  id        String   @id @default(cuid())\n  name      String   @unique\n  users     User[]   @relation(\"UserPremiumFeatures\")\n  createdAt DateTime @default(now())\n}\n\nmodel Event {\n  id          String    @id @default(cuid())\n  title       String\n  description String?\n  date        DateTime\n  type        EventType\n  active      Boolean   @default(true)\n  createdBy   String\n  createdAt   DateTime  @default(now())\n}\n\nmodel GoogleToken {\n  userId       String   @id\n  accessToken  String\n  refreshToken String?\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n}\n\nmodel RecentActivity {\n  id        String   @id @default(cuid())\n  userId    String?\n  userName  String?\n  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)\n  action    String\n  timestamp DateTime @default(now())\n}\n\nmodel SupportRequest {\n  id        String   @id @default(cuid())\n  name      String\n  email     String\n  message   String\n  createdAt DateTime @default(now())\n}\n\nenum EventType {\n  HOLIDAY\n  EXAM\n  EVENT\n}\n\nenum Role {\n  STUDENT\n  TEACHER\n  ADMIN\n}\n\nenum PremiumFeatureType {\n  AI_CHATBOT\n  STUDY_PLAN\n  CALENDAR_SYNC\n}\n",
+  "inlineSchemaHash": "057b932147d5f7c64d94bc311761cc2d3730617ded095795704765ae9d6d25a5",
   "copyEngine": true
 }
 
@@ -296,6 +301,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
