@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
- // output: "export"
- devIndicators: false
+  reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://classify-ai-psi.vercel.app/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
