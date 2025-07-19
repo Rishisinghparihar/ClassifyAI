@@ -8,7 +8,7 @@ const RecentAttendancePage = ({ expanded }: { expanded: boolean }) => {
 
   useEffect(() => {
     const fetchRecent = async () => {
-      const res = await fetch("/api/admin/recent-attendance");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/recent-attendance`);
       const data = await res.json();
       if (data.success) {
         setRecent(data.recent);

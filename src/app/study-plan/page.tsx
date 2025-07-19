@@ -41,7 +41,7 @@ const StudyPlanPage = () => {
     }, 150);
 
     try {
-      const res = await fetch("/api/study-plan/generate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/study-plan/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ syllabus, examDate }),

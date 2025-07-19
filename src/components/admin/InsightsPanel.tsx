@@ -16,7 +16,7 @@ const InsightsPanel = () => {
 
   useEffect(() => {
     const fetchInsights = async () => {
-      const res = await fetch("/api/admin/event/insights");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/insights`);
       const json = await res.json();
       if (json.success) setData({ risks: json.risks, insights: json.insights });
     };

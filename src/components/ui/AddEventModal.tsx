@@ -68,7 +68,7 @@ const AddEventModal = ({
   const handleSubmit = async () => {
     setLoading(true);
     const res = await fetch(
-      mode === "add" ? "/api/admin/event/create" : "/api/admin/event/edit",
+      mode === "add" ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/create` : `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event/edit`,
       {
         method: mode === "add" ? "POST" : "PATCH",
         headers: { "Content-Type": "application/json" },

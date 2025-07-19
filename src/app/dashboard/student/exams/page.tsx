@@ -11,7 +11,7 @@ const Page = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const res = await fetch("/api/exam");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/exam`);
         const data = await res.json();
         if (data.success) setExams(data.exams);
       } catch (err) {

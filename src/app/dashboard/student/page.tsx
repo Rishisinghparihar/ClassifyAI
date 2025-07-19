@@ -36,7 +36,7 @@ export default function StudentDashboard() {
 
     const fetchTodayAttendance = async () => {
       try {
-        const res = await fetch(`/api/attendance/today?studentId=${studentId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance/today?studentId=${studentId}`);
         const data = await res.json();
         setTodayAttendance(data || []);
         console.log({ data });
@@ -50,7 +50,7 @@ export default function StudentDashboard() {
     const fetchStats = async () => {
       try {
         const res = await fetch(
-          `/api/attendance/statistics?studentId=${studentId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/attendance/statistics?studentId=${studentId}`
         );
         const data = await res.json();
         setStats(data);
@@ -61,7 +61,7 @@ export default function StudentDashboard() {
     };
     const fetchPremiumStatus = async () => {
       try {
-        const res = await fetch(`/api/student/status?studentId=${studentId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/student/status?studentId=${studentId}`);
         const data = await res.json();
         setPremiumStatus(data);
         console.log({ premium: data });

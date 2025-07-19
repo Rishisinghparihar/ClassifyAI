@@ -12,7 +12,7 @@ const UpcomingExpirations = () => {
   const [expirations, setExpirations] = useState<Expiration[]>([]);
   useEffect(() => {
     const fetchExpirations = async () => {
-      const res = await fetch("/api/users/expirations");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/expirations`);
       const data = await res.json();
       if (data.success) {
         setExpirations(data.upcomingExpirations || []);

@@ -17,7 +17,7 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch("/api/admin/event");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/event`);
         const data = await res.json();
         if (data.success) {
           setEvents(data.events);
