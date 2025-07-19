@@ -15,7 +15,7 @@ const Page = () => {
       return;
     }
 
-    const res = await fetch("/api/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
       method: "POST",
       body: JSON.stringify({ email, name }),
     });
