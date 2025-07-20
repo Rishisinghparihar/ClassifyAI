@@ -50,7 +50,7 @@ const ContactRequestsSection = () => {
   };
 
   return (
-    <div className="bg-white/5 h-[75vh] flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden">
+    <div className="bg-white/5 h-[75vh] z-0 relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden">
       <h2
         className={`text-4xl font-bold mb-4 text-orange-300 ${tektur.className}`}
       >
@@ -65,11 +65,11 @@ const ContactRequestsSection = () => {
           {requests.map((req) => (
             <div
               key={req.id}
-              className="bg-white/10 text-white p-4 rounded mb-3 shadow"
+              className="bg-neutral-900/80 text-white p-4 rounded mb-3 shadow"
             >
               <div className="flex justify-between items-center mb-2">
                 <div>
-                  <h3 className="font-bold text-lg">{req.name}</h3>
+                  <h3 className={`${tektur.className} font-bold text-lg`}>{req.name}</h3>
                   <p className="text-sm text-white/70">
                     {new Date(req.createdAt).toLocaleString()}
                   </p>
@@ -92,6 +92,8 @@ const ContactRequestsSection = () => {
           ))}
         </div>
       )}
+      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -right-[3rem] -top-[3rem]   h-60 w-60 "></div>
+      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -left-[3rem] -bottom-[3rem]   h-60 w-60"></div>
     </div>
   );
 };

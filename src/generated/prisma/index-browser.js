@@ -192,6 +192,14 @@ exports.Prisma.SupportRequestScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PlanConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -226,7 +234,8 @@ exports.Prisma.ModelName = {
   Event: 'Event',
   GoogleToken: 'GoogleToken',
   RecentActivity: 'RecentActivity',
-  SupportRequest: 'SupportRequest'
+  SupportRequest: 'SupportRequest',
+  PlanConfig: 'PlanConfig'
 };
 
 /**

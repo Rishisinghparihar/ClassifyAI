@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import { SECTIONS } from "@/lib/helper";
 import { AnimatePresence, motion } from "framer-motion";
-import ChangeEmailSection from "@/components/admin/ChangeEmailSection"
-import ContactRequestsSection from "@/components/admin/ContactRequestsSection";
+import ChangeEmailSection from "@/components/admin/settings/ChangeEmailSection";
+import ContactRequestsSection from "@/components/admin/settings/ContactRequestsSection";
+import ManageLogsSection from "@/components/admin/settings/ManageLogsSection";
+import ManagePlansSection from "@/components/admin/settings/ManagePlansSection";
+import ExportLogsSection from "@/components/admin/settings/ExportLogsSection";
 const SettingsPage = () => {
   const [activeSection, setActiveSection] = useState("email");
   return (
@@ -33,11 +36,22 @@ const SettingsPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <ChangeEmailSection/>
+              <ChangeEmailSection />
             </motion.div>
           )}
-          
+
           {activeSection === "contact" && (
+            <motion.div
+              key="contact"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ContactRequestsSection />
+            </motion.div>
+          )}
+          {activeSection === "logs" && (
             <motion.div
               key="logs"
               initial={{ opacity: 0, y: 20 }}
@@ -45,7 +59,29 @@ const SettingsPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <ContactRequestsSection />
+              <ManageLogsSection />
+            </motion.div>
+          )}
+          {activeSection === "plans" && (
+            <motion.div
+              key="plans"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ManagePlansSection />
+            </motion.div>
+          )}
+          {activeSection === "export" && (
+            <motion.div
+              key="export"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ExportLogsSection />
             </motion.div>
           )}
         </AnimatePresence>

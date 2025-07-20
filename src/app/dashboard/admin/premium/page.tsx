@@ -130,7 +130,7 @@ const Page = () => {
 
           {/* Side cards */}
           <motion.div
-            className="flex gap-10 mt-16 min-w-[250px]"
+            className="flex gap-10 mt-10 min-w-[250px]"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"

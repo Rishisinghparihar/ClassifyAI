@@ -89,6 +89,15 @@ model SupportRequest {
   createdAt DateTime @default(now())
 }
 
+model PlanConfig {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  price     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
 enum EventType {
   HOLIDAY
   EXAM

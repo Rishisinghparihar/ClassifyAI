@@ -3,7 +3,6 @@
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -95,7 +94,7 @@ export default function ChangeEmailSection() {
   };
 
   return (
-    <div className="bg-white/5 h-[75vh] flex flex-col items-center  p-6 rounded-xl shadow">
+    <div className= "relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center  p-6 rounded-xl shadow">
       <h2
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
@@ -148,6 +147,8 @@ export default function ChangeEmailSection() {
           </>
         )}
       </div>
+      <div className="bg-orange-800/35 rounded-full z-[-1] absolute -right-[3rem] -top-[3rem]   h-60 w-60 "></div>
+      <div className="bg-orange-800/35 rounded-full z-[-1] absolute -left-[3rem] -bottom-[3rem]   h-60 w-60"></div>
     </div>
   );
 }
