@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Tektur } from "next/font/google";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
+import { motion } from "framer-motion";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -44,18 +45,32 @@ export default function ExportLogsSection() {
   };
 
   return (
-    <div className="bg-white/5 h-[75vh] relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden">
-      <h2
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white/5 h-[75vh] relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden"
+    >
+      <motion.h2
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
         Export Activity Logs
-      </h2>
+      </motion.h2>
 
-      <div className="flex flex-col gap-6 max-w-sm w-full mt-16">
-        <select
+      <motion.div
+        className="flex flex-col gap-6 max-w-sm w-full mt-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.select
           value={type}
           onChange={(e) => setType(e.target.value as "all" | "login")}
           className="px-4 py-3 rounded bg-white/10 appearance-none text-white placeholder:text-white/50 focus:outline-none"
+          whileFocus={{ scale: 1.02 }}
         >
           <option value="all" className="text-white bg-neutral-700">
             All Logs
@@ -63,9 +78,10 @@ export default function ExportLogsSection() {
           <option value="login" className="text-white bg-neutral-700">
             Only Login Logs
           </option>
-        </select>
+        </motion.select>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={handleExport}
           disabled={loading}
           className="bg-orange-600 hover:bg-orange-700 transition rounded px-4 py-2 text-white font-semibold"
@@ -73,11 +89,10 @@ export default function ExportLogsSection() {
           {loading
             ? "Exporting…"
             : `Export ${type === "login" ? "Login" : "All"} Logs`}
-        </button>
-      </div>
-      <div className="bg-red-500 border border-white z-[9999]">
-        <AnimatedBlobs />
-      </div>
-    </div>
+        </motion.button>
+      </motion.div>
+
+      <AnimatedBlobs />
+    </motion.div>
   );
 }

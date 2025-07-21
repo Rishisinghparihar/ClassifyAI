@@ -4,6 +4,7 @@ import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export default function ManageLogsSection() {
         } else {
           showErrorMessage(data.error || "Failed to fetch log counts.");
         }
-      } catch (err) {
+      } catch {
         showErrorMessage("Something went wrong while fetching log counts.");
       }
     };
@@ -71,7 +72,7 @@ export default function ManageLogsSection() {
       } else {
         showErrorMessage(data.error || "Failed to delete logs.");
       }
-    } catch (err) {
+    } catch {
       showErrorMessage("Something went wrong while deleting logs.");
     } finally {
       setLoading(false);
@@ -79,25 +80,46 @@ export default function ManageLogsSection() {
   };
 
   return (
-    <div className="bg-white/5 h-[75vh] z-0 relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden">
-      <h2
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white/5 h-[75vh] z-0 relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden"
+    >
+      <motion.h2
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
         Manage Activity Logs
-      </h2>
-      <div className="flex gap-10">
-        <p className="text-white/80 text-lg  mb-2">
+      </motion.h2>
+
+      <motion.div
+        className="flex gap-10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <p className="text-white/80 text-lg mb-2">
           Total logs: <span className="font-semibold">{totalLogs}</span>
         </p>
         <p className="text-white/80 mb-4 text-lg">
-          Login logs: <span className="font-semibold ">{loginLogs}</span>
+          Login logs: <span className="font-semibold">{loginLogs}</span>
         </p>
-      </div>
-      <div className="flex flex-col items-center mt-36 justify-center gap-10 max-w-sm">
-        <select
+      </motion.div>
+
+      <motion.div
+        className="flex flex-col items-center mt-36 justify-center gap-10 max-w-sm"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <motion.select
           value={type}
           onChange={(e) => setType(e.target.value as "all" | "login")}
           className="px-4 py-3 rounded bg-white/10 appearance-none w-[30rem] text-white placeholder:text-white/50 focus:outline-none"
+          whileFocus={{ scale: 1.02 }}
         >
           <option value="all" className="text-white bg-neutral-700">
             All Logs
@@ -105,18 +127,20 @@ export default function ManageLogsSection() {
           <option value="login" className="text-white bg-neutral-700">
             Only Login Logs
           </option>
-        </select>
+        </motion.select>
 
-        <input
+        <motion.input
           type="number"
           placeholder="Number of logs to delete"
           min={1}
           value={deleteCount}
           onChange={(e) => setDeleteCount(Number(e.target.value))}
-          className="px-4 py-3 rounded bg-white/10 text-white w-[30rem]  placeholder:text-white/50 focus:outline-none"
+          className="px-4 py-3 rounded bg-white/10 text-white w-[30rem] placeholder:text-white/50 focus:outline-none"
+          whileFocus={{ scale: 1.02 }}
         />
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={handleDeleteLogs}
           disabled={loading}
           className="bg-orange-600 outline-none hover:bg-orange-700 w-[30rem] cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
@@ -124,9 +148,10 @@ export default function ManageLogsSection() {
           {loading
             ? "Deleting…"
             : `Delete ${type === "login" ? "Login" : "All"} Logs`}
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
+
       <AnimatedBlobs />
-    </div>
+    </motion.div>
   );
 }

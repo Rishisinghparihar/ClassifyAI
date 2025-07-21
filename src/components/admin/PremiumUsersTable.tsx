@@ -7,6 +7,8 @@ import { PremiumUser } from "@/lib/types";
 import PremiumCancelModal from "../ui/PremiumCancelModal";
 import { showSuccessMessage } from "@/lib/helper";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 const PremiumUsersTable = ({
   users,
   onRefresh,
@@ -43,7 +45,7 @@ const PremiumUsersTable = ({
         showSuccessMessage(
           action === "cancel" ? "Premium removed" : "Premium downgraded"
         );
-        onRefresh(); // ✅ reload users in parent
+        onRefresh();
       } else {
         console.error(data.error);
       }
@@ -78,67 +80,73 @@ const PremiumUsersTable = ({
           <div className="h-[250px] overflow-y-auto scrollbar-hide scroll-smooth">
             <table className="min-w-full bg-orange-50/5 text-sm text-orange-50">
               <tbody>
-                {users.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="border-t border-orange-700/50 hover:bg-orange-900/20"
-                  >
-                    <td className="px-4 py-4 whitespace-nowrap text-center truncate w-[120px]">
-                      {user.name}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-center truncate w-[180px]">
-                      {user.email}
-                    </td>
-                    <td className="px-4 py-4 text-center w-[100px]">
-                      <Badge
-                        variant={
-                          user.plan === "ULTIMATE" ? "destructive" : "default"
-                        }
-                      >
-                        {user.plan}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-4 text-center w-[120px]">
-                      {new Date(user.startDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-4 text-center w-[120px]">
-                      {new Date(user.endDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-4 text-center w-[100px] ">
-                      <Badge
-                        variant={
-                          user.status === "ACTIVE" ? "default" : "destructive"
-                        }
-                      >
-                        {user.status}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-4 text-center space-x-2 w-[180px]">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setAction("downgrade");
-                          setShowModal(true);
-                        }}
-                      >
-                        Downgrade
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setAction("cancel");
-                          setShowModal(true);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                <AnimatePresence>
+                  {users.map((user) => (
+                    <motion.tr
+                      key={user.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-orange-700/50 hover:bg-orange-900/20"
+                    >
+                      <td className="px-4 py-4 whitespace-nowrap text-center truncate w-[120px]">
+                        {user.name}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-center truncate w-[180px]">
+                        {user.email}
+                      </td>
+                      <td className="px-4 py-4 text-center w-[100px]">
+                        <Badge
+                          variant={
+                            user.plan === "ULTIMATE" ? "destructive" : "default"
+                          }
+                        >
+                          {user.plan}
+                        </Badge>
+                      </td>
+                      <td className="px-4 py-4 text-center w-[120px]">
+                        {new Date(user.startDate).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-4 text-center w-[120px]">
+                        {new Date(user.endDate).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-4 text-center w-[100px]">
+                        <Badge
+                          variant={
+                            user.status === "ACTIVE" ? "default" : "destructive"
+                          }
+                        >
+                          {user.status}
+                        </Badge>
+                      </td>
+                      <td className="px-4 py-4 text-center space-x-2 w-[180px]">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => {
+                            setSelectedUser(user);
+                            setAction("downgrade");
+                            setShowModal(true);
+                          }}
+                        >
+                          Downgrade
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => {
+                            setSelectedUser(user);
+                            setAction("cancel");
+                            setShowModal(true);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
               </tbody>
             </table>
           </div>
@@ -165,4 +173,3 @@ const PremiumUsersTable = ({
 };
 
 export default PremiumUsersTable;
-  

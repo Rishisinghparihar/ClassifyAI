@@ -4,6 +4,7 @@ import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ export default function ChangeEmailSection() {
         } else {
           showErrorMessage(data.error || "Failed to load email.");
         }
-      } catch (err) {
+      } catch {
         showErrorMessage("Something went wrong while fetching email.");
       }
     };
@@ -59,7 +60,7 @@ export default function ChangeEmailSection() {
       } else {
         showErrorMessage(data.error || "Failed to send verification code.");
       }
-    } catch (err) {
+    } catch {
       showErrorMessage("Something went wrong while requesting verification.");
     } finally {
       setLoading(false);
@@ -90,7 +91,7 @@ export default function ChangeEmailSection() {
       } else {
         showErrorMessage(data.error || "Verification failed.");
       }
-    } catch (err) {
+    } catch {
       showErrorMessage("Something went wrong during verification.");
     } finally {
       setLoading(false);
@@ -98,12 +99,20 @@ export default function ChangeEmailSection() {
   };
 
   return (
-    <div className="relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center  p-6 rounded-xl shadow">
-      <h2
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center p-6 rounded-xl shadow"
+    >
+      <motion.h2
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
         Change Admin Email
-      </h2>
+      </motion.h2>
 
       <p className="text-white/80 mb-14">
         Current Email:{" "}
@@ -115,45 +124,64 @@ export default function ChangeEmailSection() {
       </p>
 
       <div className="flex flex-col gap-10 mt-20 max-w-sm w-full">
-        {step === "request" && (
-          <>
-            <input
-              type="email"
-              placeholder="Enter new email"
-              className="px-4 py-3 rounded bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-            />
-            <button
-              onClick={handleRequestVerification}
-              disabled={loading}
-              className="bg-orange-600 outline-none hover:bg-orange-700 cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
+        <AnimatePresence mode="wait">
+          {step === "request" && (
+            <motion.div
+              key="request"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-6"
             >
-              {loading ? "Sending…" : "Send Verification Code"}
-            </button>
-          </>
-        )}
+              <input
+                type="email"
+                placeholder="Enter new email"
+                className="px-4 py-3 rounded bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+              />
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handleRequestVerification}
+                disabled={loading}
+                className="bg-orange-600 outline-none hover:bg-orange-700 cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
+              >
+                {loading ? "Sending…" : "Send Verification Code"}
+              </motion.button>
+            </motion.div>
+          )}
 
-        {step === "verify" && (
-          <>
-            <input
-              type="text"
-              placeholder="Enter verification code"
-              className="px-4 py-3 rounded bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-            />
-            <button
-              onClick={handleVerifyCode}
-              disabled={loading}
-              className="bg-green-600 outline-none hover:bg-green-700 cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
+          {step === "verify" && (
+            <motion.div
+              key="verify"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-6"
             >
-              {loading ? "Verifying…" : "Verify & Update"}
-            </button>
-          </>
-        )}
+              <input
+                type="text"
+                placeholder="Enter verification code"
+                className="px-4 py-3 rounded bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+              />
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handleVerifyCode}
+                disabled={loading}
+                className="bg-green-600 outline-none hover:bg-green-700 cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
+              >
+                {loading ? "Verifying…" : "Verify & Update"}
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
       <AnimatedBlobs />
-    </div>
+    </motion.div>
   );
 }

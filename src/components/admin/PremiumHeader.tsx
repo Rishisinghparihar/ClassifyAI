@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
+import { motion } from "framer-motion";
+
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -39,14 +41,27 @@ const PremiumHeader = ({
   };
 
   return (
-    <header className="w-full px-6 py-4 shadow flex flex-col gap-4 items-center relative">
-      <h1
+    <motion.header
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full px-6 py-4 shadow flex flex-col gap-4 items-center relative"
+    >
+      <motion.h1
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2 }}
         className={`${tektur.className} text-4xl text-orange-200 text-center`}
       >
         Premium Management
-      </h1>
+      </motion.h1>
 
-      <div className="flex flex-col sm:flex-row gap-4 items-center">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="flex flex-col sm:flex-row gap-4 items-center"
+      >
         <span className="bg-amber-600 text-orange-50 px-3 py-1 rounded-full text-sm shadow">
           Total Premium Students: {totalPremiumStudents}
         </span>
@@ -59,8 +74,8 @@ const PremiumHeader = ({
           <FontAwesomeIcon icon={faPaperPlane} />
           {loading ? "Sending…" : "Send Monthly Reports"}
         </button>
-      </div>
-    </header>
+      </motion.div>
+    </motion.header>
   );
 };
 
