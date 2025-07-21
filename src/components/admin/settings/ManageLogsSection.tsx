@@ -125,8 +125,10 @@ export default function ManageLogsSection() {
             : `Delete ${type === "login" ? "Login" : "All"} Logs`}
         </button>
       </div>
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -right-[3rem] -top-[3rem]   h-60 w-60 "></div>
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -left-[3rem] -bottom-[3rem]   h-60 w-60"></div>
+      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -right-[3rem] -top-[3rem] h-60 w-60 overflow-visible">
+      </div>
+      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -left-[3rem] -bottom-[3rem] h-60 w-60 overflow-visible">
+      </div>
     </div>
   );
 }
