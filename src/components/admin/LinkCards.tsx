@@ -29,6 +29,10 @@ const LinkCards = ({
     year: "",
     semester: "",
   });
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState<"form" | "otp">("form");
+  const [emailVerified, setEmailVerified] = useState(false);
+
   const [message, setMessage] = useState<null | {
     type: "success" | "error";
     text: string;
@@ -39,20 +43,55 @@ const LinkCards = ({
     fetcher
   );
 
-  const handleSubmit = async () => {
-    if (!formData.name || !formData.email) {
-      setMessage({ type: "error", text: "Name & Email are required" });
+  const handleSendOtp = async () => {
+    if (!formData.email) {
+      setMessage({ type: "error", text: "Please enter email" });
       return;
     }
-    if (
-      forRole === "student" &&
-      modalOpen === "add" &&
-      (!formData.branch || !formData.year || !formData.semester)
-    ) {
-      setMessage({
-        type: "error",
-        text: "Branch, Year & Semester are required",
-      });
+    setLoading(true);
+    const res = await fetch("/api/mail/send-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: formData.email }),
+    });
+    console.log({ res });
+    if (res.ok) {
+      setStep("otp");
+      setMessage({ type: "success", text: "OTP sent to your email" });
+    } else {
+      setMessage({ type: "error", text: "Failed to send OTP" });
+    }
+    setLoading(false);
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp) {
+      setMessage({ type: "error", text: "Please enter OTP" });
+      return;
+    }
+    setLoading(true);
+    const res = await fetch("/api/mail/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: formData.email, otp }),
+    });
+    if (res.ok) {
+      setEmailVerified(true);
+      setStep("form");
+      setMessage({ type: "success", text: "Email verified" });
+    } else {
+      setMessage({ type: "error", text: "Invalid OTP" });
+    }
+    setLoading(false);
+  };
+
+  const handleSubmit = async () => {
+    if (!emailVerified) {
+      setMessage({ type: "error", text: "Please verify email first" });
+      return;
+    }
+    if (!formData.name || !formData.email) {
+      setMessage({ type: "error", text: "Name & Email are required" });
       return;
     }
 
@@ -98,6 +137,9 @@ const LinkCards = ({
     setModalOpen(null);
     setMessage(null);
     setFormData({ name: "", email: "", branch: "", year: "", semester: "" });
+    setOtp("");
+    setStep("form");
+    setEmailVerified(false);
   };
 
   return (
@@ -148,6 +190,7 @@ const LinkCards = ({
           </div>
         </div>
       </div>
+
       <ModalPortal>
         <AnimatePresence>
           {modalOpen && (
@@ -160,29 +203,34 @@ const LinkCards = ({
               onClick={closeModal}
             >
               <div
-                className="from-orange-800/50 via-orange-300/50 to-orange-800/50 bg-gradient-to-bl p-6 rounded-lg shadow-lg text-black w-[400px]"
+                className="from-orange-800/50 via-orange-300/50 to-orange-800/50 bg-gradient-to-bl p-6 rounded-lg shadow-lg text-black w-[400px] relative"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h2 className={`${tektur.className} text-xl mb-4`}>
                   {modalOpen === "add" ? "Add" : "Remove"} {forRole}
                 </h2>
+
                 <input
                   type="text"
                   placeholder="Name"
                   value={formData.name}
+                  autoComplete="off"
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className={`${tektur.className} w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2`}
+                  className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                  disabled={loading}
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   value={formData.email}
+                  autoComplete="off"
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className={`${tektur.className} w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2`}
+                  className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                  disabled={loading}
                 />
 
                 {forRole === "student" && modalOpen === "add" && (
@@ -194,32 +242,48 @@ const LinkCards = ({
                       onChange={(e) =>
                         setFormData({ ...formData, branch: e.target.value })
                       }
-                      className={`${tektur.className} w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2`}
+                      className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                      disabled={loading}
                     />
                     <input
                       type="number"
                       placeholder="Year"
                       value={formData.year}
+                      autoComplete="off"
                       onChange={(e) =>
                         setFormData({ ...formData, year: e.target.value })
                       }
-                      className={`${tektur.className} w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2`}
+                      className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                      disabled={loading}
                     />
                     <input
                       type="number"
                       placeholder="Semester"
                       value={formData.semester}
+                      autoComplete="off"
                       onChange={(e) =>
                         setFormData({ ...formData, semester: e.target.value })
                       }
-                      className={`${tektur.className} w-full ring focus:ring-3 ring-orange-400 transition-all duration-700 outline-none p-2 rounded mb-2`}
+                      className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                      disabled={loading}
                     />
                   </>
                 )}
 
+                {step === "otp" && (
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    autoComplete="off"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                  />
+                )}
+
                 {message && (
                   <div
-                    className={`mb-2 ${
+                    className={`mb-2 ${tektur.className} ${
                       message.type === "success"
                         ? "text-green-600"
                         : "text-red-600"
@@ -230,17 +294,39 @@ const LinkCards = ({
                 )}
 
                 <div className="flex flex-col justify-end gap-2">
-                  <button
-                    className={`px-4 py-2 w-full bg-orange-500 text-white rounded cursor-pointer hover:bg-orange-600 transition-all duration-500 ${tektur.className}`}
-                    disabled={loading}
-                    onClick={handleSubmit}
-                  >
-                    {loading
-                      ? "Processing..."
-                      : modalOpen === "add"
-                      ? "Add"
-                      : "Remove"}
-                  </button>
+                  {step === "form" && !emailVerified && (
+                    <button
+                      onClick={handleSendOtp}
+                      disabled={loading}
+                      className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                    >
+                      {loading ? "Sending…" : "Send OTP"}
+                    </button>
+                  )}
+
+                  {step === "otp" && (
+                    <button
+                      onClick={handleVerifyOtp}
+                      disabled={loading}
+                      className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                    >
+                      {loading ? "Verifying…" : "Verify OTP"}
+                    </button>
+                  )}
+
+                  {emailVerified && (
+                    <button
+                      onClick={handleSubmit}
+                      disabled={loading}
+                      className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                    >
+                      {loading
+                        ? "Processing…"
+                        : modalOpen === "add"
+                        ? "Add"
+                        : "Remove"}
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
