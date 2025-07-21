@@ -1,5 +1,6 @@
 "use client";
 
+import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
 import { useEffect, useState } from "react";
@@ -42,11 +43,14 @@ export default function ChangeEmailSection() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/settings/email/request-verification", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newEmail }),
-      });
+      const res = await fetch(
+        "/api/admin/settings/email/request-verification",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newEmail }),
+        }
+      );
 
       const data = await res.json();
       if (res.ok) {
@@ -94,17 +98,19 @@ export default function ChangeEmailSection() {
   };
 
   return (
-    <div className= "relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center  p-6 rounded-xl shadow">
+    <div className="relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center  p-6 rounded-xl shadow">
       <h2
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
         Change Admin Email
-      </h2>   
+      </h2>
 
       <p className="text-white/80 mb-14">
         Current Email:{" "}
         <span className="font-semibold">
-          {currentEmail || <span className="ml-1 animate-pulse">Loading...</span>}
+          {currentEmail || (
+            <span className="ml-1 animate-pulse">Loading...</span>
+          )}
         </span>
       </p>
 
@@ -147,8 +153,7 @@ export default function ChangeEmailSection() {
           </>
         )}
       </div>
-      <div className="bg-orange-800/35 rounded-full z-[-1] absolute -right-[3rem] -top-[3rem]   h-60 w-60 "></div>
-      <div className="bg-orange-800/35 rounded-full z-[-1] absolute -left-[3rem] -bottom-[3rem]   h-60 w-60"></div>
+      <AnimatedBlobs />
     </div>
   );
 }

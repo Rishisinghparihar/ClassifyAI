@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Tektur } from "next/font/google";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
+import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function ExportLogsSection() {
       link.click();
       link.remove();
 
-      showSuccessMessage(`${type === "login" ? "Login" : "All"} logs exported.`);
+      showSuccessMessage(
+        `${type === "login" ? "Login" : "All"} logs exported.`
+      );
     } catch (err: any) {
       showErrorMessage(err.message || "Something went wrong.");
     } finally {
@@ -72,10 +75,9 @@ export default function ExportLogsSection() {
             : `Export ${type === "login" ? "Login" : "All"} Logs`}
         </button>
       </div>
-
-      {/* Decorative dots */}
-      <div className="bg-orange-800/35 z-0 rounded-full absolute -right-[3rem] -top-[3rem] h-60 w-60"></div>
-      <div className="bg-orange-800/35 z-0 rounded-full absolute -left-[3rem] -bottom-[3rem] h-60 w-60"></div>
+      <div className="bg-red-500 border border-white z-[9999]">
+        <AnimatedBlobs />
+      </div>
     </div>
   );
 }

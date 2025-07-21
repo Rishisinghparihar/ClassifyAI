@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
+import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 
 const tektur = Tektur({
   subsets: ["latin"],
@@ -61,7 +62,7 @@ export default function ManagePlansSection() {
       });
       const data = await res.json();
       if (res.ok) {
-        showSuccessMessage(`Updated ${name.replace("_"," ")} successfully`);
+        showSuccessMessage(`Updated ${name.replace("_", " ")} successfully`);
         fetchPlans();
       } else {
         showErrorMessage(data.message || "Failed to update plan");
@@ -75,12 +76,11 @@ export default function ManagePlansSection() {
 
   return (
     <div className="bg-white/5 h-[75vh] relative z-0 flex flex-col  items-center p-6 rounded-xl shadow w-full overflow-hidden">
-      <h2   
+      <h2
         className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
       >
         Manage Premium Plans
       </h2>
-
       {loading ? (
         <p className="text-white/80 mt-20">Loading plans…</p>
       ) : (
@@ -91,7 +91,7 @@ export default function ManagePlansSection() {
               className="bg-neutral-800 flex flex-col md:flex-row justify-between items-center p-4 rounded-lg gap-4"
             >
               <div className="font-semibold text-lg capitalize w-52 text-orange-300">
-                {(plan.name).replace("_"," ").toLocaleLowerCase()} Plan
+                {plan.name.replace("_", " ").toLocaleLowerCase()} Plan
               </div>
               <input
                 type="number"
@@ -116,9 +116,7 @@ export default function ManagePlansSection() {
           ))}
         </div>
       )}
-
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -right-[3rem] -top-[3rem] h-60 w-60 "></div>
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -left-[3rem] -bottom-[3rem] h-60 w-60"></div>
+      <AnimatedBlobs />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { SupportRequest } from "@/lib/types";
 import { Tektur } from "next/font/google";
@@ -59,7 +60,9 @@ const ContactRequestsSection = () => {
       {loading ? (
         <p className="text-white/80 animate-pulse">Loading requests…</p>
       ) : requests.length === 0 ? (
-        <p className="text-white/80 text-center text-xl mt-52">No contact requests yet.</p>
+        <p className="text-white/80 text-center text-xl mt-52">
+          No contact requests yet.
+        </p>
       ) : (
         <div className="overflow-y-auto w-full max-w-4xl">
           {requests.map((req) => (
@@ -69,7 +72,9 @@ const ContactRequestsSection = () => {
             >
               <div className="flex justify-between items-center mb-2">
                 <div>
-                  <h3 className={`${tektur.className} font-bold text-lg`}>{req.name}</h3>
+                  <h3 className={`${tektur.className} font-bold text-lg`}>
+                    {req.name}
+                  </h3>
                   <p className="text-sm text-white/70">
                     {new Date(req.createdAt).toLocaleString()}
                   </p>
@@ -92,8 +97,7 @@ const ContactRequestsSection = () => {
           ))}
         </div>
       )}
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -right-[3rem] -top-[3rem]   h-60 w-60 "></div>
-      <div className="bg-orange-800/35 z-[-1] rounded-full absolute -left-[3rem] -bottom-[3rem]   h-60 w-60"></div>
+      <AnimatedBlobs />
     </div>
   );
 };
