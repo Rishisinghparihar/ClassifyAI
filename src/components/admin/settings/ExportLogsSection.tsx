@@ -92,7 +92,6 @@ export default function ExportLogsSection() {
         </motion.button>
       </motion.div>
 
-      <AnimatedBlobs />
     </motion.div>
   );
 }

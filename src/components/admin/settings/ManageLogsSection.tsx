@@ -151,7 +151,6 @@ export default function ManageLogsSection() {
         </motion.button>
       </motion.div>
 
-      <AnimatedBlobs />
     </motion.div>
   );
 }

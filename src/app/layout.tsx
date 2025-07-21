@@ -6,6 +6,7 @@ import ClientNavBlocker from "@/components/apps/ClientNavBlocker";
 import RazorpayScriptLoader from "@/components/apps/RazorpayScriptLoader";
 import RouteLoader from "@/components/apps/RouteLoader";
 import NetworkListener from "@/components/apps/NetworkListener";
+import RootBackground from "@/components/apps/RootBackground";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -20,24 +21,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  
+}) {
   return (
     <html lang="en" className={lora.variable}>
-    <head>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    </head>
+      <head>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+      </head>
       <body className="font-lora antialiased relative min-h-screen overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center blur-sm scale-110 z-0"
-          style={{ backgroundImage: 'url("/bg-5.webp")' }}
-        />
-        <ClientNavBlocker/>
-        <RazorpayScriptLoader/>
-        <RouteLoader/>
-        <NetworkListener/>
+        <RootBackground />
+
+        <ClientNavBlocker />
+        <RazorpayScriptLoader />
+        <RouteLoader />
+        <NetworkListener />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className="relative z-10">{children}</div>

@@ -181,7 +181,7 @@ export default function ChangeEmailSection() {
         </AnimatePresence>
       </div>
 
-      <AnimatedBlobs />
+      {/* <AnimatedBlobs /> */}
     </motion.div>
   );
 }

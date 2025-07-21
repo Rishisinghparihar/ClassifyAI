@@ -108,7 +108,7 @@ export default function ManagePlansSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="space-y-10 mt-20 w-full max-w-2xl"
+            className="space-y-5 mt-20 w-full max-w-2xl"
           >
             {plans.map((plan) => (
               <motion.div
@@ -116,7 +116,7 @@ export default function ManagePlansSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-neutral-800 flex flex-col md:flex-row justify-between items-center p-4 rounded-lg gap-4"
+                className="bg-neutral-800/50 flex flex-col md:flex-row justify-between items-center p-4 rounded-lg gap-4"
               >
                 <div className="font-semibold text-lg capitalize w-52 text-orange-300">
                   {plan.name.replace("_", " ").toLocaleLowerCase()} Plan
@@ -148,7 +148,6 @@ export default function ManagePlansSection() {
         )}
       </AnimatePresence>
 
-      <AnimatedBlobs />
     </motion.div>
   );
 }

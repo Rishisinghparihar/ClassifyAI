@@ -1,6 +1,5 @@
 "use client";
 
-import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { SupportRequest } from "@/lib/types";
 import { Tektur } from "next/font/google";
@@ -132,7 +131,6 @@ const ContactRequestsSection = () => {
         )}
       </AnimatePresence>
 
-      <AnimatedBlobs />
 
       {/* Dialog */}
       <AnimatePresence>
