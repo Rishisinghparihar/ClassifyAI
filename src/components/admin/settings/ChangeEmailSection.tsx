@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
@@ -103,18 +103,55 @@ export default function ChangeEmailSection() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative overflow-hidden z-0 bg-white/5 h-[75vh] flex flex-col items-center p-6 rounded-xl shadow"
+      className="relative overflow-hidden z-0 bg-gradient-to-br from-white/10 to-black/20 backdrop-blur-md h-[75vh] flex flex-col items-center p-6 rounded-xl shadow-xl border border-white/10"
     >
+      {/* Animated gradient blobs */}
+      <div className="absolute inset-0 z-0">
+        {/* Purple blob - static with pulse animation */}
+        <div className="absolute -top-1/3 -left-1/3 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+
+        {/* Orange blob - moves in a circular pattern */}
+        <motion.div
+          className="absolute w-80 h-80 animate-pulse bg-orange-500/20 rounded-full filter blur-2xl"
+          animate={{
+            x: ["100%", "0%", "-20%", "0%", "100%"],
+            y: ["100%", "50%", "0%", "50%", "100%"],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+
+        {/* Blue blob - smaller, faster movement */}
+        <motion.div
+          className="absolute w-40 h-40 animate-pulse bg-blue-500/10 rounded-full filter blur-xl"
+          animate={{
+            x: ["25%", "75%", "50%", "25%"],
+            y: ["25%", "75%", "25%", "75%"],
+            scale: [1, 1.2, 0.8, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+      </div>
+
       <motion.h2
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
+        className={`text-4xl font-bold mb-10 mt-10 text-orange-300 z-10 ${tektur.className}`}
       >
         Change Admin Email
       </motion.h2>
 
-      <p className="text-white/80 mb-14">
+      <p className="text-white/80 mb-14 z-10">
         Current Email:{" "}
         <span className="font-semibold">
           {currentEmail || (
@@ -123,7 +160,7 @@ export default function ChangeEmailSection() {
         </span>
       </p>
 
-      <div className="flex flex-col gap-10 mt-20 max-w-sm w-full">
+      <div className="flex flex-col gap-10 mt-20 max-w-sm w-full z-10">
         <AnimatePresence mode="wait">
           {step === "request" && (
             <motion.div
@@ -136,6 +173,7 @@ export default function ChangeEmailSection() {
             >
               <input
                 type="email"
+                autoComplete="off"
                 placeholder="Enter new email"
                 className="px-4 py-3 rounded bg-white/10 text-white placeholder:text-white/50 focus:outline-none"
                 value={newEmail}
@@ -180,8 +218,6 @@ export default function ChangeEmailSection() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* <AnimatedBlobs /> */}
     </motion.div>
   );
 }

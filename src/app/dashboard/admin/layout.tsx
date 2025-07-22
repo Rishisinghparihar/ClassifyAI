@@ -24,15 +24,6 @@ export default function AdminLayout({
 
   return (
     <div className={`relative h-screen w-screen ${tektur.className} overflow-hidden`}>
-      {/* 🔷 VIDEO BACKGROUND */}
-      <video
-        src="/adminbg3.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
       {/* 🔷 Overlay for readability */}
       <div className="absolute inset-0 bg-black/90 z-0" />
 

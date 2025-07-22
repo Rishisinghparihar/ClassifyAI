@@ -60,13 +60,54 @@ const ContactRequestsSection = () => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white/5 h-[75vh] z-0 relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden"
+      className="
+        relative z-0 
+        bg-gradient-to-br from-white/10 to-black/20 backdrop-blur-md 
+        h-[75vh] flex flex-col items-center p-6 rounded-xl shadow-xl border border-white/10 w-full
+      "
     >
+      {/* BLOB CONTAINER - clipped properly */}
+      <div className="absolute inset-0 z-0 overflow-hidden rounded-xl">
+        {/* Purple blob */}
+        <div className="absolute -top-1/3 -left-1/3 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+
+        {/* Orange blob */}
+        <motion.div
+          className="absolute w-80 h-80 bg-orange-500/20 rounded-full filter blur-2xl"
+          animate={{
+            x: ["100%", "0%", "-20%", "0%", "100%"],
+            y: ["100%", "50%", "0%", "50%", "100%"],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+
+        {/* Blue blob */}
+        <motion.div
+          className="absolute w-40 h-40 bg-blue-500/10 rounded-full filter blur-xl"
+          animate={{
+            x: ["25%", "75%", "50%", "25%"],
+            y: ["25%", "75%", "25%", "75%"],
+            scale: [1, 1.2, 0.8, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+      </div>
+
       <motion.h2
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className={`text-4xl font-bold mb-4 text-orange-300 ${tektur.className}`}
+        className={`text-4xl font-bold mb-4 text-orange-300 z-10 ${tektur.className}`}
       >
         Contact Requests
       </motion.h2>
@@ -78,7 +119,7 @@ const ContactRequestsSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="text-white/80 animate-pulse"
+            className="text-white/80 animate-pulse z-10"
           >
             Loading requests…
           </motion.p>
@@ -88,7 +129,7 @@ const ContactRequestsSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="text-white/80 text-center text-xl mt-52"
+            className="text-white/80 text-center text-xl mt-52 z-10"
           >
             No contact requests yet.
           </motion.p>
@@ -98,7 +139,7 @@ const ContactRequestsSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="overflow-y-auto w-full max-w-4xl"
+            className="overflow-y-auto w-full max-w-4xl z-10"
           >
             <AnimatePresence>
               {requests.map((req) => (
@@ -131,7 +172,6 @@ const ContactRequestsSection = () => {
         )}
       </AnimatePresence>
 
-
       {/* Dialog */}
       <AnimatePresence>
         {selected && (
@@ -152,7 +192,7 @@ const ContactRequestsSection = () => {
               >
                 {selected.name}
               </h3>
-              <p className="text-sm text-orange-800  mb-4">
+              <p className="text-sm text-orange-800 mb-4">
                 {new Date(selected.createdAt).toLocaleString()}
               </p>
               <p className="text-white mb-4 whitespace-pre-wrap">

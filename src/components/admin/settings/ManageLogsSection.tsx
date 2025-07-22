@@ -1,9 +1,8 @@
 "use client";
 
-import AnimatedBlobs from "@/components/ui/AnimatedBlobs";
-import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
+import { useState, useEffect } from "react";
 import { Tektur } from "next/font/google";
-import { useEffect, useState } from "react";
+import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { motion } from "framer-motion";
 
 const tektur = Tektur({
@@ -84,33 +83,74 @@ export default function ManageLogsSection() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white/5 h-[75vh] z-0 relative flex flex-col items-center p-6 rounded-xl shadow w-full overflow-hidden"
+      className="
+        relative 
+        bg-gradient-to-br from-white/10 to-black/20 backdrop-blur-md
+        h-[75vh] flex flex-col items-center p-6 rounded-xl shadow-xl border border-white/10 w-full
+      "
     >
+      {/* Blobs container */}
+      <div className="absolute inset-0 z-0 overflow-hidden rounded-xl">
+        {/* Purple blob */}
+        <div className="absolute -top-1/3 -left-1/3 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+
+        {/* Orange blob */}
+        <motion.div
+          className="absolute w-80 h-80 bg-orange-500/20 rounded-full filter blur-2xl"
+          animate={{
+            x: ["100%", "0%", "-20%", "0%", "100%"],
+            y: ["100%", "50%", "0%", "50%", "100%"],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+
+        {/* Blue blob */}
+        <motion.div
+          className="absolute w-40 h-40 bg-blue-500/10 rounded-full filter blur-xl"
+          animate={{
+            x: ["25%", "75%", "50%", "25%"],
+            y: ["25%", "75%", "25%", "75%"],
+            scale: [1, 1.2, 0.8, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+      </div>
+
       <motion.h2
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className={`text-4xl font-bold mb-10 mt-10 text-orange-300 ${tektur.className}`}
+        className={`text-4xl font-bold mb-8 mt-10 text-orange-300 z-10 ${tektur.className}`}
       >
         Manage Activity Logs
       </motion.h2>
 
       <motion.div
-        className="flex gap-10"
+        className="flex gap-10 z-10"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <p className="text-white/80 text-lg mb-2">
+        <p className="text-white/80 text-lg">
           Total logs: <span className="font-semibold">{totalLogs}</span>
         </p>
-        <p className="text-white/80 mb-4 text-lg">
+        <p className="text-white/80 text-lg">
           Login logs: <span className="font-semibold">{loginLogs}</span>
         </p>
       </motion.div>
 
       <motion.div
-        className="flex flex-col items-center mt-36 justify-center gap-10 max-w-sm"
+        className="flex flex-col items-center mt-24 justify-center gap-6 max-w-sm z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -118,7 +158,7 @@ export default function ManageLogsSection() {
         <motion.select
           value={type}
           onChange={(e) => setType(e.target.value as "all" | "login")}
-          className="px-4 py-3 rounded bg-white/10 appearance-none w-[30rem] text-white placeholder:text-white/50 focus:outline-none"
+          className="px-4 py-3 rounded bg-white/10 appearance-none w-[20rem] text-white placeholder:text-white/50 focus:outline-none"
           whileFocus={{ scale: 1.02 }}
         >
           <option value="all" className="text-white bg-neutral-700">
@@ -135,7 +175,7 @@ export default function ManageLogsSection() {
           min={1}
           value={deleteCount}
           onChange={(e) => setDeleteCount(Number(e.target.value))}
-          className="px-4 py-3 rounded bg-white/10 text-white w-[30rem] placeholder:text-white/50 focus:outline-none"
+          className="px-4 py-3 rounded bg-white/10 text-white w-[20rem] placeholder:text-white/50 focus:outline-none"
           whileFocus={{ scale: 1.02 }}
         />
 
@@ -143,14 +183,13 @@ export default function ManageLogsSection() {
           whileTap={{ scale: 0.95 }}
           onClick={handleDeleteLogs}
           disabled={loading}
-          className="bg-orange-600 outline-none hover:bg-orange-700 w-[30rem] cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
+          className="bg-orange-600 hover:bg-orange-700 w-[20rem] cursor-pointer transition rounded px-4 py-2 text-white font-semibold"
         >
           {loading
             ? "Deleting…"
             : `Delete ${type === "login" ? "Login" : "All"} Logs`}
         </motion.button>
       </motion.div>
-
     </motion.div>
   );
 }

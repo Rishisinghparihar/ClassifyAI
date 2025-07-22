@@ -17,19 +17,53 @@
   }
 }
 
-@keyframes spin {
+@keyframes blob1 {
   0% {
-    transform: rotate(0deg);
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translate(0px, 0px) scale(1);
   }
 }
 
-.animate-spin {
-  animation: spin 3s linear infinite;
+@keyframes blob2 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-20px, 25px) scale(1.05);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
+@keyframes blob3 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(15px, 15px) scale(0.95);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob1 {
+  animation: blob1 12s infinite ease-in-out;
+}
+
+.animate-blob2 {
+  animation: blob2 14s infinite ease-in-out;
+}
+
+.animate-blob3 {
+  animation: blob3 10s infinite ease-in-out;
+}
 
 body {
   background: var(--background);
