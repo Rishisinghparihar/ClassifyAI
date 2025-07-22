@@ -188,7 +188,6 @@ export default function StudentDashboard() {
             </span>
           </div>
         </div>
-
         {premiumStatus?.features?.includes("AI_CHATBOT") && <ChatBot />}
 
         <div className="ml-8 mt-4">
@@ -202,6 +201,8 @@ export default function StudentDashboard() {
             </span>
           )}
         </div>
+
+        
       </div>
     </div>
   );

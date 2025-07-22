@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { showSuccessMessage, showErrorMessage } from "@/lib/helper";
 import EarthCanvas from "@/canvas/Earth";
-import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
+import { motion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 
 export default function SupportPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,8 @@ export default function SupportPage() {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -43,6 +47,10 @@ export default function SupportPage() {
     }
   };
 
+  const handleBack = () => {
+    router.push("/dashboard/student");
+  };
+
   return (
     <div className="xl:mt-12 flex xl:flex-row flex-col-reverse ml-40 overflow-hidden gap-8">
       <motion.div
@@ -56,7 +64,7 @@ export default function SupportPage() {
             We’re here to help!
           </h3>
           <p className="text-[15px] text-secondary capitalize ml-2 tracking-wider">
-             Our team is ready to assist you — get in touch.
+            Our team is ready to assist you — get in touch.
           </p>
         </div>
 
@@ -104,7 +112,6 @@ export default function SupportPage() {
               required
             />
           </label>
-
 
           <div className="flex items-end justify-end">
             <button
