@@ -1,9 +1,13 @@
 "use client";
-import { monthlyPlans, showErrorMessage, showSuccessMessage } from "@/lib/helper";
-import { Check, X } from "lucide-react";
+
+import {
+  monthlyPlans,
+  showErrorMessage,
+} from "@/lib/helper";
+import { Plan } from "@/lib/types";
+import { Check, ChevronLeft, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import React, { useEffect, useState } from "react";
 
 const yearlyPlans = monthlyPlans.map((plan) => ({
   ...plan,
@@ -12,47 +16,88 @@ const yearlyPlans = monthlyPlans.map((plan) => ({
 
 const Page = () => {
   const [isYearly, setIsYearly] = useState(false);
-  const plans = isYearly ? yearlyPlans : monthlyPlans;
+  const [loading, setLoading] = useState(true);
+  const [fetchedPlan, setFetchedPlan] = useState<Plan[]>([]);
+
   const router = useRouter();
 
-const handlePayment = async (
-  planName: string,
-  price: number,
-  billingCycle: string
-) => {
-  if (price === 0) {
-    showErrorMessage("Price Problem Occurs!")
-    router.push("/dashboard/student");
-    return;
+  const fetchPlans = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/settings/plans");
+      const data = await res.json();
+      if (res.ok) {
+        setFetchedPlan(data.plans);
+      } else {
+        showErrorMessage(data.message || "Failed to fetch plans.");
+      }
+    } catch {
+      showErrorMessage("Something went wrong while fetching plans.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePayment = async (
+    planName: string,
+    price: number,
+    billingCycle: string
+  ) => {
+    if (price === 0) {
+      showErrorMessage("Price Problem Occurs!");
+      router.push("/dashboard/student");
+      return;
+    }
+
+    const userId = localStorage.getItem("studentId");
+    if (!userId) {
+      showErrorMessage("Please login again.");
+      router.push("/auth/login");
+      return;
+    }
+
+    const res = await fetch(`/api/student/payment`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        amount: price,
+        planName,
+        billingCycle,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url; // redirect to Stripe Checkout
+    } else {
+      showErrorMessage("Failed to create payment session");
+    }
+  };
+
+  useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  console.log({fetchedPlan})
+
+const mergedPlans = (isYearly ? yearlyPlans : monthlyPlans).map((plan) => {
+  const key = `${plan.title.toUpperCase()}_${isYearly ? "YEARLY" : "MONTHLY"}`;
+  const dbPlan = fetchedPlan.find((p) => p.name === key);
+  return {
+    ...plan,
+    price: dbPlan ? dbPlan.price : plan.price,
+  };
+});
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen animate-pulse text-2xl  text-white">
+        Loading plans...
+      </div>
+    );
   }
-
-  const userId = localStorage.getItem("studentId");
-  if (!userId) {
-    showErrorMessage("Please login again.");
-    router.push("/auth/login");
-    return;
-  }
-
-  const res = await fetch(`/api/student/payment`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId,
-      amount: price,
-      planName,
-      billingCycle,
-    }),
-  });
-
-  const data = await res.json();
-
-  if (data.url) {
-    window.location.href = data.url; // redirect to Stripe Checkout
-  } else {
-    showErrorMessage("Failed to create payment session");
-  }
-};
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 py-10 text-white">
@@ -93,7 +138,7 @@ const handlePayment = async (
 
       {/* Pricing Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-        {plans.map((plan, index) => (
+        {mergedPlans.map((plan, index) => (
           <div
             key={index}
             className="relative flex flex-col items-center transition transform hover:-translate-y-2 hover:scale-[1.02]"
@@ -141,7 +186,11 @@ const handlePayment = async (
               <button
                 className="w-full py-6 text-xl bg-cyan-500 hover:bg-cyan-600 text-white rounded-4xl shadow transition"
                 onClick={() =>
-                  handlePayment(plan.title, plan.price, isYearly ? "yearly" : "monthly")
+                  handlePayment(
+                    plan.title,
+                    plan.price,
+                    isYearly ? "yearly" : "monthly"
+                  )
                 }
               >
                 {plan.price === 0 ? "Get Started" : `Choose Plan`}
@@ -149,6 +198,14 @@ const handlePayment = async (
             </div>
           </div>
         ))}
+      </div>
+            <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => router.push("/dashboard/student")}
+          className="flex items-center justify-center gap-2 rounded-full  text-white hover:text-cyan-300 transition-colors"
+        >
+          <ChevronLeft size={40}/>
+        </button>
       </div>
     </div>
   );

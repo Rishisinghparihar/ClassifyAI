@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Token } from "@/lib/types";
 import toast from "react-hot-toast";
+import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 
 export default function TeacherDashboard() {
   const [tokens, setTokens] = React.useState<Token[]>([]);
@@ -15,12 +16,12 @@ export default function TeacherDashboard() {
       if (res.ok) {
         setTokens(data);
       } else {
-        toast.error("Failed to load tokens");
-        console.error("Error fetching tokens:", data);
+        showErrorMessage("Failed to load tokens");
+        console.log("Error fetching tokens:", data);
       }
     } catch (error) {
-      toast.error("Error fetching tokens:");
-      console.error("Token Fetching error" + error);
+      showErrorMessage("Error fetching tokens:");
+      console.log("Token Fetching error" + error);
     } finally {
       setLoading(false);
     }
@@ -28,7 +29,7 @@ export default function TeacherDashboard() {
   const generateToken = async () => {
     const subject = prompt("Enter Subject Name:");
     if (!subject) {
-      toast.error("Subject name is required");
+      showErrorMessage("Subject name is required");
       return;
     }
     try {
@@ -41,15 +42,15 @@ export default function TeacherDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        toast.success("Token generated successfully");
+        showSuccessMessage("Token generated successfully");
         fetchTokens();
       } else {
-        toast.error("Failed to generate token");
-        console.error("Error generating token:", data);
+        showErrorMessage("Failed to generate token");
+        console.log("Error generating token:", data);
       }
     } catch (error) {
-      toast.error("Error generating token");
-      console.error("Token Generation error" + error);
+      showErrorMessage("Error generating token");
+      console.log("Token Generation error" + error);
     }
   };
   useEffect(() => {

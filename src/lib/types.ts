@@ -20,7 +20,15 @@ export interface SDetails {
   email: string;
   createdAt: string;
   role: string;
+  branch?: string;
+  year?: number;
+  semester?: number;
 }
+
+export type Plan = {
+  name: string;
+  price: number;
+};
 
 export type PremiumStatusResponse = {
   isPremium: boolean;
@@ -87,7 +95,7 @@ export type User = {
   email: string;
   isPremium: boolean;
   createdAt: string;
-   premiumFeatures: { name: string }[];
+  premiumFeatures: { name: string }[];
 };
 
 export type PremiumUser = {
@@ -95,8 +103,8 @@ export type PremiumUser = {
   name: string;
   email: string;
   plan: "PRO" | "ULTIMATE";
-  startDate: string;  // ISO date
-  endDate: string;    // ISO date
+  startDate: string; // ISO date
+  endDate: string; // ISO date
   status: "ACTIVE" | "EXPIRED";
 };
 
@@ -118,7 +126,7 @@ export type Activity = {
   id: string;
   text: string;
   date: string;
-  username:string
+  username: string;
 };
 
 export type EventStats = {
@@ -133,7 +141,7 @@ export type Event = {
   title: string;
   date: string;
   type: string; // e.g. Exam, Holiday, Other
-  description?: string
+  description?: string;
   active: boolean;
 };
 

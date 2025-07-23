@@ -183,6 +183,54 @@ export const SECTIONS = [
   { key: "export", label: "Export Logs" },
 ];
 
+export function numberToRoman(num: number): string {
+  const thousands = ["", "M", "MM", "MMM"];
+  const hundreds = [
+    "",
+    "C",
+    "CC",
+    "CCC",
+    "CD",
+    "D",
+    "DC",
+    "DCC",
+    "DCCC",
+    "CM",
+  ];
+  const tens = [
+    "",
+    "X",
+    "XX",
+    "XXX",
+    "XL",
+    "L",
+    "LX",
+    "LXX",
+    "LXXX",
+    "XC",
+  ];
+  const ones = [
+    "",
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+  ];
+
+  const t = thousands[Math.floor(num / 1000)];
+  const h = hundreds[Math.floor((num % 1000) / 100)];
+  const te = tens[Math.floor((num % 100) / 10)];
+  const o = ones[num % 10];
+
+  return t + h + te + o;
+}
+
+
 export const verificationEmailHTML = (code: string) => `
   <!DOCTYPE html>
   <html lang="en">

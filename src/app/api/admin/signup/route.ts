@@ -10,6 +10,9 @@ const signupSchema = z.object({
   role: z.enum(["STUDENT", "TEACHER", "ADMIN"]),
   isPremium: z.boolean().optional(),
   premiumFeatures: z.array(z.string()).optional(),
+  branch: z.string().optional(),
+  year: z.string().optional(),
+  semester: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -42,6 +45,10 @@ export async function POST(req: NextRequest) {
                 })),
               }
             : undefined,
+          branch: data.role === "STUDENT" ? data.branch ?? "" : undefined,
+          year: data.role === "STUDENT" ? Number(data.year) ?? "" : undefined,
+          semester:
+            data.role === "STUDENT" ? Number(data.semester) ?? "" : undefined,
         },
       });
 

@@ -4,16 +4,12 @@ import { useEffect, useState } from "react";
 import { showErrorMessage, showSuccessMessage } from "@/lib/helper";
 import { Tektur } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plan } from "@/lib/types";
 
 const tektur = Tektur({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
-
-type Plan = {
-  name: string;
-  price: number;
-};
 
 export default function ManagePlansSection() {
   const [plans, setPlans] = useState<Plan[]>([]);

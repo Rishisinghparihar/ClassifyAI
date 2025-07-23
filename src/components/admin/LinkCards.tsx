@@ -54,7 +54,6 @@ const LinkCards = ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: formData.email }),
     });
-    console.log({ res });
     if (res.ok) {
       setStep("otp");
       setMessage({ type: "success", text: "OTP sent to your email" });
@@ -86,10 +85,11 @@ const LinkCards = ({
   };
 
   const handleSubmit = async () => {
-    if (!emailVerified) {
+    if (modalOpen === "add" && !emailVerified) {
       setMessage({ type: "error", text: "Please verify email first" });
       return;
     }
+
     if (!formData.name || !formData.email) {
       setMessage({ type: "error", text: "Name & Email are required" });
       return;
@@ -144,9 +144,7 @@ const LinkCards = ({
 
   return (
     <>
-      <div
-        className={`h-full border rounded-4xl border-orange-400 w-full flex p-5 justify-center bg-orange-700/5`}
-      >
+      <div className="h-full border rounded-4xl border-orange-400 w-full flex p-5 justify-center bg-orange-700/5">
         <div>
           <h5 className="text-xl text-center">
             Add or Remove {forRole === "student" ? "Student" : "Teacher"}
@@ -270,7 +268,8 @@ const LinkCards = ({
                   </>
                 )}
 
-                {step === "otp" && (
+                {/* ✅ OTP input only when adding and step === 'otp' */}
+                {modalOpen === "add" && step === "otp" && (
                   <input
                     type="text"
                     placeholder="Enter OTP"
@@ -278,6 +277,7 @@ const LinkCards = ({
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                    disabled={loading}
                   />
                 )}
 
@@ -294,37 +294,45 @@ const LinkCards = ({
                 )}
 
                 <div className="flex flex-col justify-end gap-2">
-                  {step === "form" && !emailVerified && (
-                    <button
-                      onClick={handleSendOtp}
-                      disabled={loading}
-                      className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
-                    >
-                      {loading ? "Sending…" : "Send OTP"}
-                    </button>
-                  )}
+                  {modalOpen === "add" ? (
+                    <>
+                      {step === "form" && !emailVerified && (
+                        <button
+                          onClick={handleSendOtp}
+                          disabled={loading}
+                          className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                        >
+                          {loading ? "Sending…" : "Send OTP"}
+                        </button>
+                      )}
 
-                  {step === "otp" && (
-                    <button
-                      onClick={handleVerifyOtp}
-                      disabled={loading}
-                      className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
-                    >
-                      {loading ? "Verifying…" : "Verify OTP"}
-                    </button>
-                  )}
+                      {step === "otp" && (
+                        <button
+                          onClick={handleVerifyOtp}
+                          disabled={loading}
+                          className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                        >
+                          {loading ? "Verifying…" : "Verify OTP"}
+                        </button>
+                      )}
 
-                  {emailVerified && (
+                      {emailVerified && (
+                        <button
+                          onClick={handleSubmit}
+                          disabled={loading}
+                          className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
+                        >
+                          {loading ? "Processing…" : "Add"}
+                        </button>
+                      )}
+                    </>
+                  ) : (
                     <button
                       onClick={handleSubmit}
                       disabled={loading}
                       className={`px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 ${tektur.className}`}
                     >
-                      {loading
-                        ? "Processing…"
-                        : modalOpen === "add"
-                        ? "Add"
-                        : "Remove"}
+                      {loading ? "Processing…" : "Remove"}
                     </button>
                   )}
                 </div>
