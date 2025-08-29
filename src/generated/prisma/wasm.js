@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.0
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.15.0
+ * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
  */
 Prisma.prismaVersion = {
-  client: "6.8.0",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.15.0",
+  engine: "85179d7826409ee107a6ba334b5e305ae3fba9fb"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -133,6 +133,22 @@ exports.Prisma.UserScalarFieldEnum = {
   semester: 'semester'
 };
 
+exports.Prisma.TeacherScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  department: 'department',
+  designation: 'designation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TeacherSubjectScalarFieldEnum = {
+  id: 'id',
+  teacherId: 'teacherId',
+  name: 'name',
+  code: 'code'
+};
+
 exports.Prisma.AttendanceScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -200,6 +216,21 @@ exports.Prisma.PlanConfigScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ClassSessionScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  section: 'section',
+  semester: 'semester',
+  weekday: 'weekday',
+  room: 'room',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  teacherId: 'teacherId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -226,8 +257,25 @@ exports.EventType = exports.$Enums.EventType = {
   EVENT: 'EVENT'
 };
 
+exports.Weekday = exports.$Enums.Weekday = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+};
+
+exports.SessionStatus = exports.$Enums.SessionStatus = {
+  UPCOMING: 'UPCOMING',
+  COMPLETED: 'COMPLETED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
+  Teacher: 'Teacher',
+  TeacherSubject: 'TeacherSubject',
   Attendance: 'Attendance',
   AttendanceToken: 'AttendanceToken',
   PremiumFeature: 'PremiumFeature',
@@ -235,7 +283,8 @@ exports.Prisma.ModelName = {
   GoogleToken: 'GoogleToken',
   RecentActivity: 'RecentActivity',
   SupportRequest: 'SupportRequest',
-  PlanConfig: 'PlanConfig'
+  PlanConfig: 'PlanConfig',
+  ClassSession: 'ClassSession'
 };
 
 /**

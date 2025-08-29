@@ -152,3 +152,28 @@ export type SupportRequest = {
   message: string;
   createdAt: string;
 };
+
+export  interface TeacherDetails {
+  id: string;
+  name: string;
+  email: string;
+  role: "TEACHER" | "STUDENT" | "ADMIN"; // extend kar sakta hai agar aur roles ho
+  isPremium: boolean;
+  premiumExpiresAt: string | null;
+  premiumFeatures: string[];
+  branch: string | null;
+  semester: number | null;
+  year: number | null;
+  createdAt: string; // ISO date string
+}
+
+export interface Teacher {
+  id: string;
+  userId: string;
+}
+
+export interface TeacherSubject {
+  name: string;
+  code: string;
+  teacher: Teacher;
+}

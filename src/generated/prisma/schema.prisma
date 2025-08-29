@@ -24,6 +24,28 @@ model User {
   branch           String?
   year             Int?
   semester         Int?
+
+  TeacherProfile Teacher?
+}
+
+model Teacher {
+  id          String           @id @default(cuid())
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String           @unique
+  subjects    TeacherSubject[]
+  department  String?
+  designation String?
+  classes     ClassSession[] // 👈 Opposite relation added
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model TeacherSubject {
+  id        String  @id @default(cuid())
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String
+  name      String
+  code      String?
 }
 
 model Attendance {
@@ -95,6 +117,39 @@ model PlanConfig {
   price     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ClassSession {
+  id        String        @id @default(cuid())
+  subject   String
+  section   String
+  semester  Int // 👈 semester wise timetable
+  weekday   Weekday // 👈 konsa din (MONDAY, TUESDAY, ...)
+  room      String?
+  startTime DateTime
+  endTime   DateTime
+  teacher   Teacher       @relation(fields: [teacherId], references: [id])
+  teacherId String
+  status    SessionStatus @default(UPCOMING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([teacherId, weekday, semester])
+}
+
+enum Weekday {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum SessionStatus {
+  UPCOMING
+  COMPLETED
 }
 
 enum EventType {

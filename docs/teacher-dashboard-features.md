@@ -8,14 +8,14 @@
 - [ ] Quick stats cards:
   - [ ] Classes Today
   - [ ] Pending Attendance
-  - [ ] Students below 75%
-  - [ ] Average attendance %
-- [ ] Calendar widget:
+  <!-- - [ ] Students below 75% -->
+  <!-- - [ ] Average attendance % -->
+<!-- - [ ] Calendar widget:
   - [ ] Month view
   - [ ] Highlight today
-  - [ ] Clickable dates to show events/classes
-- [ ] Upcoming classes list
-- [ ] Notifications bell with unread count
+  - [ ] Clickable dates to show events/classes -->
+<!-- - [ ] Upcoming classes list -->
+<!-- - [ ] Notifications bell with unread count -->
 
 ---
 

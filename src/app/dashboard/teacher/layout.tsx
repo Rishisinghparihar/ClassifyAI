@@ -10,8 +10,8 @@ export default function TeacherLayout({
       <div className="ml-32 mt-64">
       <Sidebar />
       </div>
-       <div className="flex flex-col flex-1">
-        <main className="p-6 overflow-y-auto">{children}</main>
+       <div className="flex flex-col items-center justify-center flex-1">
+        <main className="w-[90rem]  h-[60rem] bg-white/5 rounded-lg backdrop-blur-xl border border-white/10 p-1 flex flex-col shadow-lg">{children}</main>
       </div>
     </div>
   );
