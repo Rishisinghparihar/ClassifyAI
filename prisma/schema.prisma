@@ -9,96 +9,332 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// ---------------------
+/// Models
+/// ---------------------
+
 model User {
-  id               String           @id @default(cuid())
-  name             String
-  email            String           @unique
-  role             Role
-  attendance       Attendance[]
-  isPremium        Boolean          @default(false)
-  createdAt        DateTime         @default(now())
-  premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
-  premiumExpiresAt DateTime?
-  GoogleToken      GoogleToken[]
-  RecentActivity   RecentActivity[]
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String? // nullable when OAuth-only users
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  // Profile fields
+  avatarUrl        String?
+  phone            String?
   branch           String?
   year             Int?
-  semester         Int?
+  premiumExpiresAt DateTime?
 
-  TeacherProfile   Teacher?
+  // relations
+  teacherProfile   Teacher?         @relation("UserToTeacher")
+  studentProfile   Student?         @relation("UserToStudent")
+  attendance       Attendance[]     @relation("UserAttendance")
+  premiumFeatures  PremiumFeature[] @relation("UserPremiumFeatures")
+  googleTokens     GoogleToken[]
+  recentActivities RecentActivity[]
+  supportRequests  SupportRequest[]
+  messagesSent     Message[]        @relation("MessageSender")
+  messagesReceived Message[]        @relation("MessageReceiver")
+  notifications    Notification[]
 }
 
 model Teacher {
-  id          String           @id @default(cuid())
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String           @unique
-  subjects    TeacherSubject[]
+  id          String   @id @default(cuid())
+  user        User     @relation("UserToTeacher", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @unique
   department  String?
   designation String?
-  classes     ClassSession[]
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  teacherSubjects TeacherSubject[]
+  classSessions   ClassSession[]
+  announcements   Announcement[]   @relation("AnnouncementAuthor")
+  assignments     Assignment[]
+}
+
+model Student {
+  id         String   @id @default(cuid())
+  user       User     @relation("UserToStudent", fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
+  rollNumber String?
+  semesterId String?
+  sectionId  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  semester Semester? @relation("StudentSemester", fields: [semesterId], references: [id])
+  section  Section?  @relation("StudentSection", fields: [sectionId], references: [id])
+
+  attendances Attendance[] @relation("StudentAttendance")
+  submissions Submission[]
+  grades      Grade[]
+}
+
+model Semester {
+  id        String   @id @default(cuid())
+  name      String
+  number    Int?
+  createdAt DateTime @default(now())
+
+  teacherSubjects TeacherSubject[]
+  classSessions   ClassSession[]   @relation("SemesterSessions")
+  students        Student[]        @relation("StudentSemester")
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  teacherSubjects TeacherSubject[]
+  classSessions   ClassSession[]   @relation("SectionSessions")
+  students        Student[]        @relation("StudentSection")
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  name        String
+  code        String?  @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  teacherSubjects  TeacherSubject[]
+  classSessions    ClassSession[]    @relation("ClassSessionSubject")
+  assignments      Assignment[]
+  resources        Resource[]
+  exams            Exam[]
+  attendanceTokens AttendanceToken[]
 }
 
 model TeacherSubject {
-  id         String   @id @default(cuid())
-  teacher    Teacher  @relation(fields: [teacherId], references: [id])
-  teacherId  String
+  id String @id @default(cuid())
 
-  subject    Subject  @relation(fields: [subjectId], references: [id])
-  subjectId  String
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade, map: "fk_teachersubject_teacher")
+  teacherId String
 
-  semester   Semester @relation(fields: [semesterId], references: [id])
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade, map: "fk_teachersubject_subject")
+  subjectId String
+
+  semester   Semester @relation(fields: [semesterId], references: [id], map: "fk_teachersubject_semester")
   semesterId String
 
-  section    Section  @relation(fields: [sectionId], references: [id])
-  sectionId  String
+  section   Section @relation(fields: [sectionId], references: [id], map: "fk_teachersubject_section")
+  sectionId String
+
+  @@unique([teacherId, subjectId, semesterId, sectionId], map: "uq_teachersubject_unique")
+}
+
+model ClassSession {
+  id String @id @default(cuid())
+
+  // legacy scalar subject (kept for compatibility)
+  subject String?
+
+  subjectId  String?
+  subjectRel Subject? @relation("ClassSessionSubject", fields: [subjectId], references: [id], map: "fk_classsession_subject")
+
+  semester  Int
+  section   String
+  weekday   Weekday
+  room      String?
+  startTime DateTime
+  endTime   DateTime
+
+  teacherId String
+  teacher   Teacher @relation(fields: [teacherId], references: [id], map: "fk_classsession_teacher")
+
+  // Add proper relations to Semester and Section
+  semesterId  String?
+  semesterRel Semester? @relation("SemesterSessions", fields: [semesterId], references: [id], map: "fk_classsession_semester")
+
+  sectionId  String?
+  sectionRel Section? @relation("SectionSessions", fields: [sectionId], references: [id], map: "fk_classsession_section")
+
+  status           SessionStatus @default(UPCOMING)
+  attendanceMarked Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  attendances Attendance[] @relation("ClassSessionAttendance")
+
+  @@index([teacherId, weekday, semester], map: "idx_classsession_teacher_weekday_semester")
 }
 
 model Attendance {
-  id        String   @id @default(uuid())
-  student   User     @relation(fields: [studentId], references: [id])
-  studentId String
-  subject   String
-  date      DateTime @default(now())
-  status    String
-  markedBy  String
+  id String @id @default(cuid())
+
+  classSessionId String?
+  classSession   ClassSession? @relation("ClassSessionAttendance", fields: [classSessionId], references: [id], map: "fk_attendance_classsession")
+
+  studentId String?
+  student   Student? @relation("StudentAttendance", fields: [studentId], references: [id], map: "fk_attendance_student")
+
+  userId String?
+  user   User?   @relation("UserAttendance", fields: [userId], references: [id], map: "fk_attendance_user")
+
+  status   AttendanceStatus
+  markedBy String?
+  markedAt DateTime?        @default(now())
+  remarks  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([classSessionId, studentId], map: "uq_attendance_session_student")
+  @@index([classSessionId], map: "idx_attendance_classsession")
 }
 
 model AttendanceToken {
-  id          String   @id @default(uuid())
+  id          String   @id @default(cuid())
   token       String   @unique
-  subject     String
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id], map: "fk_attendancetoken_subject")
   professorId String
   issuedAt    DateTime @default(now())
   expiresAt   DateTime
+  used        Boolean  @default(false)
 }
 
-model PremiumFeature {
+model Assignment {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  subjectId   String
+  subject     Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade, map: "fk_assignment_subject")
+  teacherId   String
+  teacher     Teacher      @relation(fields: [teacherId], references: [id], map: "fk_assignment_teacher")
+  dueDate     DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  attachments Resource[]
+  submissions Submission[]
+}
+
+model Submission {
+  id           String     @id @default(cuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], map: "fk_submission_assignment")
+  studentId    String
+  student      Student    @relation(fields: [studentId], references: [id], map: "fk_submission_student")
+  submittedAt  DateTime   @default(now())
+  fileUrl      String?
+  text         String?
+  grade        Float?
+  feedback     String?
+  gradedBy     String?
+  gradedAt     DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([assignmentId], map: "idx_submission_assignment")
+}
+
+model Announcement {
+  id             String     @id @default(cuid())
+  title          String
+  message        String
+  authorId       String
+  author         Teacher    @relation("AnnouncementAuthor", fields: [authorId], references: [id], map: "fk_announcement_author")
+  targetAll      Boolean    @default(false)
+  targetSemester Int?
+  targetSection  String?
+  attachments    Resource[]
+  createdAt      DateTime   @default(now())
+  expiresAt      DateTime?
+  isActive       Boolean    @default(true)
+}
+
+model Resource {
+  id             String        @id @default(cuid())
+  title          String
+  description    String?
+  url            String
+  uploadedBy     String?
+  subjectId      String?
+  subject        Subject?      @relation(fields: [subjectId], references: [id], map: "fk_resource_subject")
+  assignmentId   String?
+  assignment     Assignment?   @relation(fields: [assignmentId], references: [id], map: "fk_resource_assignment")
+  announcementId String?
+  announcement   Announcement? @relation(fields: [announcementId], references: [id], map: "fk_resource_announcement")
+  messageId      String?
+  message        Message?      @relation(fields: [messageId], references: [id], map: "fk_resource_message")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  title       String
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], map: "fk_exam_subject")
+  date        DateTime
+  durationMin Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  grades Grade[]
+}
+
+model Grade {
   id        String   @id @default(cuid())
-  name      String   @unique
-  users     User[]   @relation("UserPremiumFeatures")
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id], map: "fk_grade_exam")
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], map: "fk_grade_student")
+  marks     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([examId, studentId], map: "uq_grade_exam_student")
+}
+
+model Message {
+  id          String     @id @default(cuid())
+  senderId    String
+  sender      User       @relation("MessageSender", fields: [senderId], references: [id], map: "fk_message_sender")
+  receiverId  String
+  receiver    User       @relation("MessageReceiver", fields: [receiverId], references: [id], map: "fk_message_receiver")
+  content     String
+  attachments Resource[]
+  read        Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], map: "fk_notification_user")
+  title     String
+  body      String
+  meta      Json?
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 
-model Event {
-  id          String    @id @default(cuid())
-  title       String
+model PremiumFeature {
+  id          String   @id @default(cuid())
+  name        String   @unique
   description String?
-  date        DateTime
-  type        EventType
-  active      Boolean   @default(true)
-  createdBy   String
-  createdAt   DateTime  @default(now())
+  users       User[]   @relation("UserPremiumFeatures")
+  createdAt   DateTime @default(now())
 }
 
 model GoogleToken {
-  userId       String   @id
+  userId       String    @id
   accessToken  String
   refreshToken String?
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  scope        String?
+  expiresAt    DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 model RecentActivity {
@@ -107,11 +343,14 @@ model RecentActivity {
   userName  String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action    String
+  metadata  Json?
   timestamp DateTime @default(now())
 }
 
 model SupportRequest {
   id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], map: "fk_supportrequest_user")
   name      String
   email     String
   message   String
@@ -122,47 +361,20 @@ model PlanConfig {
   id        String   @id @default(cuid())
   name      String   @unique
   price     Int
+  features  Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ClassSession {
-  id        String        @id @default(cuid())
-  subject   Subject       @relation(fields: [subjectId], references: [id])
-  subjectId String
-  section   String
-  semester  Int
-  weekday   Weekday
-  room      String?
-  startTime DateTime
-  endTime   DateTime
-  teacher   Teacher       @relation(fields: [teacherId], references: [id])
-  teacherId String
-  status    SessionStatus @default(UPCOMING)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+/// ---------------------
+/// Enums
+/// ---------------------
 
-  @@index([teacherId, weekday, semester])
-}
-
-model Subject {
-  id        String           @id @default(cuid())
-  name      String
-  code      String?          @unique
-  classes   ClassSession[]
-  teacherSubjects TeacherSubject[]
-}
-
-model Semester {
-  id       String            @id @default(cuid())
-  name     String
-  subjects TeacherSubject[]
-}
-
-model Section {
-  id       String            @id @default(cuid())
-  name     String
-  subjects TeacherSubject[]
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  ASSISTANT
 }
 
 enum Weekday {
@@ -178,22 +390,12 @@ enum Weekday {
 enum SessionStatus {
   UPCOMING
   COMPLETED
+  CANCELLED
 }
 
-enum EventType {
-  HOLIDAY
-  EXAM
-  EVENT
-}
-
-enum Role {
-  STUDENT
-  TEACHER
-  ADMIN
-}
-
-enum PremiumFeatureType {
-  AI_CHATBOT
-  STUDY_PLAN
-  CALENDAR_SYNC
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  PENDING
 }

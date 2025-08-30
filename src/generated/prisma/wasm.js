@@ -124,13 +124,15 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  passwordHash: 'passwordHash',
   role: 'role',
-  isPremium: 'isPremium',
   createdAt: 'createdAt',
-  premiumExpiresAt: 'premiumExpiresAt',
+  updatedAt: 'updatedAt',
+  avatarUrl: 'avatarUrl',
+  phone: 'phone',
   branch: 'branch',
   year: 'year',
-  semester: 'semester'
+  premiumExpiresAt: 'premiumExpiresAt'
 };
 
 exports.Prisma.TeacherScalarFieldEnum = {
@@ -138,6 +140,38 @@ exports.Prisma.TeacherScalarFieldEnum = {
   userId: 'userId',
   department: 'department',
   designation: 'designation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StudentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rollNumber: 'rollNumber',
+  semesterId: 'semesterId',
+  sectionId: 'sectionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SemesterScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  number: 'number',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -150,38 +184,143 @@ exports.Prisma.TeacherSubjectScalarFieldEnum = {
   sectionId: 'sectionId'
 };
 
+exports.Prisma.ClassSessionScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  subjectId: 'subjectId',
+  semester: 'semester',
+  section: 'section',
+  weekday: 'weekday',
+  room: 'room',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  teacherId: 'teacherId',
+  semesterId: 'semesterId',
+  sectionId: 'sectionId',
+  status: 'status',
+  attendanceMarked: 'attendanceMarked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AttendanceScalarFieldEnum = {
   id: 'id',
+  classSessionId: 'classSessionId',
   studentId: 'studentId',
-  subject: 'subject',
-  date: 'date',
+  userId: 'userId',
   status: 'status',
-  markedBy: 'markedBy'
+  markedBy: 'markedBy',
+  markedAt: 'markedAt',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AttendanceTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
-  subject: 'subject',
+  subjectId: 'subjectId',
   professorId: 'professorId',
   issuedAt: 'issuedAt',
-  expiresAt: 'expiresAt'
+  expiresAt: 'expiresAt',
+  used: 'used'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  dueDate: 'dueDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubmissionScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  studentId: 'studentId',
+  submittedAt: 'submittedAt',
+  fileUrl: 'fileUrl',
+  text: 'text',
+  grade: 'grade',
+  feedback: 'feedback',
+  gradedBy: 'gradedBy',
+  gradedAt: 'gradedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  authorId: 'authorId',
+  targetAll: 'targetAll',
+  targetSemester: 'targetSemester',
+  targetSection: 'targetSection',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  isActive: 'isActive'
+};
+
+exports.Prisma.ResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  url: 'url',
+  uploadedBy: 'uploadedBy',
+  subjectId: 'subjectId',
+  assignmentId: 'assignmentId',
+  announcementId: 'announcementId',
+  messageId: 'messageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExamScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subjectId: 'subjectId',
+  date: 'date',
+  durationMin: 'durationMin',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GradeScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  marks: 'marks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  content: 'content',
+  read: 'read',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  body: 'body',
+  meta: 'meta',
+  read: 'read',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PremiumFeatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.EventScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
   description: 'description',
-  date: 'date',
-  type: 'type',
-  active: 'active',
-  createdBy: 'createdBy',
   createdAt: 'createdAt'
 };
 
@@ -189,6 +328,8 @@ exports.Prisma.GoogleTokenScalarFieldEnum = {
   userId: 'userId',
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
+  scope: 'scope',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -198,11 +339,13 @@ exports.Prisma.RecentActivityScalarFieldEnum = {
   userId: 'userId',
   userName: 'userName',
   action: 'action',
+  metadata: 'metadata',
   timestamp: 'timestamp'
 };
 
 exports.Prisma.SupportRequestScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   name: 'name',
   email: 'email',
   message: 'message',
@@ -213,44 +356,19 @@ exports.Prisma.PlanConfigScalarFieldEnum = {
   id: 'id',
   name: 'name',
   price: 'price',
+  features: 'features',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ClassSessionScalarFieldEnum = {
-  id: 'id',
-  subjectId: 'subjectId',
-  section: 'section',
-  semester: 'semester',
-  weekday: 'weekday',
-  room: 'room',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  teacherId: 'teacherId',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SubjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  code: 'code'
-};
-
-exports.Prisma.SemesterScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-};
-
-exports.Prisma.SectionScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -262,16 +380,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
   TEACHER: 'TEACHER',
-  ADMIN: 'ADMIN'
-};
-
-exports.EventType = exports.$Enums.EventType = {
-  HOLIDAY: 'HOLIDAY',
-  EXAM: 'EXAM',
-  EVENT: 'EVENT'
+  ADMIN: 'ADMIN',
+  ASSISTANT: 'ASSISTANT'
 };
 
 exports.Weekday = exports.$Enums.Weekday = {
@@ -286,25 +405,41 @@ exports.Weekday = exports.$Enums.Weekday = {
 
 exports.SessionStatus = exports.$Enums.SessionStatus = {
   UPCOMING: 'UPCOMING',
-  COMPLETED: 'COMPLETED'
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE',
+  PENDING: 'PENDING'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   Teacher: 'Teacher',
+  Student: 'Student',
+  Semester: 'Semester',
+  Section: 'Section',
+  Subject: 'Subject',
   TeacherSubject: 'TeacherSubject',
+  ClassSession: 'ClassSession',
   Attendance: 'Attendance',
   AttendanceToken: 'AttendanceToken',
+  Assignment: 'Assignment',
+  Submission: 'Submission',
+  Announcement: 'Announcement',
+  Resource: 'Resource',
+  Exam: 'Exam',
+  Grade: 'Grade',
+  Message: 'Message',
+  Notification: 'Notification',
   PremiumFeature: 'PremiumFeature',
-  Event: 'Event',
   GoogleToken: 'GoogleToken',
   RecentActivity: 'RecentActivity',
   SupportRequest: 'SupportRequest',
-  PlanConfig: 'PlanConfig',
-  ClassSession: 'ClassSession',
-  Subject: 'Subject',
-  Semester: 'Semester',
-  Section: 'Section'
+  PlanConfig: 'PlanConfig'
 };
 
 /**

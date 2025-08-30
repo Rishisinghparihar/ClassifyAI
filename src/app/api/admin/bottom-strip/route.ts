@@ -5,23 +5,34 @@ export async function GET() {
   try {
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
+
     const allAttendance = await prisma.attendance.findMany({
       select: {
         studentId: true,
         status: true,
         student: {
-          select: { name: true },
+          select: {
+            user: {
+              select: { name: true },
+            },
+          },
         },
       },
     });
+
     const studentMap: Record<
       string,
       { name: string; present: number; total: number }
     > = {};
+
     for (const record of allAttendance) {
+      if (!record.studentId) continue;
+
+      const studentName = record.student?.user?.name || "Unknown";
+
       if (!studentMap[record.studentId]) {
         studentMap[record.studentId] = {
-          name: record.student.name,
+          name: studentName,
           present: 0,
           total: 0,
         };
@@ -31,20 +42,23 @@ export async function GET() {
       }
       studentMap[record.studentId].total++;
     }
+
     const studentList = Object.values(studentMap).map((s) => ({
       name: s.name,
       percentage: s.total > 0 ? Math.round((s.present / s.total) * 100) : 0,
     }));
+
     const topStudents = [...studentList]
       .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 3);
+
     const atRiskStudents = [...studentList]
       .sort((a, b) => a.percentage - b.percentage)
       .slice(0, 3);
 
     const teacherAttendanceToday = await prisma.attendance.findMany({
       where: {
-        date: {
+        markedAt: {
           gte: todayStart,
         },
       },
@@ -52,8 +66,10 @@ export async function GET() {
         markedBy: true,
       },
     });
+
     const teacherMap: Record<string, number> = {};
     for (const rec of teacherAttendanceToday) {
+      if (!rec.markedBy) continue;
       teacherMap[rec.markedBy] = (teacherMap[rec.markedBy] || 0) + 1;
     }
 
