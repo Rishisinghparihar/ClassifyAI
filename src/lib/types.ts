@@ -153,6 +153,14 @@ export type SupportRequest = {
   createdAt: string;
 };
 
+export type PendingClass = {
+  id: string;
+  subject: { subjectName: string };
+  semester: { semesterName: string };
+  startTime: string;
+  endTime: string;
+};
+
 export  interface TeacherDetails {
   id: string;
   name: string;

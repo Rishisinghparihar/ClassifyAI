@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    // find teacher by userId
     const teacher = await prisma.teacher.findUnique({
       where: { userId: teacherUserId },
       select: { id: true },
@@ -18,13 +20,30 @@ export async function GET(req: NextRequest) {
     if (!teacher) {
       return NextResponse.json({ error: "Teacher not found" }, { status: 404 });
     }
+
+    // fetch subjects taught by teacher with semester & section
     const subjects = await prisma.teacherSubject.findMany({
       where: { teacherId: teacher.id },
       select: {
-        name: true,
-        code: true,
-        teacher: {
-          select: { id: true, userId: true },
+        id: true,
+        subject: {          // ✅ relation to Subject
+          select: {
+            id: true,
+            name: true,
+            code: true,
+          },
+        },
+        semester: {         // ✅ relation to Semester
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        section: {          // ✅ relation to Section
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
     });

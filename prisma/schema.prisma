@@ -35,19 +35,25 @@ model Teacher {
   subjects    TeacherSubject[]
   department  String?
   designation String?
-  classes     ClassSession[]   // 👈 Opposite relation added
+  classes     ClassSession[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 }
 
 model TeacherSubject {
-  id        String   @id @default(cuid())
-  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
-  teacherId String
-  name      String
-  code      String?
-}
+  id         String   @id @default(cuid())
+  teacher    Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId  String
 
+  subject    Subject  @relation(fields: [subjectId], references: [id])
+  subjectId  String
+
+  semester   Semester @relation(fields: [semesterId], references: [id])
+  semesterId String
+
+  section    Section  @relation(fields: [sectionId], references: [id])
+  sectionId  String
+}
 
 model Attendance {
   id        String   @id @default(uuid())
@@ -55,8 +61,8 @@ model Attendance {
   studentId String
   subject   String
   date      DateTime @default(now())
-  status    String // "present", "absent", "late"
-  markedBy  String // teacher id or "QR/Face"
+  status    String
+  markedBy  String
 }
 
 model AttendanceToken {
@@ -122,10 +128,11 @@ model PlanConfig {
 
 model ClassSession {
   id        String        @id @default(cuid())
-  subject   String
+  subject   Subject       @relation(fields: [subjectId], references: [id])
+  subjectId String
   section   String
-  semester  Int           // 👈 semester wise timetable
-  weekday   Weekday       // 👈 konsa din (MONDAY, TUESDAY, ...)
+  semester  Int
+  weekday   Weekday
   room      String?
   startTime DateTime
   endTime   DateTime
@@ -138,6 +145,26 @@ model ClassSession {
   @@index([teacherId, weekday, semester])
 }
 
+model Subject {
+  id        String           @id @default(cuid())
+  name      String
+  code      String?          @unique
+  classes   ClassSession[]
+  teacherSubjects TeacherSubject[]
+}
+
+model Semester {
+  id       String            @id @default(cuid())
+  name     String
+  subjects TeacherSubject[]
+}
+
+model Section {
+  id       String            @id @default(cuid())
+  name     String
+  subjects TeacherSubject[]
+}
+
 enum Weekday {
   MONDAY
   TUESDAY
@@ -147,8 +174,6 @@ enum Weekday {
   SATURDAY
   SUNDAY
 }
-
-
 
 enum SessionStatus {
   UPCOMING

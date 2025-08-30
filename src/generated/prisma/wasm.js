@@ -145,8 +145,9 @@ exports.Prisma.TeacherScalarFieldEnum = {
 exports.Prisma.TeacherSubjectScalarFieldEnum = {
   id: 'id',
   teacherId: 'teacherId',
-  name: 'name',
-  code: 'code'
+  subjectId: 'subjectId',
+  semesterId: 'semesterId',
+  sectionId: 'sectionId'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {
@@ -218,7 +219,7 @@ exports.Prisma.PlanConfigScalarFieldEnum = {
 
 exports.Prisma.ClassSessionScalarFieldEnum = {
   id: 'id',
-  subject: 'subject',
+  subjectId: 'subjectId',
   section: 'section',
   semester: 'semester',
   weekday: 'weekday',
@@ -229,6 +230,22 @@ exports.Prisma.ClassSessionScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code'
+};
+
+exports.Prisma.SemesterScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
 };
 
 exports.Prisma.SortOrder = {
@@ -284,7 +301,10 @@ exports.Prisma.ModelName = {
   RecentActivity: 'RecentActivity',
   SupportRequest: 'SupportRequest',
   PlanConfig: 'PlanConfig',
-  ClassSession: 'ClassSession'
+  ClassSession: 'ClassSession',
+  Subject: 'Subject',
+  Semester: 'Semester',
+  Section: 'Section'
 };
 
 /**

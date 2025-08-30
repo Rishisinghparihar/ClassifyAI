@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Weekday } from "@/generated/prisma";
+
+// keep this as a const tuple so TypeScript infers a string-literal union
+const WEEKDAYS = [
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+] as const;
 
 export async function GET(req: Request) {
   try {
@@ -15,35 +25,31 @@ export async function GET(req: Request) {
     }
 
     // Current IST datetime
-    const nowUtc = new Date();
     const nowIST = new Date(
-      nowUtc.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
     );
 
-    // Today’s weekday as Prisma enum
-    const weekdays: Weekday[] = [
-      Weekday.SUNDAY,
-      Weekday.MONDAY,
-      Weekday.TUESDAY,
-      Weekday.WEDNESDAY,
-      Weekday.THURSDAY,
-      Weekday.FRIDAY,
-      Weekday.SATURDAY,
-    ];
-    const today = weekdays[nowIST.getDay()];
+    // Today’s weekday (typed as a string-literal union)
+    const today = WEEKDAYS[nowIST.getDay()];
 
-    // Pending classes: today’s classes with startTime > current time
-    const pendingClasses = await prisma.classSession.findMany({
+    // Today’s pending classes for this teacher
+    const sessions = await prisma.classSession.findMany({
       where: {
         teacherId,
-        weekday: today,
-        startTime: { gt: nowIST }, // ✅ directly compare DateTime
+        // cast to any to satisfy Prisma's enum type without importing it
+        weekday: today as any,
+        startTime: { gt: nowIST },
       },
       orderBy: { startTime: "asc" },
-      // ⚠ no `include.subject` because subject is just a String
+      include: {
+        // Subject is a related model: id, name, code exist per your schema
+        subject: {
+          select: { id: true, name: true, code: true },
+        },
+      },
     });
 
-    return NextResponse.json({ success: true, pendingClasses });
+    return NextResponse.json({ success: true, sessions });
   } catch (error) {
     console.error("Error fetching pending classes:", error);
     return NextResponse.json(

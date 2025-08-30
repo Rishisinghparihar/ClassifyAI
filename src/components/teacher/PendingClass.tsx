@@ -1,28 +1,21 @@
 "use client";
+import { PendingClass } from "@/lib/types";
 import { useEffect, useState } from "react";
-
-type PendingClass = {
-  id: string;
-  subject: { name: string };
-  semester: { name: string };
-  startTime: string;
-  endTime: string;
-};
 
 export default function PendingClasses() {
   const [classes, setClasses] = useState<PendingClass[]>([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const teacherId = localStorage.getItem("teacherId");
     if (!teacherId) {
       console.error("No teacher ID found in local storage.");
       return;
     }
+
     const fetchPendingClasses = async () => {
       try {
-        const res = await fetch(
-          `/api/timetable/pending?teacherId=${teacherId}`
-        );
+        const res = await fetch(`/api/timetable/pending?teacherId=${teacherId}`);
         const data = await res.json();
         if (data.success) {
           setClasses(data.sessions || []);
@@ -54,8 +47,10 @@ export default function PendingClasses() {
             key={cls.id}
             className="p-3 border rounded-xl shadow-sm flex flex-col"
           >
-            <span className="font-medium">{cls.subject.name}</span>
-            <span className="text-sm text-gray-600">{cls.semester.name}</span>
+            <span className="font-medium">{cls.subject.subjectName}</span>
+            <span className="text-sm text-gray-600">
+              {cls.semester.semesterName}
+            </span>
             <span className="text-sm text-blue-600">
               {cls.startTime} - {cls.endTime}
             </span>
