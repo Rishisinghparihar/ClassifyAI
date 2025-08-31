@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const recent = await prisma.attendance.findMany({
-      orderBy: { date: "desc" },
-      take: 15, // latest 5 records
+      orderBy: { createdAt: "desc" }, 
+      take: 15,
       include: { student: true },
     });
 

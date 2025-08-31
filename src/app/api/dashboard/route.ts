@@ -6,7 +6,7 @@ export async function GET() {
     today.setHours(0, 0, 0, 0);
     const attendances = await prisma.attendance.findMany({
         where:{
-            date: {
+            markedAt: {
                 gte: today
             }
         },
@@ -14,7 +14,7 @@ export async function GET() {
             student: true,
         },
         orderBy:{
-            date: "desc"
+            markedAt: "desc"
         },
         take: 100
     });

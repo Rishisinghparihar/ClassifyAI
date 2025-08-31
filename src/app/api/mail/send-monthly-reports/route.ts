@@ -1,12 +1,16 @@
+// /api/mail/send-monthly-reports/route.ts
 import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST() {
+  // Fixed: Use premiumExpiresAt instead of isPremium
   const proUsers = await prisma.user.findMany({
     where: {
-      isPremium: true,
+      premiumExpiresAt: {
+        gt: new Date(), // Premium hasn't expired yet
+      },
     },
     select: {
       id: true,
@@ -29,11 +33,22 @@ export async function POST() {
     const fromDate = new Date();
     fromDate.setMonth(fromDate.getMonth() - 1);
 
+    // Fixed: Use markedAt instead of date, and include classSession for subject
     const attendance = await prisma.attendance.findMany({
       where: {
         studentId: user.id,
-        date: {
+        markedAt: {
           gte: fromDate,
+        },
+        classSession: {
+          isNot: null, // Only include records with valid class sessions
+        },
+      },
+      include: {
+        classSession: {
+          select: {
+            subject: true,
+          },
         },
       },
     });
@@ -41,10 +56,21 @@ export async function POST() {
     const stats: Record<string, { present: number; total: number }> = {};
 
     for (const rec of attendance) {
-      const subj = rec.subject;
+      // Fixed: Get subject from classSession
+      const subj = rec.classSession?.subject;
+      if (!subj) continue; // Skip if no subject found
+      
       if (!stats[subj]) stats[subj] = { present: 0, total: 0 };
       stats[subj].total += 1;
-      if (rec.status.toUpperCase() === "PRESENT") stats[subj].present += 1;
+      
+      // Fixed: Use enum value directly instead of converting case
+      if (rec.status === "PRESENT") stats[subj].present += 1;
+    }
+
+    // Skip sending email if no attendance data
+    if (Object.keys(stats).length === 0) {
+      await logActivity(user.id, user.name, `No attendance data found for ${user.name} - skipped monthly report`);
+      continue;
     }
 
     const tableRows = Object.entries(stats)
@@ -87,7 +113,7 @@ export async function POST() {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px; font-size: 14px; color: #555;">🎓 Keep learning and growing. We’re here to support you every step of the way!</p>
+            <p style="margin-top: 20px; font-size: 14px; color: #555;">🎓 Keep learning and growing. We're here to support you every step of the way!</p>
           </div>
 
           <div style="background: #f0f4f8; padding: 12px; text-align: center; font-size: 12px; color: #888;">
@@ -97,14 +123,19 @@ export async function POST() {
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"ClassifyAI" <${process.env.SMTP_USER}>`,
-      to: user.email,
-      subject: `Your Monthly Attendance Report`,
-      html,
-    });
+    try {
+      await transporter.sendMail({
+        from: `"ClassifyAI" <${process.env.SMTP_USER}>`,
+        to: user.email,
+        subject: `Your Monthly Attendance Report`,
+        html,
+      });
 
-    await logActivity(user.id, user.name, `Sent monthly report to ${user.name}`);
+      await logActivity(user.id, user.name, `Sent monthly report to ${user.name}`);
+    } catch (emailError) {
+      console.error(`Failed to send email to ${user.email}:`, emailError);
+      await logActivity(user.id, user.name, `Failed to send monthly report to ${user.name}`);
+    }
   }
 
   return NextResponse.json({ success: true, message: "Reports sent." });

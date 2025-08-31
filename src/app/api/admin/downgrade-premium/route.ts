@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
 
     const targetFeatures = downgradeMap[currentCount] ?? [];
 
+    // 🔥 FIX: removed `isPremium`
     await prisma.user.update({
       where: { id: userId },
       data: {
-        isPremium: targetFeatures.length > 0,
         premiumFeatures: {
           set: targetFeatures.map((name) => ({ name })),
         },

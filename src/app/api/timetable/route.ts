@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * Weekdays as string-literals (match your Prisma enum values).
- * We don't import Prisma enums directly to avoid the "no exported member" issues.
  */
 const WEEKDAYS = [
   "SUNDAY",
@@ -23,8 +22,6 @@ function isValidWeekday(v: any): v is WeekdayStr {
 
 /**
  * POST: create a ClassSession
- * Accepts either `subjectId` (preferred) or `subjectName` (+ optional `subjectCode`) to upsert a Subject.
- * Required fields: (subjectId or subjectName), section, semester, weekday, startTime, endTime, teacherId
  */
 export async function POST(req: Request) {
   try {
@@ -100,22 +97,30 @@ export async function POST(req: Request) {
     // Create the ClassSession
     const session = await prisma.classSession.create({
       data: {
-        subject: { connect: { id: finalSubjectId } },
+        subjectId: finalSubjectId,    // use scalar ID
         section,
         semester: Number(semester),
-        weekday: weekday as any, // cast to satisfy Prisma enum type
+        weekday: weekday as any,
         room: room ?? null,
         startTime: start,
         endTime: end,
-        teacher: { connect: { id: teacher.id } },
+        teacherId: teacher.id,        // use scalar ID
       },
       include: {
-        subject: { select: { id: true, name: true, code: true } },
+        subjectRel: {                // relation field
+          select: { id: true, name: true, code: true },
+        },
         teacher: { select: { id: true, userId: true } },
       },
     });
 
-    return NextResponse.json({ success: true, session }, { status: 201 });
+    // Map output to keep "subject" field for frontend compatibility
+    const output = {
+      ...session,
+      subject: session.subjectRel,
+    };
+
+    return NextResponse.json({ success: true, session: output }, { status: 201 });
   } catch (err: any) {
     console.error("Error creating timetable:", err);
     return NextResponse.json({ error: "Failed to create timetable", details: String(err) }, { status: 500 });
@@ -123,16 +128,14 @@ export async function POST(req: Request) {
 }
 
 /**
- * GET: fetch today's pending sessions.
- * Optional query param: teacherId  (if provided, returns sessions for that teacher only)
- * Returns sessions whose startTime > now (i.e. remaining classes today).
+ * GET: fetch today's pending sessions
  */
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const teacherId = url.searchParams.get("teacherId") || undefined;
 
-    // Current IST datetime (keeping same approach you've used)
+    // Current IST datetime
     const nowIST = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
     const today = WEEKDAYS[nowIST.getDay()]; // e.g. "MONDAY"
 
@@ -147,23 +150,18 @@ export async function GET(req: Request) {
       where,
       orderBy: { startTime: "asc" },
       include: {
-        subject: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-          },
-        },
-        teacher: {
-          select: {
-            id: true,
-            userId: true,
-          },
-        },
+        subjectRel: { select: { id: true, name: true, code: true } },
+        teacher: { select: { id: true, userId: true } },
       },
     });
 
-    return NextResponse.json({ success: true, sessions });
+    // Map output to keep "subject" field
+    const formattedSessions = sessions.map(s => ({
+      ...s,
+      subject: s.subjectRel,
+    }));
+
+    return NextResponse.json({ success: true, sessions: formattedSessions });
   } catch (err: any) {
     console.error("Error fetching today's classes:", err);
     return NextResponse.json({ error: "Failed to fetch today's classes", details: String(err) }, { status: 500 });

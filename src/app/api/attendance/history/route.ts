@@ -12,7 +12,7 @@
           studentId,
         },
         orderBy: {
-          date: "desc",
+          markedAt: "desc",
         },
       });
       return NextResponse.json({ success: true, history });

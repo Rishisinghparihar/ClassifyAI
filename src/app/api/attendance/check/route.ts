@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const attendance = await prisma.attendance.findFirst({
       where: {
         studentId,
-        date: {
+        markedAt: {
             gte: today,
             lt: tomorrow,
         }

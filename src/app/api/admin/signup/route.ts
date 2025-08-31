@@ -1,3 +1,4 @@
+// /api/admin/signup/route.ts
 import { logActivity } from "@/lib/helper";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,7 +9,6 @@ const signupSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   role: z.enum(["STUDENT", "TEACHER", "ADMIN"]),
-  isPremium: z.boolean().optional(),
   premiumFeatures: z.array(z.string()).optional(),
   branch: z.string().optional(),
   year: z.string().optional(),
@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
           name: data.name,
           email: data.email,
           role: data.role,
-          isPremium: data.isPremium ?? false,
           premiumFeatures: data.premiumFeatures
             ? {
                 connect: data.premiumFeatures.map((featureName) => ({
@@ -46,9 +45,14 @@ export async function POST(req: NextRequest) {
               }
             : undefined,
           branch: data.role === "STUDENT" ? data.branch ?? "" : undefined,
-          year: data.role === "STUDENT" ? Number(data.year) ?? "" : undefined,
+          year:
+            data.role === "STUDENT" && data.year
+              ? Number(data.year)
+              : undefined,
           semester:
-            data.role === "STUDENT" ? Number(data.semester) ?? "" : undefined,
+            data.role === "STUDENT" && data.semester
+              ? Number(data.semester)
+              : undefined,
         },
       });
 
@@ -57,6 +61,7 @@ export async function POST(req: NextRequest) {
         newUser.name,
         `${newUser.name} added by CLASSIFYAI-admin`
       );
+
       return NextResponse.json(newUser, { status: 201 });
     }
 
@@ -83,7 +88,6 @@ export async function POST(req: NextRequest) {
         where: { userId: existingUser.id },
       });
 
-      // Finally delete user
       await prisma.user.delete({
         where: { email: data.email },
       });

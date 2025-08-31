@@ -64,6 +64,11 @@ export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
  */
 export type AttendanceToken = $Result.DefaultSelection<Prisma.$AttendanceTokenPayload>
 /**
+ * Model Event
+ * 
+ */
+export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
  * Model Assignment
  * 
  */
@@ -409,6 +414,16 @@ export class PrismaClient<
     * ```
     */
   get attendanceToken(): Prisma.AttendanceTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.event`: Exposes CRUD operations for the **Event** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Events
+    * const events = await prisma.event.findMany()
+    * ```
+    */
+  get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.assignment`: Exposes CRUD operations for the **Assignment** model.
@@ -989,6 +1004,7 @@ export namespace Prisma {
     ClassSession: 'ClassSession',
     Attendance: 'Attendance',
     AttendanceToken: 'AttendanceToken',
+    Event: 'Event',
     Assignment: 'Assignment',
     Submission: 'Submission',
     Announcement: 'Announcement',
@@ -1020,7 +1036,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "teacher" | "student" | "semester" | "section" | "subject" | "teacherSubject" | "classSession" | "attendance" | "attendanceToken" | "assignment" | "submission" | "announcement" | "resource" | "exam" | "grade" | "message" | "notification" | "premiumFeature" | "googleToken" | "recentActivity" | "supportRequest" | "planConfig"
+      modelProps: "user" | "teacher" | "student" | "semester" | "section" | "subject" | "teacherSubject" | "classSession" | "attendance" | "attendanceToken" | "event" | "assignment" | "submission" | "announcement" | "resource" | "exam" | "grade" | "message" | "notification" | "premiumFeature" | "googleToken" | "recentActivity" | "supportRequest" | "planConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1761,6 +1777,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AttendanceTokenCountArgs<ExtArgs>
             result: $Utils.Optional<AttendanceTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      Event: {
+        payload: Prisma.$EventPayload<ExtArgs>
+        fields: Prisma.EventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findFirst: {
+            args: Prisma.EventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findMany: {
+            args: Prisma.EventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          create: {
+            args: Prisma.EventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          createMany: {
+            args: Prisma.EventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          delete: {
+            args: Prisma.EventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          update: {
+            args: Prisma.EventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          deleteMany: {
+            args: Prisma.EventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          upsert: {
+            args: Prisma.EventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          aggregate: {
+            args: Prisma.EventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEvent>
+          }
+          groupBy: {
+            args: Prisma.EventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EventCountArgs<ExtArgs>
+            result: $Utils.Optional<EventCountAggregateOutputType> | number
           }
         }
       }
@@ -2828,6 +2918,7 @@ export namespace Prisma {
     classSession?: ClassSessionOmit
     attendance?: AttendanceOmit
     attendanceToken?: AttendanceTokenOmit
+    event?: EventOmit
     assignment?: AssignmentOmit
     submission?: SubmissionOmit
     announcement?: AnnouncementOmit
@@ -3503,10 +3594,12 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
+    semester: number | null
     year: number | null
   }
 
   export type UserSumAggregateOutputType = {
+    semester: number | null
     year: number | null
   }
 
@@ -3521,6 +3614,7 @@ export namespace Prisma {
     avatarUrl: string | null
     phone: string | null
     branch: string | null
+    semester: number | null
     year: number | null
     premiumExpiresAt: Date | null
   }
@@ -3536,6 +3630,7 @@ export namespace Prisma {
     avatarUrl: string | null
     phone: string | null
     branch: string | null
+    semester: number | null
     year: number | null
     premiumExpiresAt: Date | null
   }
@@ -3551,6 +3646,7 @@ export namespace Prisma {
     avatarUrl: number
     phone: number
     branch: number
+    semester: number
     year: number
     premiumExpiresAt: number
     _all: number
@@ -3558,10 +3654,12 @@ export namespace Prisma {
 
 
   export type UserAvgAggregateInputType = {
+    semester?: true
     year?: true
   }
 
   export type UserSumAggregateInputType = {
+    semester?: true
     year?: true
   }
 
@@ -3576,6 +3674,7 @@ export namespace Prisma {
     avatarUrl?: true
     phone?: true
     branch?: true
+    semester?: true
     year?: true
     premiumExpiresAt?: true
   }
@@ -3591,6 +3690,7 @@ export namespace Prisma {
     avatarUrl?: true
     phone?: true
     branch?: true
+    semester?: true
     year?: true
     premiumExpiresAt?: true
   }
@@ -3606,6 +3706,7 @@ export namespace Prisma {
     avatarUrl?: true
     phone?: true
     branch?: true
+    semester?: true
     year?: true
     premiumExpiresAt?: true
     _all?: true
@@ -3708,6 +3809,7 @@ export namespace Prisma {
     avatarUrl: string | null
     phone: string | null
     branch: string | null
+    semester: number | null
     year: number | null
     premiumExpiresAt: Date | null
     _count: UserCountAggregateOutputType | null
@@ -3742,6 +3844,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     phone?: boolean
     branch?: boolean
+    semester?: boolean
     year?: boolean
     premiumExpiresAt?: boolean
     teacherProfile?: boolean | User$teacherProfileArgs<ExtArgs>
@@ -3768,6 +3871,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     phone?: boolean
     branch?: boolean
+    semester?: boolean
     year?: boolean
     premiumExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3783,6 +3887,7 @@ export namespace Prisma {
     avatarUrl?: boolean
     phone?: boolean
     branch?: boolean
+    semester?: boolean
     year?: boolean
     premiumExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3798,11 +3903,12 @@ export namespace Prisma {
     avatarUrl?: boolean
     phone?: boolean
     branch?: boolean
+    semester?: boolean
     year?: boolean
     premiumExpiresAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "createdAt" | "updatedAt" | "avatarUrl" | "phone" | "branch" | "year" | "premiumExpiresAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "createdAt" | "updatedAt" | "avatarUrl" | "phone" | "branch" | "semester" | "year" | "premiumExpiresAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacherProfile?: boolean | User$teacherProfileArgs<ExtArgs>
     studentProfile?: boolean | User$studentProfileArgs<ExtArgs>
@@ -3844,6 +3950,7 @@ export namespace Prisma {
       avatarUrl: string | null
       phone: string | null
       branch: string | null
+      semester: number | null
       year: number | null
       premiumExpiresAt: Date | null
     }, ExtArgs["result"]["user"]>
@@ -4289,6 +4396,7 @@ export namespace Prisma {
     readonly avatarUrl: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
     readonly branch: FieldRef<"User", 'String'>
+    readonly semester: FieldRef<"User", 'Int'>
     readonly year: FieldRef<"User", 'Int'>
     readonly premiumExpiresAt: FieldRef<"User", 'DateTime'>
   }
@@ -15530,6 +15638,1053 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AttendanceTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Event
+   */
+
+  export type AggregateEvent = {
+    _count: EventCountAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  export type EventMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    date: Date | null
+    type: string | null
+    description: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EventMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    date: Date | null
+    type: string | null
+    description: string | null
+    active: boolean | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EventCountAggregateOutputType = {
+    id: number
+    title: number
+    date: number
+    type: number
+    description: number
+    active: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EventMinAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    type?: true
+    description?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EventMaxAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    type?: true
+    description?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EventCountAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    type?: true
+    description?: true
+    active?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Event to aggregate.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Events
+    **/
+    _count?: true | EventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type GetEventAggregateType<T extends EventAggregateArgs> = {
+        [P in keyof T & keyof AggregateEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEvent[P]>
+      : GetScalarType<T[P], AggregateEvent[P]>
+  }
+
+
+
+
+  export type EventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithAggregationInput | EventOrderByWithAggregationInput[]
+    by: EventScalarFieldEnum[] | EventScalarFieldEnum
+    having?: EventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EventCountAggregateInputType | true
+    _min?: EventMinAggregateInputType
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type EventGroupByOutputType = {
+    id: string
+    title: string
+    date: Date
+    type: string
+    description: string | null
+    active: boolean
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: EventCountAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  type GetEventGroupByPayload<T extends EventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EventGroupByOutputType[P]>
+            : GetScalarType<T[P], EventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    type?: boolean
+    description?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    type?: boolean
+    description?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    type?: boolean
+    description?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectScalar = {
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    type?: boolean
+    description?: boolean
+    active?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "type" | "description" | "active" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+
+  export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Event"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      date: Date
+      type: string
+      description: string | null
+      active: boolean
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["event"]>
+    composites: {}
+  }
+
+  type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<Prisma.$EventPayload, S>
+
+  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EventCountAggregateInputType | true
+    }
+
+  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event'], meta: { name: 'Event' } }
+    /**
+     * Find zero or one Event that matches the filter.
+     * @param {EventFindUniqueArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Event that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EventFindUniqueOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Event that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Event that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Events that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Events
+     * const events = await prisma.event.findMany()
+     * 
+     * // Get first 10 Events
+     * const events = await prisma.event.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eventWithIdOnly = await prisma.event.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Event.
+     * @param {EventCreateArgs} args - Arguments to create a Event.
+     * @example
+     * // Create one Event
+     * const Event = await prisma.event.create({
+     *   data: {
+     *     // ... data to create a Event
+     *   }
+     * })
+     * 
+     */
+    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Events.
+     * @param {EventCreateManyArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EventCreateManyArgs>(args?: SelectSubset<T, EventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Events and returns the data saved in the database.
+     * @param {EventCreateManyAndReturnArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Event.
+     * @param {EventDeleteArgs} args - Arguments to delete one Event.
+     * @example
+     * // Delete one Event
+     * const Event = await prisma.event.delete({
+     *   where: {
+     *     // ... filter to delete one Event
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Event.
+     * @param {EventUpdateArgs} args - Arguments to update one Event.
+     * @example
+     * // Update one Event
+     * const event = await prisma.event.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Events.
+     * @param {EventDeleteManyArgs} args - Arguments to filter Events to delete.
+     * @example
+     * // Delete a few Events
+     * const { count } = await prisma.event.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EventDeleteManyArgs>(args?: SelectSubset<T, EventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EventUpdateManyArgs>(args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Events and returns the data updated in the database.
+     * @param {EventUpdateManyAndReturnArgs} args - Arguments to update many Events.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EventUpdateManyAndReturnArgs>(args: SelectSubset<T, EventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Event.
+     * @param {EventUpsertArgs} args - Arguments to update or create a Event.
+     * @example
+     * // Update or create a Event
+     * const event = await prisma.event.upsert({
+     *   create: {
+     *     // ... data to create a Event
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Event we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventCountArgs} args - Arguments to filter Events to count.
+     * @example
+     * // Count the number of Events
+     * const count = await prisma.event.count({
+     *   where: {
+     *     // ... the filter for the Events we want to count
+     *   }
+     * })
+    **/
+    count<T extends EventCountArgs>(
+      args?: Subset<T, EventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EventAggregateArgs>(args: Subset<T, EventAggregateArgs>): Prisma.PrismaPromise<GetEventAggregateType<T>>
+
+    /**
+     * Group by Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EventGroupByArgs['orderBy'] }
+        : { orderBy?: EventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Event model
+   */
+  readonly fields: EventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Event.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Event model
+   */
+  interface EventFieldRefs {
+    readonly id: FieldRef<"Event", 'String'>
+    readonly title: FieldRef<"Event", 'String'>
+    readonly date: FieldRef<"Event", 'DateTime'>
+    readonly type: FieldRef<"Event", 'String'>
+    readonly description: FieldRef<"Event", 'String'>
+    readonly active: FieldRef<"Event", 'Boolean'>
+    readonly createdBy: FieldRef<"Event", 'String'>
+    readonly createdAt: FieldRef<"Event", 'DateTime'>
+    readonly updatedAt: FieldRef<"Event", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Event findUnique
+   */
+  export type EventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findUniqueOrThrow
+   */
+  export type EventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findFirst
+   */
+  export type EventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findFirstOrThrow
+   */
+  export type EventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findMany
+   */
+  export type EventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter, which Events to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event create
+   */
+  export type EventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Event.
+     */
+    data: XOR<EventCreateInput, EventUncheckedCreateInput>
+  }
+
+  /**
+   * Event createMany
+   */
+  export type EventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Event createManyAndReturn
+   */
+  export type EventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Event update
+   */
+  export type EventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Event.
+     */
+    data: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+    /**
+     * Choose, which Event to update.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event updateMany
+   */
+  export type EventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event updateManyAndReturn
+   */
+  export type EventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event upsert
+   */
+  export type EventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Event to update in case it exists.
+     */
+    where: EventWhereUniqueInput
+    /**
+     * In case the Event found by the `where` argument doesn't exist, create a new Event with this data.
+     */
+    create: XOR<EventCreateInput, EventUncheckedCreateInput>
+    /**
+     * In case the Event was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+  }
+
+  /**
+   * Event delete
+   */
+  export type EventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Filter which Event to delete.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event deleteMany
+   */
+  export type EventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Events to delete
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event without action
+   */
+  export type EventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
   }
 
 
@@ -30140,6 +31295,7 @@ export namespace Prisma {
     avatarUrl: 'avatarUrl',
     phone: 'phone',
     branch: 'branch',
+    semester: 'semester',
     year: 'year',
     premiumExpiresAt: 'premiumExpiresAt'
   };
@@ -30263,6 +31419,21 @@ export namespace Prisma {
   };
 
   export type AttendanceTokenScalarFieldEnum = (typeof AttendanceTokenScalarFieldEnum)[keyof typeof AttendanceTokenScalarFieldEnum]
+
+
+  export const EventScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    date: 'date',
+    type: 'type',
+    description: 'description',
+    active: 'active',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
 
 
   export const AssignmentScalarFieldEnum: {
@@ -30635,6 +31806,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     branch?: StringNullableFilter<"User"> | string | null
+    semester?: IntNullableFilter<"User"> | number | null
     year?: IntNullableFilter<"User"> | number | null
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     teacherProfile?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
@@ -30660,6 +31832,7 @@ export namespace Prisma {
     avatarUrl?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     branch?: SortOrderInput | SortOrder
+    semester?: SortOrderInput | SortOrder
     year?: SortOrderInput | SortOrder
     premiumExpiresAt?: SortOrderInput | SortOrder
     teacherProfile?: TeacherOrderByWithRelationInput
@@ -30688,6 +31861,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     branch?: StringNullableFilter<"User"> | string | null
+    semester?: IntNullableFilter<"User"> | number | null
     year?: IntNullableFilter<"User"> | number | null
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     teacherProfile?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
@@ -30713,6 +31887,7 @@ export namespace Prisma {
     avatarUrl?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     branch?: SortOrderInput | SortOrder
+    semester?: SortOrderInput | SortOrder
     year?: SortOrderInput | SortOrder
     premiumExpiresAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -30736,6 +31911,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     branch?: StringNullableWithAggregatesFilter<"User"> | string | null
+    semester?: IntNullableWithAggregatesFilter<"User"> | number | null
     year?: IntNullableWithAggregatesFilter<"User"> | number | null
     premiumExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
@@ -31415,6 +32591,78 @@ export namespace Prisma {
     issuedAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
     expiresAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
     used?: BoolWithAggregatesFilter<"AttendanceToken"> | boolean
+  }
+
+  export type EventWhereInput = {
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    id?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    date?: DateTimeFilter<"Event"> | Date | string
+    type?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    active?: BoolFilter<"Event"> | boolean
+    createdBy?: StringFilter<"Event"> | string
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+  }
+
+  export type EventOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    title?: StringFilter<"Event"> | string
+    date?: DateTimeFilter<"Event"> | Date | string
+    type?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    active?: BoolFilter<"Event"> | boolean
+    createdBy?: StringFilter<"Event"> | string
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+  }, "id">
+
+  export type EventOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EventCountOrderByAggregateInput
+    _max?: EventMaxOrderByAggregateInput
+    _min?: EventMinOrderByAggregateInput
+  }
+
+  export type EventScalarWhereWithAggregatesInput = {
+    AND?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    OR?: EventScalarWhereWithAggregatesInput[]
+    NOT?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Event"> | string
+    title?: StringWithAggregatesFilter<"Event"> | string
+    date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    type?: StringWithAggregatesFilter<"Event"> | string
+    description?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    active?: BoolWithAggregatesFilter<"Event"> | boolean
+    createdBy?: StringWithAggregatesFilter<"Event"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
 
   export type AssignmentWhereInput = {
@@ -32342,6 +33590,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -32367,6 +33616,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -32392,6 +33642,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -32417,6 +33668,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -32442,6 +33694,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
   }
@@ -32457,6 +33710,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -32472,6 +33726,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -33175,6 +34430,90 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     used?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type EventCreateInput = {
+    id?: string
+    title: string
+    date: Date | string
+    type: string
+    description?: string | null
+    active?: boolean
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventUncheckedCreateInput = {
+    id?: string
+    title: string
+    date: Date | string
+    type: string
+    description?: string | null
+    active?: boolean
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventCreateManyInput = {
+    id?: string
+    title: string
+    date: Date | string
+    type: string
+    description?: string | null
+    active?: boolean
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssignmentCreateInput = {
@@ -34294,11 +35633,13 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     phone?: SortOrder
     branch?: SortOrder
+    semester?: SortOrder
     year?: SortOrder
     premiumExpiresAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
+    semester?: SortOrder
     year?: SortOrder
   }
 
@@ -34313,6 +35654,7 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     phone?: SortOrder
     branch?: SortOrder
+    semester?: SortOrder
     year?: SortOrder
     premiumExpiresAt?: SortOrder
   }
@@ -34328,11 +35670,13 @@ export namespace Prisma {
     avatarUrl?: SortOrder
     phone?: SortOrder
     branch?: SortOrder
+    semester?: SortOrder
     year?: SortOrder
     premiumExpiresAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
+    semester?: SortOrder
     year?: SortOrder
   }
 
@@ -34966,6 +36310,42 @@ export namespace Prisma {
     issuedAt?: SortOrder
     expiresAt?: SortOrder
     used?: SortOrder
+  }
+
+  export type EventCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    active?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssignmentCountOrderByAggregateInput = {
@@ -38509,6 +39889,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     studentProfile?: StudentCreateNestedOneWithoutUserInput
@@ -38533,6 +39914,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     studentProfile?: StudentUncheckedCreateNestedOneWithoutUserInput
@@ -38715,6 +40097,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentUpdateOneWithoutUserNestedInput
@@ -38739,6 +40122,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentUncheckedUpdateOneWithoutUserNestedInput
@@ -38890,6 +40274,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -38914,6 +40299,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -39096,6 +40482,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -39120,6 +40507,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -40532,6 +41920,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -40556,6 +41945,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -40680,6 +42070,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -40704,6 +42095,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -41776,6 +43168,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -41800,6 +43193,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -41829,6 +43223,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -41853,6 +43248,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -41929,6 +43325,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -41953,6 +43350,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -41988,6 +43386,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -42012,6 +43411,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -42052,6 +43452,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -42076,6 +43477,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -42116,6 +43518,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -42140,6 +43543,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -42164,6 +43568,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -42188,6 +43593,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -42236,6 +43642,7 @@ export namespace Prisma {
     avatarUrl?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
     branch?: StringNullableFilter<"User"> | string | null
+    semester?: IntNullableFilter<"User"> | number | null
     year?: IntNullableFilter<"User"> | number | null
     premiumExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
@@ -42251,6 +43658,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -42275,6 +43683,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -42315,6 +43724,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -42339,6 +43749,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -42363,6 +43774,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -42387,6 +43799,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -42427,6 +43840,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -42451,6 +43865,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -42475,6 +43890,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -42499,6 +43915,7 @@ export namespace Prisma {
     avatarUrl?: string | null
     phone?: string | null
     branch?: string | null
+    semester?: number | null
     year?: number | null
     premiumExpiresAt?: Date | string | null
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -42539,6 +43956,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -42563,6 +43981,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -44044,6 +45463,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -44068,6 +45488,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -44092,6 +45513,7 @@ export namespace Prisma {
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     branch?: NullableStringFieldUpdateOperationsInput | string | null
+    semester?: NullableIntFieldUpdateOperationsInput | number | null
     year?: NullableIntFieldUpdateOperationsInput | number | null
     premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

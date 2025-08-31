@@ -1,3 +1,4 @@
+// /api/student/payment/verify/route.ts
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -68,15 +69,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Fixed: Remove isPremium field and update logic
+    const updateData: any = {
+      premiumFeatures: {
+        set: [], // Clear existing features first
+        connect: features.map((name) => ({ name })),
+      },
+    };
+
+    // Only set premiumExpiresAt for paid plans
+    if (planName !== "Starter") {
+      updateData.premiumExpiresAt = expiresAt;
+    } else {
+      // For starter plan, clear the premium expiry
+      updateData.premiumExpiresAt = null;
+    }
+
     await prisma.user.update({
       where: { id: userId },
-      data: {
-        isPremium: planName !== "Starter",
-        premiumExpiresAt: expiresAt,
-        premiumFeatures: {
-          connect: features.map((name) => ({ name })),
-        },
-      },
+      data: updateData,
     });
 
     await logActivity(

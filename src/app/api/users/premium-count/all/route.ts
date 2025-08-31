@@ -3,8 +3,13 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    // Fetch only users who have at least one premium feature
     const users = await prisma.user.findMany({
-      where: { isPremium: true },
+      where: {
+        premiumFeatures: {
+          some: {}, // at least one premium feature
+        },
+      },
       include: {
         premiumFeatures: true,
       },
@@ -12,9 +17,10 @@ export async function GET() {
 
     const result = users.map((user) => {
       let plan = "PREMIUM";
-      if (user.premiumFeatures.some((f) => f.name === "CALENDAR_SYNC")) {
+
+      if (user.premiumFeatures.some((f: { name: string }) => f.name === "CALENDAR_SYNC")) {
         plan = "ULTIMATE";
-      } else if (user.premiumFeatures.some((f) => f.name === "STUDY_PLAN")) {
+      } else if (user.premiumFeatures.some((f: { name: string }) => f.name === "STUDY_PLAN")) {
         plan = "PRO";
       }
 

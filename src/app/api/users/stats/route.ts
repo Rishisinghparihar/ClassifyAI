@@ -1,13 +1,17 @@
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const totalUsers = await prisma.user.count();
-
     const premiumUsers = await prisma.user.count({
-      where: { isPremium: true },
+      where: {
+        OR: [
+          { premiumFeatures: { some: {} } },
+          { premiumExpiresAt: { not: null } },
+        ],
+      },
     });
-
     const proUsers = await prisma.user.count({
       where: {
         premiumFeatures: {
@@ -15,7 +19,6 @@ export async function GET() {
         },
       },
     });
-
     const ultimateUsers = await prisma.user.count({
       where: {
         premiumFeatures: {
@@ -23,7 +26,6 @@ export async function GET() {
         },
       },
     });
-
     const expiredPremiums = await prisma.user.count({
       where: {
         premiumExpiresAt: {
@@ -32,7 +34,7 @@ export async function GET() {
       },
     });
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
       stats: {
         totalUsers,
@@ -44,6 +46,9 @@ export async function GET() {
     });
   } catch (err) {
     console.error(err);
-    return Response.json({ success: false, message: "Failed to get stats" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "Failed to get stats" },
+      { status: 500 }
+    );
   }
 }

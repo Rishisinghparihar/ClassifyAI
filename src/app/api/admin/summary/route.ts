@@ -9,7 +9,7 @@ export async function GET() {
             prisma.user.count({ where: { role: "TEACHER" } }),
             prisma.attendance.count({
               where: {
-                date: {
+                markedAt: {
                   gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 },
               },

@@ -17,13 +17,13 @@ export async function GET(req: NextRequest) {
     const attendances = await prisma.attendance.findMany({
       where: {
         studentId,
-        date: {
+        markedAt: {
           gte: today,
           lt: tommorrow,
         },
       },
       orderBy: {
-        date: "desc",
+        markedAt: "desc",
       },
     });
 

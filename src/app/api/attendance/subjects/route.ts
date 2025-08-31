@@ -1,7 +1,8 @@
+// /api/attendance/subjects/route.ts
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest){
+export async function GET(req: NextRequest) {
     const studentId = req.nextUrl.searchParams.get("studentId");
     if (!studentId) {
         return NextResponse.json(
@@ -9,16 +10,36 @@ export async function GET(req: NextRequest){
             { status: 400 }
         );
     }
+    
     try {
-        const subjects = await prisma.attendance.findMany({
+        // Get all attendance records with their class sessions
+        const attendances = await prisma.attendance.findMany({
             where: {
                 studentId,
+                classSession: {
+                    isNot: null // Only include records with valid class sessions
+                }
             },
-            select: {
-                subject: true,
-            },
-            distinct: ['subject'],
+            include: {
+                classSession: {
+                    select: {
+                        subject: true
+                    }
+                }
+            }
         });
+
+        // Extract unique subjects
+        const uniqueSubjects = Array.from(
+            new Set(
+                attendances
+                    .map(att => att.classSession?.subject)
+                    .filter(subject => subject !== null && subject !== undefined)
+            )
+        );
+
+        // Format to match expected output structure
+        const subjects = uniqueSubjects.map(subject => ({ subject }));
 
         return NextResponse.json(subjects);
     } catch (error) {

@@ -18,20 +18,20 @@ export async function GET(req: NextRequest) {
     const presents = await prisma.attendance.count({
       where: {
         studentId,
-        status: "Present",
+        status: "PRESENT",
       },
     });
     const absents = await prisma.attendance.count({
       where: {
         studentId,
-        status: "Absent",
+        status: "ABSENT",
       },
     });
 
     const late = await prisma.attendance.count({
       where: {
         studentId,
-        status: "Late",
+        status: "LATE",
       },
     });
     const precentage =

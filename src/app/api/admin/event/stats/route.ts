@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // 🩹 fix: start of the day
+    today.setHours(0, 0, 0, 0);
 
     const [total, exams, holidays, others] = await Promise.all([
       prisma.event.count({

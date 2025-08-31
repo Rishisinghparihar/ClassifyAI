@@ -131,6 +131,7 @@ exports.Prisma.UserScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   phone: 'phone',
   branch: 'branch',
+  semester: 'semester',
   year: 'year',
   premiumExpiresAt: 'premiumExpiresAt'
 };
@@ -224,6 +225,18 @@ exports.Prisma.AttendanceTokenScalarFieldEnum = {
   issuedAt: 'issuedAt',
   expiresAt: 'expiresAt',
   used: 'used'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  date: 'date',
+  type: 'type',
+  description: 'description',
+  active: 'active',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AssignmentScalarFieldEnum = {
@@ -427,6 +440,7 @@ exports.Prisma.ModelName = {
   ClassSession: 'ClassSession',
   Attendance: 'Attendance',
   AttendanceToken: 'AttendanceToken',
+  Event: 'Event',
   Assignment: 'Assignment',
   Submission: 'Submission',
   Announcement: 'Announcement',
