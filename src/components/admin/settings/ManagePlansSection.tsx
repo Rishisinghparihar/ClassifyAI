@@ -143,7 +143,7 @@ export default function ManagePlansSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="space-y-5 mt-20 w-full max-w-2xl z-10"
+            className="space-y-5 mt-5 w-full max-w-2xl z-10"
           >
             {plans.map((plan, index) => (
               <motion.div

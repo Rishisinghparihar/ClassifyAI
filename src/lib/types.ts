@@ -50,9 +50,11 @@ export interface NumberCardsProps {
 export interface EventItem {
   id: string;
   title: string;
-  description: string;
   date: string;
   type: string;
+  description?: string;
+  active?: boolean;
+  createdBy?: string;
 }
 
 export interface AttendanceRecord {

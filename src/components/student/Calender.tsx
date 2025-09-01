@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import { EventItem } from "@/lib/types";
@@ -8,6 +9,7 @@ const AppCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [dayEvents, setDayEvents] = useState<EventItem[]>([]);
+  const [showAllEvents, setShowAllEvents] = useState(false);
   const today = new Date();
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
@@ -17,9 +19,11 @@ const AppCalendar = () => {
       try {
         const res = await fetch(`/api/admin/event`);
         const data = await res.json();
-        console.log({ data });
+        console.log({data})
+        console.log(data.events)
         if (data.success) {
           setEvents(data.events);
+          console.log({events})
         }
       } catch (error) {
         console.log("Failed to fetch events", error);
@@ -29,99 +33,102 @@ const AppCalendar = () => {
   }, []);
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ];
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Get first day of the month and number of days
+  // Calendar calculations
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
   const firstDayWeekday = firstDayOfMonth.getDay();
   const daysInMonth = lastDayOfMonth.getDate();
 
-  // Get previous month's last days to fill the grid
   const prevMonth = new Date(currentYear, currentMonth - 1, 0);
   const daysInPrevMonth = prevMonth.getDate();
   const prevMonthDays = [];
-  for (let i = firstDayWeekday - 1; i >= 0; i--) {
-    prevMonthDays.push(daysInPrevMonth - i);
-  }
+  for (let i = firstDayWeekday - 1; i >= 0; i--) prevMonthDays.push(daysInPrevMonth - i);
 
-  // Get current month days
   const currentMonthDays = [];
-  for (let day = 1; day <= daysInMonth; day++) {
-    currentMonthDays.push(day);
-  }
+  for (let day = 1; day <= daysInMonth; day++) currentMonthDays.push(day);
 
-  // Get next month's first days to complete the grid
-  const totalCells = 42; // 6 rows × 7 days
-  const remainingCells =
-    totalCells - prevMonthDays.length - currentMonthDays.length;
+  const totalCells = 42;
+  const remainingCells = totalCells - prevMonthDays.length - currentMonthDays.length;
   const nextMonthDays = [];
-  for (let day = 1; day <= remainingCells; day++) {
-    nextMonthDays.push(day);
-  }
+  for (let day = 1; day <= remainingCells; day++) nextMonthDays.push(day);
 
-  interface NavigateMonthFn {
-    (direction: number): void;
-  }
-
-  const navigateMonth: NavigateMonthFn = (direction) => {
+  const navigateMonth = (direction: number) => {
     const newDate = new Date(currentDate);
     newDate.setMonth(currentMonth + direction);
     setCurrentDate(newDate);
   };
 
-  const isToday = (day: number) => {
-    return (
-      today.getDate() === day &&
-      today.getMonth() === currentMonth &&
-      today.getFullYear() === currentYear
-    );
+  const isToday = (day: number) =>
+    today.getDate() === day &&
+    today.getMonth() === currentMonth &&
+    today.getFullYear() === currentYear;
+
+  const isSelected = (day: number) =>
+    selectedDate &&
+    selectedDate.getDate() === day &&
+    selectedDate.getMonth() === currentMonth &&
+    selectedDate.getFullYear() === currentYear;
+
+  // Format date as YYYY-MM-DD in UTC
+  const formatDate = (date: string | Date) => {
+    const d = new Date(date);
+    return d.toISOString().split("T")[0];
   };
 
-  const isSelected = (day: number) => {
-    return (
-      selectedDate &&
-      selectedDate.getDate() === day &&
-      selectedDate.getMonth() === currentMonth &&
-      selectedDate.getFullYear() === currentYear
-    );
+  // Priority order for event types (most public/well-known first)
+  const eventTypePriority: { [key: string]: number } = {
+    'public': 1,
+    'holiday': 2,
+    'festival': 3,
+    'national': 4,
+    'religious': 5,
+    'cultural': 6,
+    'sports': 7,
+    'business': 8,
+    'personal': 9,
+    'private': 10
   };
 
+  // Get events for a specific day
+  const getEventsForDay = (day: number) => {
+    const dateStr = formatDate(new Date(currentYear, currentMonth, day));
+    return events.filter((e) => formatDate(e.date) === dateStr);
+  };
+
+  // Get the highest priority event for a day
+  const getPriorityEventForDay = (day: number) => {
+    const dayEvents = getEventsForDay(day);
+    if (dayEvents.length === 0) return null;
+    
+    // Sort events by priority (lower number = higher priority)
+    const sortedEvents = dayEvents.sort((a, b) => {
+      const priorityA = eventTypePriority[a.type.toLowerCase()] || 999;
+      const priorityB = eventTypePriority[b.type.toLowerCase()] || 999;
+      return priorityA - priorityB;
+    });
+    
+    return sortedEvents[0];
+  };
+
+  // Get primary event type for calendar day styling
   const getEventTypeForDay = (day: number) => {
-    const dateStr = new Date(currentYear, currentMonth, day).toLocaleDateString(
-      "en-CA"
-    );
-    const event = events.find((e) => e.date.startsWith(dateStr));
-    return event?.type || null;
+    const priorityEvent = getPriorityEventForDay(day);
+    return priorityEvent?.type || null;
   };
 
   const handleDateClick = (day: number | undefined, type: string) => {
     if (type === "current" && day !== undefined) {
       const clickedDate = new Date(currentYear, currentMonth, day);
       setSelectedDate(clickedDate);
-      const clickedDateStr = new Date(
-        currentYear,
-        currentMonth,
-        day
-      ).toLocaleDateString("en-CA");
-      const matched = events.filter((event) =>
-        event.date.startsWith(clickedDateStr)
-      );
-      setDayEvents(matched);
+      const priorityEvent = getPriorityEventForDay(day);
+      setDayEvents(priorityEvent ? [priorityEvent] : []);
+      setShowAllEvents(false);
     }
   };
 
@@ -130,8 +137,32 @@ const AppCalendar = () => {
     setSelectedDate(new Date());
   };
 
+  // Render single priority event in header
+  const renderEventDisplay = () => {
+    if (!selectedDate || dayEvents.length === 0) return null;
+
+    const event = dayEvents[0]; // Only one event now
+    
+    return (
+      <div className="px-1 pb-2">
+        <div className="bg-yellow-500/10 border border-yellow-300/20 text-center text-yellow-100 p-2 rounded-lg">
+          <h4 className="font-bold text-sm">{event.title}</h4>
+          <p className="text-xs opacity-90 truncate" title={event.description}>{event.description}</p>
+          <p className="text-[10px] italic text-yellow-200">
+            {event.type}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  // Simple day content without event count badge
+  const renderDayContent = (day: number) => {
+    return <span>{day}</span>;
+  };
+
   return (
-    <div className="w-full max-w-md mx-auto  to-black/20 bg-gradient-to-tl from-white/20  rounded-4xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300">
+    <div className="w-full max-w-md mx-auto bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white px-6 pt-4 pb-1">
         <div className="flex items-center justify-between mb-2">
@@ -153,28 +184,13 @@ const AppCalendar = () => {
             <ChevronRight size={20} />
           </button>
         </div>
+
         {/* Selected date display */}
         {selectedDate ? (
           dayEvents.length > 0 ? (
-            <div className="px-1 pb-2">
-              <ul className="">
-                {dayEvents.map((event) => (
-                  <li
-                    key={event.id}
-                    className="bg-yellow-500/10 border border-yellow-300/20 text-yellow-100 p-1 text-center  rounded-2xl"
-                  >
-                    <h4 className="font-bold text-sm">{event.title}</h4>
-                    <p className="text-xs">{event.description}</p>
-                    <p className="text-[10px] italic text-yellow-200">
-                      Type: {event.type}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            renderEventDisplay()
           ) : (
-            // No event, show selected date box
-            <div className="bg-gray-50/5 border border-cyan-200 rounded-lg p-1 text-center">
+            <div className="bg-gray-50/5 border border-cyan-200 rounded-lg p-2 text-center">
               <p className="text-sm text-gray-100">Selected Date</p>
               <p className="font-semibold text-gray-100">
                 {selectedDate.toLocaleDateString("en-US", {
@@ -187,7 +203,6 @@ const AppCalendar = () => {
             </div>
           )
         ) : (
-          // No date selected
           <button
             onClick={goToToday}
             className="flex items-center w-full text-center justify-center gap-2 text-lg bg-white/20 px-3 py-[0.8rem] rounded-full hover:bg-white/30 transition-colors duration-200"
@@ -200,19 +215,14 @@ const AppCalendar = () => {
 
       {/* Calendar Grid */}
       <div className="p-4">
-        {/* Days of week header */}
         <div className="grid grid-cols-7 gap-1 mb-2">
           {daysOfWeek.map((day) => (
-            <div
-              key={day}
-              className="text-center text-xs font-medium text-cyan-200 py-2"
-            >
+            <div key={day} className="text-center text-xs font-medium text-cyan-200 py-2">
               {day}
             </div>
           ))}
         </div>
 
-        {/* Calendar days */}
         <div className="grid grid-cols-7 gap-1">
           {/* Previous month days */}
           {prevMonthDays.map((day, index) => (
@@ -228,7 +238,6 @@ const AppCalendar = () => {
           {/* Current month days */}
           {currentMonthDays.map((day) => {
             const isEventDayType = getEventTypeForDay(day);
-
             let eventClass = "";
             if (isEventDayType && eventTypeColors[isEventDayType]) {
               eventClass = eventTypeColors[isEventDayType];
@@ -238,16 +247,15 @@ const AppCalendar = () => {
               <button
                 key={`current-${day}`}
                 onClick={() => handleDateClick(day, "current")}
-                className={`h-8 w-8 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 ${
+                className={`h-8 w-8 text-sm rounded-lg transition-all duration-200 transform hover:scale-105 relative ${
                   isToday(day)
                     ? "bg-blue-500 text-white font-semibold shadow-md"
                     : isSelected(day)
                     ? "bg-purple-500 text-white font-medium shadow-md"
-                    : eventClass ||
-                      "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
+                    : eventClass || "text-cyan-200 hover:bg-blue-50 hover:text-blue-600"
                 }`}
               >
-                {day}
+                {renderDayContent(day)}
               </button>
             );
           })}
