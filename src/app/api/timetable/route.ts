@@ -150,12 +150,12 @@ export async function GET(req: Request) {
       where,
       orderBy: { startTime: "asc" },
       include: {
-        subjectRel: { select: { id: true, name: true, code: true } },
+        subjectRel: { select: { id: true, name: true, code: true } }, // ✅ Fixed: use subjectRel instead of subject
         teacher: { select: { id: true, userId: true } },
       },
     });
 
-    // Map output to keep "subject" field
+    // Map output to keep "subject" field for frontend compatibility
     const formattedSessions = sessions.map(s => ({
       ...s,
       subject: s.subjectRel,

@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
-// keep this as a const tuple so TypeScript infers a string-literal union
 const WEEKDAYS = [
   "SUNDAY",
   "MONDAY",
@@ -23,33 +21,34 @@ export async function GET(req: Request) {
         { status: 400 }
       );
     }
-
-    // Current IST datetime
     const nowIST = new Date(
       new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
     );
 
-    // Today’s weekday (typed as a string-literal union)
     const today = WEEKDAYS[nowIST.getDay()];
 
-    // Today’s pending classes for this teacher
     const sessions = await prisma.classSession.findMany({
       where: {
         teacherId,
-        // cast to any to satisfy Prisma's enum type without importing it
         weekday: today as any,
         startTime: { gt: nowIST },
       },
       orderBy: { startTime: "asc" },
       include: {
-        // Subject is a related model: id, name, code exist per your schema
-        subject: {
+        subjectRel: {
           select: { id: true, name: true, code: true },
+        },
+        teacher: {
+          select: { id: true, userId: true },
         },
       },
     });
+    const formattedSessions = sessions.map(session => ({
+      ...session,
+      subject: session.subjectRel,
+    }));
 
-    return NextResponse.json({ success: true, sessions });
+    return NextResponse.json({ success: true, sessions: formattedSessions });
   } catch (error) {
     console.error("Error fetching pending classes:", error);
     return NextResponse.json(

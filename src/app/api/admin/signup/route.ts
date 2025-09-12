@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
       where: { email: data.email },
     });
 
+    // ==================== ADD USER ====================
     if (data.mode === "add") {
       if (existingUser) {
         return NextResponse.json(
@@ -56,6 +57,16 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      // If TEACHER → also create Teacher entry
+      if (newUser.role === "TEACHER") {
+        await prisma.teacher.create({
+          data: {
+            userId: newUser.id,
+            // you can extend teacher fields here like department, subjects etc.
+          },
+        });
+      }
+
       await logActivity(
         newUser.id,
         newUser.name,
@@ -65,6 +76,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(newUser, { status: 201 });
     }
 
+    // ==================== REMOVE USER ====================
     if (data.mode === "remove") {
       if (!existingUser) {
         return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -76,17 +88,23 @@ export async function POST(req: NextRequest) {
         `${existingUser.name} removed by CLASSIFYAI-admin`
       );
 
+      // Clean related data
       await prisma.recentActivity.deleteMany({
         where: { userId: existingUser.id },
       });
-
       await prisma.attendance.deleteMany({
         where: { studentId: existingUser.id },
       });
-
       await prisma.googleToken.deleteMany({
         where: { userId: existingUser.id },
       });
+
+      // If teacher → delete Teacher entry
+      if (existingUser.role === "TEACHER") {
+        await prisma.teacher.deleteMany({
+          where: { userId: existingUser.id },
+        });
+      }
 
       await prisma.user.delete({
         where: { email: data.email },
