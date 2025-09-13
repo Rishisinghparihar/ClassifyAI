@@ -133,7 +133,7 @@ const AttendanceHistoryPage = () => {
       {/* Back Button */}
       <div className="absolute top-4 left-4 z-10">
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push("/dashboard/student")}
           className="flex items-center justify-center gap-2 rounded-full  text-white hover:text-cyan-300 transition-colors"
         >
           <ChevronLeft size={40} />
