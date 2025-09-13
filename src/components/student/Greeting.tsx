@@ -29,10 +29,10 @@ const Greeting = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 p-4  mt-10 w-xl">
-      <h1 className="text-5xl"> WELCOME BACK!</h1>
-      <strong className="uppercase text-5xl">{details?.name}</strong>
-      <div className="flex gap-10">
+    <div className="flex flex-col gap-2 p-4  mt-10 w-md">
+      <h1 className="text-2xl"> WELCOME BACK!</h1>
+      <strong className="uppercase text-2xl">{details?.name}</strong>
+      <div className="flex gap-3">
         {details?.branch && (
           <span>
             <strong>Branch: </strong>
@@ -47,7 +47,7 @@ const Greeting = () => {
         )}
         {details?.semester && (
           <span>
-            <strong>Semester: </strong>
+            <strong>Sem: </strong>
             {numberToRoman(details?.semester || 0) || details?.semester}
           </span>
         )}

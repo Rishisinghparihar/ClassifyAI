@@ -16,13 +16,13 @@ const HorizontalBar: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={`relative group flex w-full max-w-md mx-auto my-2 p-4 bg-gradient-to-tl from-white/20 to-black/20 border border-cyan-300 rounded-4xl shadow-lg ${
+      className={`relative group flex w-80 max-w-md mx-auto my-2 p-2 bg-gradient-to-tl from-white/20 to-black/20 border border-cyan-300 rounded-4xl shadow-lg ${
         locked ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
       <div className="flex w-80 flex-col items-start justify-between p-4 rounded-lg">
-        <p className="text-amber-50 text-lg">{title}</p>
-        <span className="text-gray-100">{content}</span>
+        <p className="text-amber-50 text-base">{title}</p>
+        <span className="text-gray-100 text-sm">{content}</span>
       </div>
       <div className="flex items-center justify-center w-16 h-full">
         {locked ? (
@@ -32,7 +32,7 @@ const HorizontalBar: React.FC<Props> = ({
         ) : (
           <Link
             href={linkRef}
-            className="h-6 w-6 text-cyan-500 flex items-center justify-center text-center border border-cyan-300 rounded-full hover:bg-cyan-500/65 transition-colors duration-200 shadow-md"
+            className="h-4 w-4 text-cyan-500 flex items-center justify-center text-center border border-cyan-300 rounded-full hover:bg-cyan-500/65 transition-colors duration-200 shadow-md"
           >
             <ChevronRight />
           </Link>

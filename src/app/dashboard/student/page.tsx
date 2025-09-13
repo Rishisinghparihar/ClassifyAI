@@ -75,20 +75,20 @@ export default function StudentDashboard() {
   }, []);
   console.log("STS " + premiumStatus?.isPremium);
   return (
-    <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
-      <div className="w-[26rem] space-y-6">
+    <div className="p-6 sm:p-10 md:p-4 flex flex-col gap-6 md:flex-row w-32 h-screen">
+      <div className="w-[15rem] space-y-2">
         <Logo />
         <Greeting />
 
         <Link
           href="/attendance/scan"
-          className="block text-center text-2xl bg-gray-200/15 border border-gray-300 hover:bg-gray-300/10 hover:text-gray-500 font-semibold px-6 py-3 rounded-xl transition duration-300 ease-in-out shadow-md"
+          className="block text-center text-sm bg-gray-200/15 border border-gray-300 hover:bg-gray-300/10 hover:text-gray-500 font-semibold px-2 py-3 rounded-xl transition duration-300 ease-in-out shadow-md"
         >
           Scan QR to Mark Attendance
         </Link>
 
-        <div className="bg-gray-100/15 p-6 rounded-xl shadow-sm mt-4">
-          <h2 className="text-xl font-semibold mb-4">📅 Today's Attendance</h2>
+        <div className="bg-gray-100/15 p-4 h-110 rounded-xl shadow-sm mt-3 overflow-clip">
+          <h2 className="text-xs font-semibold mb-4">📅 Today's Attendance</h2>
           {loading ? (
             <p>Loading...</p>
           ) : todayAttendance.length > 0 ? (
@@ -119,8 +119,8 @@ export default function StudentDashboard() {
         </div>
       </div>
 
-      <div className="flex pl-[5rem]">
-        <div className="flex flex-col space-y-6">
+      <div className="flex pl-[1rem]">
+        <div className="flex flex-col space-y-4 w-80">
           {premiumStatus?.isPremium ? (
             <PremiumFeaturesCard
               studentId={localStorage.getItem("studentId") || ""}
@@ -155,9 +155,9 @@ export default function StudentDashboard() {
           <div className="w-3xl max-w-6xl mx-auto">
             <BarGraph />
           </div>
-          <div className="flex items-start justify-evenly space-x-4 w-full max-w-6xl mx-auto">
+          <div className=" space-x-4 w-full max-w-6xl mx-auto ml-8">
             <AppCalendar />
-            <div className="">
+            <div className="flex space-x-[1.4rem] h-34 ">
               <NumberCard
                 title="Lectures Attended"
                 value={

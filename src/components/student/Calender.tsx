@@ -162,18 +162,18 @@ const AppCalendar = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300">
+    <div className="w-100 h-80 bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-2xl border border-gray-100  overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white px-6 pt-4 pb-1">
-        <div className="flex items-center justify-between mb-2">
+      <div className="bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white px-6 pt-3 pb-1">
+        <div className="flex items-center justify-between ">
           <button
             onClick={() => navigateMonth(-1)}
             className="p-2 hover:bg-white/20 rounded-lg transition-colors duration-200"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={15} />
           </button>
 
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-md pb-2.5 font-semibold">
             {months[currentMonth]} {currentYear}
           </h2>
 
@@ -181,7 +181,7 @@ const AppCalendar = () => {
             onClick={() => navigateMonth(1)}
             className="p-2 hover:bg-white/20 rounded-lg transition-colors duration-200"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={15} />
           </button>
         </div>
 
@@ -190,8 +190,8 @@ const AppCalendar = () => {
           dayEvents.length > 0 ? (
             renderEventDisplay()
           ) : (
-            <div className="bg-gray-50/5 border border-cyan-200 rounded-lg p-2 text-center">
-              <p className="text-sm text-gray-100">Selected Date</p>
+            <div className="bg-gray-50/5 border text-xs border-cyan-200 rounded-lg px-2 gap-0.5 py-[0.7px] flex justify-center items-center text-center w-70 mx-auto mb-[0.1rem]">
+              <p className=" text-gray-100">Selected Date: </p>
               <p className="font-semibold text-gray-100">
                 {selectedDate.toLocaleDateString("en-US", {
                   weekday: "long",
@@ -205,7 +205,7 @@ const AppCalendar = () => {
         ) : (
           <button
             onClick={goToToday}
-            className="flex items-center w-full text-center justify-center gap-2 text-lg bg-white/20 px-3 py-[0.8rem] rounded-full hover:bg-white/30 transition-colors duration-200"
+            className="flex items-center w-50 mx-auto text-center justify-center gap-2 text-sm bg-white/20 px-3 py-[0.1rem] rounded-full hover:bg-white/30 transition-colors duration-200"
           >
             <Calendar size={14} />
             Today
@@ -214,8 +214,8 @@ const AppCalendar = () => {
       </div>
 
       {/* Calendar Grid */}
-      <div className="p-4">
-        <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="px-2 overflow-clip">
+        <div className="grid grid-cols-7 gap-1 ">
           {daysOfWeek.map((day) => (
             <div key={day} className="text-center text-xs font-medium text-cyan-200 py-2">
               {day}

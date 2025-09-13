@@ -43,17 +43,17 @@ const pColor = premiumStatus?.plan === "Ultimate"
       : "";
   return (
     <div
-      className={`w-[30rem] h-72 grid-cols-2 rounded-4xl grid items-center justify-center border border-cyan-500 ${planColor}`}
+      className={`w-[20rem] h-66 grid-cols-2 rounded-4xl grid items-center justify-center border border-cyan-500 ${planColor}`}
     >
       {/* Left Side */}
-      <div className="text-center px-4">
+      <div className="text-center px-2">
         <Logo/>
-        <h2 className="text-2xl font-bold mt-4">
+        <h2 className="text-xs font-bold mt-4">
           {premiumStatus?.isPremium
             ? `You're on ${premiumStatus.plan} Plan`
             : "Go Premium"}
         </h2>
-        <p className={`mt-1 text-sm ${pColor}`}>
+        <p className={`mt-1 text-xs ${pColor}`}>
           {premiumStatus?.isPremium
             ? "Exclusive premium features enabled"
             : "Unlock exclusive features and perks"}
@@ -69,11 +69,11 @@ const pColor = premiumStatus?.plan === "Ultimate"
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-start px-4 text-sm text-white">
+      <div className="flex flex-col items-start px-2 text-xs text-white">
         {premiumStatus?.isPremium ? (
           <ul className="list-disc pl-4 max-h-40 overflow-y-auto">
             {premiumStatus.features.map((feature) => (
-              <li className="text-base ml-2.5 mb-3" key={feature}>{feature.replaceAll("_", " ")}</li>
+              <li className="text-xs ml-2.5 mb-3" key={feature}>{feature.replaceAll("_", " ")}</li>
             ))}
           </ul>
         ) : (

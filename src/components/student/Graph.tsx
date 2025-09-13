@@ -44,23 +44,23 @@ const BarGraph: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-xl border border-cyan-200 overflow-hidden">
+    <div className="mx-7 bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-xl border border-cyan-200 overflow-hidden w-100 ">
       {/* Header */}
-      <div className="bg-black/40 text-white px-4 py-4">
+      <div className="bg-black/40 text-white px-2 py-3">
         <div className="flex items-center gap-2">
           <div className="p-1 bg-white/10 rounded-md">
             <BarChart3 size={18} />
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Attendance Percentage by Subject</h2>
+            <h2 className="text-sm font-semibold">Attendance Percentage by Subject</h2>
             <p className="text-slate-200 text-xs">Track your consistency per subject</p>
           </div>
         </div>
       </div>
 
       {/* Graph */}
-      <div className="p-4 px-10 min-h-[400px]">
-        <div className="bg-gray-50/5 rounded-lg p-4 min-h-[240px]">
+      <div className="p-3 px-7 h-[165px]">
+        <div className="bg-gray-50/5 rounded-lg p-[2.5rem] min-h-[240px]">
           <div className="flex items-end justify-between gap-1 h-40 sm:h-48 md:h-56 rounded-md p-2 shadow-inner overflow-x-auto">
             {attendanceData.map((item, index) => {
               const value = item.percentage;
