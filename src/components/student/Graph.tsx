@@ -44,24 +44,24 @@ const BarGraph: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-xl border border-cyan-200 overflow-hidden">
+    <div className="mx-7 bg-gradient-to-tl from-white/20 to-black/20 rounded-4xl shadow-xl border border-cyan-200 overflow-hidden w-100 ">
       {/* Header */}
-      <div className="bg-black/40 text-white px-4 py-4">
-        <div className="flex items-center gap-2">
-          <div className="p-1 bg-white/10 rounded-md">
+      <div className="bg-black/40 text-white p-2">
+        <div className="flex items-center gap-6">
+          <div className="p-1 bg-white/10 rounded-lg">
             <BarChart3 size={18} />
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Attendance Percentage by Subject</h2>
+            <h2 className="text-sm font-semibold">Attendance Percentage by Subject</h2>
             <p className="text-slate-200 text-xs">Track your consistency per subject</p>
           </div>
         </div>
       </div>
 
       {/* Graph */}
-      <div className="p-4 px-10 min-h-[400px]">
-        <div className="bg-gray-50/5 rounded-lg p-4 min-h-[240px]">
-          <div className="flex items-end justify-between gap-1 h-40 sm:h-48 md:h-56 rounded-md p-2 shadow-inner overflow-x-auto">
+      <div className=" px-3 h-[160px] w-92">
+        <div className="bg-gray-50/5 rounded-lg p-1 w-92">
+          <div className="flex items-end justify-between gap-1 h-26 rounded-md p-2 shadow-inner overflow-x-auto">
             {attendanceData.map((item, index) => {
               const value = item.percentage;
               const height = Math.max((value / 100) * 140, 6);
@@ -74,13 +74,13 @@ const BarGraph: React.FC = () => {
                   onClick={() => handleClick(index)}
                 >
                   {/* Tooltip */}
-                  <div className="mb-1 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 text-black text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap">
+                  <div className=" opacity-0 group-hover:opacity-100     transition-opacity bg-gray-200 text-black text-[8px] p-1 rounded whitespace-nowrap">
                     {value}%
                   </div>
 
                   {/* Bar */}
                   <div
-                    className="w-full max-w-8 rounded-t-md shadow-md relative overflow-hidden transition-all duration-300 bg-cyan-500"
+                    className="w-full max-h-18 max-w-5 rounded-t-md shadow-md relative overflow-hidden transition-all duration-300 bg-cyan-500"
                     style={{ height: `${height}px` }}
                   >
                     {isSelected && (
@@ -101,7 +101,7 @@ const BarGraph: React.FC = () => {
 
                   {/* Label */}
                   <div
-                    className={`mt-1 text-[10px] font-medium ${
+                    className={` text-[9px] font-medium ${
                       isSelected
                         ? "text-cyan-300 font-bold"
                         : "text-gray-200"
@@ -114,20 +114,14 @@ const BarGraph: React.FC = () => {
             })}
           </div>
 
-          {/* Y-axis */}
-          <div className="flex justify-between text-[10px] text-gray-200 mt-2 px-2">
-            <span>0%</span>
-            <span className="text-center">Average: {average}%</span>
-            <span>100%</span>
-          </div>
         </div>
 
         {/* Details Panel */}
         {selectedBar !== null && attendanceData[selectedBar] !== undefined ? (
-          <div className="mt-4 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg border border-blue-200 text-xs text-gray-200">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-semibold">{attendanceData[selectedBar].subject} Details</h3>
+          <div className="mt-2 w-92 p-1 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg border border-blue-200 text-[10px] text-gray-200">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <h3 className="font-semibold">{attendanceData[selectedBar].subject} Details:</h3>
                 <p>
                   Attendance:{" "}
                   <span className="font-bold text-cyan-300">
@@ -146,8 +140,8 @@ const BarGraph: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="mt-4 p-3 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg border border-blue-200 text-xs text-gray-200">
-            <h4 className="font-semibold mb-1">Instructions:</h4>
+          <div className="flex mt-2 gap-2 w-92 p-1 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg border border-blue-200 text-xs text-gray-200">
+            <h4 className="font-semibold">Instructions:</h4>
             <p>Click on any bar to watch detailed information.</p>
           </div>
         )}

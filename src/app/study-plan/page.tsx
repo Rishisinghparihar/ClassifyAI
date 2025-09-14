@@ -121,12 +121,12 @@ const StudyPlanPage = () => {
           onClick={() => router.push("/dashboard/student")}
           className="flex items-center justify-center gap-2 rounded-full  text-white hover:text-cyan-300 transition-colors"
         >
-          <ChevronLeft size={40} />
+          <ChevronLeft size={32} />
         </button>
       </div>
       {!planData && (
-        <div className="max-w-6xl h-[55rem] mx-auto bg-white/5 border-4 border-cyan-100/20 rounded-3xl shadow-xl p-8 backdrop-blur-md ">
-          <h1 className="text-3xl font-bold text-cyan-300 mb-2 text-center">
+        <div className="max-w-6xl h-[40rem] mx-auto bg-white/5 border-4 border-cyan-100/20 rounded-3xl shadow-xl p-4 backdrop-blur-md ">
+          <h1 className="text-2xl font-bold text-cyan-300 mb-2 text-center">
              Make Study Plan
           </h1>
           <p className="text-center text-cyan-100 mb-6">
@@ -141,7 +141,7 @@ const StudyPlanPage = () => {
               value={syllabus}
               onChange={(e) => setSyllabus(e.target.value)}
               rows={6}
-              className="peer w-full placeholder:text-cyan-50 p-4 border h-[30rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
+              className="peer w-full placeholder:text-cyan-50 p-4 border h-[25rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
             />
             <p className="text-xs text-cyan-300 mt-1">
               We recommend copying your syllabus exactly as provided by your
@@ -168,7 +168,7 @@ const StudyPlanPage = () => {
           <button
             disabled={loading}
             onClick={handleGenerate}
-            className="group w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transform transition hover:-translate-y-1 hover:shadow-cyan-500/30 active:scale-95"
+            className="group w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-6 py-2 rounded-xl font-semibold shadow-lg transform transition hover:-translate-y-1 hover:shadow-cyan-500/30 active:scale-95"
           >
             <span className="inline-flex items-center gap-2">
               ✨ Generate Study Plan
@@ -179,15 +179,15 @@ const StudyPlanPage = () => {
 
       {/* 🟩 Show STUDY PLAN */}
       {planData && (
-        <div className="mt-10 space-y-8 gap-5 flex ">
-          <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
-            <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+        <div className="mt-5 space-y-4 gap-3 flex h-180">
+          <section className="bg-white/5 border border-cyan-100/20 rounded-lg  overflow-scroll overflow-y-auto p-3">
+            <div className="flex items-center gap-2 mb-2 max-h-24">
               <CalendarCheck className="text-blue-300" />
-              <h2 className="text-xl font-semibold text-cyan-200">
+              <h2 className="text-md font-semibold text-cyan-200">
                 Daily Study Plan
               </h2>
             </div>
-            <ul className="list-decimal text-lg pl-5 text-gray-300 space-y-3.5">
+            <ul className="list-decimal text-md pl-5 text-gray-300 space-y-3.5">
               {Object.entries(planData.studyPlan).map(([day, content]) => (
                 <li key={day}>
                   <strong>{day}:</strong> {content}
@@ -196,10 +196,10 @@ const StudyPlanPage = () => {
             </ul>
           </section>
           <div>
-            <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
-              <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+            <section className="bg-white/5 border border-cyan-100/20 h-100 rounded-lg overflow-scroll overflow-y-auto p-3">
+              <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide max-h-24">
                 <Sparkles className="text-yellow-300" />
-                <h2 className="text-xl font-semibold text-cyan-200">
+                <h2 className="text-md font-semibold text-cyan-200">
                   Study Roadmap
                 </h2>
               </div>
@@ -209,11 +209,11 @@ const StudyPlanPage = () => {
                 ))}
               </ul>
             </section>
-            <div className="flex gap-5 mt-5">
-              <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
-                <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+            <div className="flex gap-5 mt-5 h-[17.7rem]">
+              <section className="bg-white/5 border border-cyan-100/20 rounded-lg overflow-scroll overflow-y-auto p-3">
+                <div className="flex items-center gap-2 mb-5">
                   <Lightbulb className="text-green-300" />
-                  <h2 className="text-xl font-semibold text-cyan-200">
+                  <h2 className="text-md font-semibold text-cyan-200">
                     Important Topics
                   </h2>
                 </div>
@@ -224,10 +224,10 @@ const StudyPlanPage = () => {
                 </ul>
               </section>
 
-              <section className="bg-white/5 border border-cyan-100/20 rounded-lg p-5">
-                <div className="flex items-center gap-2 mb-5 overflow-scroll scrollbar-hide">
+              <section className="bg-white/5 border border-cyan-100/20 rounded-lg overflow-scroll overflow-y-auto p-3">
+                <div className="flex items-center gap-2 mb-5 ">
                   <ClipboardList className="text-pink-400" />
-                  <h2 className="text-xl font-semibold text-cyan-200">
+                  <h2 className="text-md font-semibold text-cyan-200">
                     Important Questions
                   </h2>
                 </div>

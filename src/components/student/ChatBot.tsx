@@ -7,14 +7,14 @@ const ChatBot = () => {
   const router = useRouter();
   return (
     <div
-      className="absolute bottom-14 right-4 group cursor-pointer"
+      className="absolute bottom-60 right-10 group cursor-pointer"
       onClick={() => router.push("/dashboard/student/chat")}
     >
-      <div className="flex items-center justify-center h-10 px-3 rounded-full bg-cyan-50/10 hover:bg-cyan-100/20  font-medium text-sm shadow transition-all duration-300 space-x-2">
+      <div className="flex flex-col items-center justify-center h-10 px-2 rounded-full shadow space-x-2 ">
         <FontAwesomeIcon icon={faComment} className="text-xl text-cyan-400" />
 
-        <span className="text-cyan-500 inline-block overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-[120px] transition-all duration-300 ease-in-out">
-          CHAT WITH AI
+        <span className="rounded ease-in-out text-xs bg-cyan-500 text-white opacity-0 p-[2px] mt-2 group-hover:opacity-100 scale-80 group-hover:scale-100 transition-all duration-200 pointer-events-none">
+          Chat with AI
         </span>
       </div>
     </div>

@@ -75,20 +75,20 @@ export default function StudentDashboard() {
   }, []);
   console.log("STS " + premiumStatus?.isPremium);
   return (
-    <div className="p-6 sm:p-10 md:p-16 flex flex-col gap-6 md:flex-row w-full min-h-screen">
-      <div className="w-[26rem] space-y-6">
+    <div className="p-6 sm:p-10 md:p-4 flex flex-col gap-6 md:flex-row w-32 h-screen">
+      <div className="w-[15rem] space-y-2">
         <Logo />
         <Greeting />
 
         <Link
           href="/attendance/scan"
-          className="block text-center text-2xl bg-gray-200/15 border border-gray-300 hover:bg-gray-300/10 hover:text-gray-500 font-semibold px-6 py-3 rounded-xl transition duration-300 ease-in-out shadow-md"
+          className="block text-center text-sm bg-gray-200/15 border border-gray-300 hover:bg-gray-300/10 hover:text-gray-500 font-semibold px-2 py-3 rounded-xl transition duration-300 ease-in-out shadow-md"
         >
           Scan QR to Mark Attendance
         </Link>
 
-        <div className="bg-gray-100/15 p-6 rounded-xl shadow-sm mt-4">
-          <h2 className="text-xl font-semibold mb-4">📅 Today's Attendance</h2>
+        <div className="bg-gray-100/15 p-4 h-110 rounded-xl shadow-sm mt-3 overflow-clip">
+          <h2 className="text-xs font-semibold mb-4">📅 Today's Attendance</h2>
           {loading ? (
             <p>Loading...</p>
           ) : todayAttendance.length > 0 ? (
@@ -119,8 +119,8 @@ export default function StudentDashboard() {
         </div>
       </div>
 
-      <div className="flex pl-[5rem]">
-        <div className="flex flex-col space-y-6">
+      <div className="flex pl-[1rem]">
+        <div className="flex flex-col space-y-4 w-80">
           {premiumStatus?.isPremium ? (
             <PremiumFeaturesCard
               studentId={localStorage.getItem("studentId") || ""}
@@ -155,9 +155,9 @@ export default function StudentDashboard() {
           <div className="w-3xl max-w-6xl mx-auto">
             <BarGraph />
           </div>
-          <div className="flex items-start justify-evenly space-x-4 w-full max-w-6xl mx-auto">
+          <div className=" space-x-4 w-full max-w-6xl mx-auto ml-8">
             <AppCalendar />
-            <div className="">
+            <div className="flex space-x-[1.4rem] h-34 ">
               <NumberCard
                 title="Lectures Attended"
                 value={
@@ -178,10 +178,10 @@ export default function StudentDashboard() {
           </div>
         </div>
         <div
-          className="absolute top-[1.3rem] right-[10rem] group cursor-pointer"
+          className="absolute top-[25rem] right-16 group cursor-pointer"
           onClick={() => logout()}
         >
-          <div className="relative flex items-center justify-center p-2 rounded-full  transition">
+          <div className="relative gap-30 flex flex-col items-center justify-center p-2 rounded-full  transition">
             <LogOut className="text-cyan-300" />
             <span className="absolute top-full mb-1 px-2 py-1 text-xs rounded bg-cyan-500 text-white opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 pointer-events-none">
               Logout
@@ -190,18 +190,7 @@ export default function StudentDashboard() {
         </div>
         {premiumStatus?.features?.includes("AI_CHATBOT") && <ChatBot />}
 
-        <div className="ml-8 mt-4">
-          {premiumStatus?.isPremium ? (
-            <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-green-300 bg-gradient-to-br from-green-800/40 to-cyan-700/40 shadow-md">
-              🌟 Premium Student
-            </span>
-          ) : (
-            <span className="absolute top-7 right-3 text-xs px-4 py-1 rounded-full text-red-300 bg-gradient-to-br from-red-800/40 to-cyan-700/40 shadow-md">
-              Normal Student
-            </span>
-          )}
-        </div>
-
+       
         
       </div>
     </div>

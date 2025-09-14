@@ -27,12 +27,24 @@ const Greeting = () => {
 
     fetchStudentDetails();
   }, []);
+  function removeMiddleName(fullName: string): string {
+  // Split the name by one or more spaces
+  const parts: string[] = fullName.trim().split(/\s+/);
+
+  // If there's no middle name, return as is
+  if (parts.length <= 2) {
+    return fullName;
+  }
+
+  // Return only first and last name
+  return `${parts[0]} ${parts[parts.length - 1]}`;
+}
 
   return (
-    <div className="flex flex-col gap-6 p-4  mt-10 w-xl">
-      <h1 className="text-5xl"> WELCOME BACK!</h1>
-      <strong className="uppercase text-5xl">{details?.name}</strong>
-      <div className="flex gap-10">
+    <div className="flex flex-col gap-2 p-4  mt-10 w-md">
+      <h1 className="text-2xl"> WELCOME BACK!</h1>
+      <strong className="capitalize text-2xl ">{removeMiddleName(details?.name||"")}</strong>
+      <div className="flex gap-3">
         {details?.branch && (
           <span>
             <strong>Branch: </strong>
@@ -47,7 +59,7 @@ const Greeting = () => {
         )}
         {details?.semester && (
           <span>
-            <strong>Semester: </strong>
+            <strong>Sem: </strong>
             {numberToRoman(details?.semester || 0) || details?.semester}
           </span>
         )}
