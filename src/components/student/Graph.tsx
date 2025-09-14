@@ -74,7 +74,7 @@ const BarGraph: React.FC = () => {
                   onClick={() => handleClick(index)}
                 >
                   {/* Tooltip */}
-                  <div className=" opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 text-black text-[8px] p-1 rounded whitespace-nowrap">
+                  <div className=" opacity-0 group-hover:opacity-100     transition-opacity bg-gray-200 text-black text-[8px] p-1 rounded whitespace-nowrap">
                     {value}%
                   </div>
 

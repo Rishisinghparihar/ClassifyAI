@@ -60,12 +60,13 @@ Respond ONLY in this JSON format:
             content: gptPrompt,
           },
         ],
-        max_tokens: 1024,
+        max_tokens: 4096,
       }),
     });
 
     const result = await aiResponse.json();
     const rawText = result?.choices?.[0]?.message?.content || "";
+    // console.log("🟢 Study Plan Response:", rawText);
     const data = extractJSON(rawText);
 
     return NextResponse.json(
