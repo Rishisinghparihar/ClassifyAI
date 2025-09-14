@@ -141,8 +141,8 @@ const ScanPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen items-center gap-60 bg-gradient-to-br from-gray-900/15 via-black/15 to-gray-800/15 text-white p-6 flex-col">
-      <h2 className="text-center text-4xl uppercase text-cyan-200">
+    <div className="flex min-h-screen items-center gap-40 bg-gradient-to-br from-gray-900/15 via-black/15 to-gray-800/15 text-white p-6 flex-col">
+      <h2 className="text-center text-3xl uppercase text-cyan-200">
         Scan QR to mark Attendance
       </h2>
       <div

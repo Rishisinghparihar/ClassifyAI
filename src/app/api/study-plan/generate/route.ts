@@ -66,6 +66,7 @@ Respond ONLY in this JSON format:
 console.log({aiResponse})
     const result = await aiResponse.json();
     const rawText = result?.choices?.[0]?.message?.content || "";
+    // console.log("🟢 Study Plan Response:", rawText);
     const data = extractJSON(rawText);
 
     return NextResponse.json(

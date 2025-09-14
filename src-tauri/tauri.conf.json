@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "ClassifyAI",
-        "width": 1160,
-        "height": 720,
+        "width": 1200,
+        "height": 770,
         "resizable": false,
         "fullscreen": false,
         "maximizable": false,
