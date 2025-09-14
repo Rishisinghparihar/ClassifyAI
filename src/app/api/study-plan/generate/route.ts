@@ -60,10 +60,10 @@ Respond ONLY in this JSON format:
             content: gptPrompt,
           },
         ],
-        max_tokens: 1024,
+        max_tokens: 4096,
       }),
     });
-
+console.log({aiResponse})
     const result = await aiResponse.json();
     const rawText = result?.choices?.[0]?.message?.content || "";
     const data = extractJSON(rawText);

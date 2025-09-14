@@ -128,7 +128,7 @@ export default function StudentDashboard() {
           ) : (
             <UpgradeToPremiumCard />
           )}
-          <HorizontalBar
+          {/* <HorizontalBar
             content="Check your past attendance records"
             linkRef="/attendance/history"
             title="Attendance History"
@@ -137,7 +137,7 @@ export default function StudentDashboard() {
             content="Track upcoming exams and assignment deadlines"
             linkRef="/dashboard/student/exams"
             title="Upcoming Exams"
-          />
+          /> */}
           <HorizontalBar
             content="See how many classes you can skip safely"
             linkRef="/attendance/stats"

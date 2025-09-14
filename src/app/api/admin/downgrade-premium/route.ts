@@ -3,84 +3,96 @@ import { NextRequest, NextResponse } from "next/server";
 import { logActivity } from "@/lib/helper";
 import nodemailer from "nodemailer";
 
-const downgradeMap: Record<number, string[]> = {
-  4: ["AI_CHATBOT", "STUDY_PLAN", "BUNK_MANAGER"], // Ultimate → Pro
-  3: [], // Pro → Starter
+// Configuration for the downgrade *ACTION*
+// Maps a user's current feature count to the features they will have after downgrading.
+const planDowngradeConfig = {
+    '4': { targetFeatures: ["AI_CHATBOT", "STUDY_PLAN", "BUNK_MANAGER"] }, // Ultimate -> Pro
+    '3': { targetFeatures: [] },                                         // Pro -> Starter
+};
+
+const planDefinition = {
+    '4': { name: "Ultimate" },
+    '3': { name: "Pro" },
+    '0': { name: "Starter" },
 };
 
 export async function POST(req: NextRequest) {
-  const { userId, reason } = await req.json();
+    const { userId, reason } = await req.json();
 
-  if (!userId || !reason) {
-    return NextResponse.json(
-      { error: "User ID and reason are required" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { premiumFeatures: true },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    if (!userId || !reason) {
+        return NextResponse.json(
+            { error: "User ID and reason are required" },
+            { status: 400 }
+        );
     }
 
-    const currentFeatures = user.premiumFeatures.map((f) => f.name);
-    const currentCount = currentFeatures.length;
+    try {
+        await prisma.$transaction(async (tx) => {
+            const user = await tx.user.findUnique({
+                where: { id: userId },
+                include: { premiumFeatures: true },
+            });
 
-    if (currentCount === 0) {
-      return NextResponse.json(
-        { error: "User is already at Starter plan" },
-        { status: 400 }
-      );
-    }
+            if (!user) {
+                throw new Error("User not found");
+            }
 
-    const targetFeatures = downgradeMap[currentCount] ?? [];
+            const currentFeatureCount = user.premiumFeatures.length;
+            
+            if (currentFeatureCount === 0) {
+                throw new Error("User is already at Starter plan");
+            }
 
-    // 🔥 FIX: removed `isPremium`
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        premiumFeatures: {
-          set: targetFeatures.map((name) => ({ name })),
-        },
-        premiumExpiresAt:
-          targetFeatures.length > 0 ? user.premiumExpiresAt : null,
-      },
-    });
+            const downgradeKey = String(currentFeatureCount) as keyof typeof planDowngradeConfig;
+            const downgradeAction = planDowngradeConfig[downgradeKey];
 
-    await logActivity(
-      userId,
-      user.name,
-      `Downgraded premium from ${currentCount} features to ${targetFeatures.length} features. Reason: ${reason}`
-    );
+            if (!downgradeAction) {
+                throw new Error("No downgrade path available for this user's plan");
+            }
 
-    // send email
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+            const { targetFeatures } = downgradeAction;
+            await tx.user.update({
+                where: { id: userId },
+                data: {
+                    premiumFeatures: {
+                        set: targetFeatures.map((name) => ({ name })),
+                    },
+                    premiumExpiresAt: targetFeatures.length > 0 ? user.premiumExpiresAt : null,
+                },
+            });
+            await logActivity(
+                userId,
+                user.name,
+                `Downgraded premium from ${currentFeatureCount} features to ${targetFeatures.length} features. Reason: ${reason}`
+            );
+        });
+        const userForEmail = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { premiumFeatures: true }
+        });
 
-    const newPlan =
-      targetFeatures.length === 3
-        ? "Pro"
-        : targetFeatures.length === 0
-        ? "Starter"
-        : "Custom";
+        if (!userForEmail) {
+            throw new Error("User not found after transaction");
+        }
+        
+        const latestFeatureCount = userForEmail.premiumFeatures.length;
+        const finalPlanKey = String(latestFeatureCount) as keyof typeof planDefinition;
+        const newPlan = planDefinition[finalPlanKey]?.name ?? "Custom";
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: parseInt(process.env.SMTP_PORT || "587"),
+            secure: false,
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
+            },
+        });
 
-    await transporter.sendMail({
-      from: `"ClassifyAI" <${process.env.SMTP_USER}>`,
-      to: user.email,
-      subject: "Your Premium Plan has been Downgraded",
-      html: `
+        await transporter.sendMail({
+            from: `"ClassifyAI" <${process.env.SMTP_USER}>`,
+            to: userForEmail.email,
+            subject: "Your Premium Plan has been Downgraded",
+            html: `
 <html>
   <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f9fafb;">
     <table role="presentation" cellspacing="0" cellpadding="0" width="100%">
@@ -95,7 +107,7 @@ export async function POST(req: NextRequest) {
             <tr>
               <td style="padding: 30px;">
                 <p style="font-size: 16px; color: #111827; margin: 0 0 16px;">
-                  Dear <strong>${user.name}</strong>,
+                  Dear <strong>${userForEmail.name}</strong>,
                 </p>
                 <p style="font-size: 16px; color: #374151; margin: 0 0 16px;">
                   We wanted to let you know that your premium plan has been <strong style="color: #d97706;">downgraded</strong> by our admin team.
@@ -129,12 +141,23 @@ export async function POST(req: NextRequest) {
     </table>
   </body>
 </html>
-      `,
-    });
+            `,
+        });
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Failed to downgrade:", error);
-    return NextResponse.json({ error: "Failed to downgrade" }, { status: 500 });
-  }
+        return NextResponse.json({ success: true });
+
+    } catch (error) {
+        console.error("Failed to downgrade:", error);
+        
+        if (error instanceof Error) {
+            if (error.message.includes("User not found")) {
+                return NextResponse.json({ error: error.message }, { status: 404 });
+            }
+            if (error.message.includes("Starter plan") || error.message.includes("No downgrade path")) {
+                return NextResponse.json({ error: error.message }, { status: 400 });
+            }
+        }
+        
+        return NextResponse.json({ error: "Failed to downgrade user" }, { status: 500 });
+    }
 }

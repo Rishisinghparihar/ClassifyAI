@@ -164,7 +164,7 @@ const mergedPlans = (isYearly ? yearlyPlans : monthlyPlans).map((plan) => {
             </div>
 
             {/* Pricing Card */}
-            <div className="relative w-full bg-white/10 text-white backdrop-blur-lg rounded-4xl shadow-lg pt-20 px-6 pb-6 flex flex-col justify-between min-h-[35rem]">
+            <div className="relative w-full bg-white/10 text-white backdrop-blur-lg rounded-4xl shadow-lg pt-20 px-6 pb-6 flex flex-col justify-between min-h-[30rem]">
               <ul className="space-y-3 text-sm mb-6">
                 {monthlyPlans[0].features
                   .concat(monthlyPlans[0].extra)
