@@ -3167,12 +3167,14 @@ export namespace Prisma {
     attendances: number
     submissions: number
     grades: number
+    attendanceTokens: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendances?: boolean | StudentCountOutputTypeCountAttendancesArgs
     submissions?: boolean | StudentCountOutputTypeCountSubmissionsArgs
     grades?: boolean | StudentCountOutputTypeCountGradesArgs
+    attendanceTokens?: boolean | StudentCountOutputTypeCountAttendanceTokensArgs
   }
 
   // Custom InputTypes
@@ -3205,6 +3207,13 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountGradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GradeWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountAttendanceTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceTokenWhereInput
   }
 
 
@@ -6406,6 +6415,7 @@ export namespace Prisma {
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
     grades?: boolean | Student$gradesArgs<ExtArgs>
+    attendanceTokens?: boolean | Student$attendanceTokensArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -6453,6 +6463,7 @@ export namespace Prisma {
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
     grades?: boolean | Student$gradesArgs<ExtArgs>
+    attendanceTokens?: boolean | Student$attendanceTokensArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6475,6 +6486,7 @@ export namespace Prisma {
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
       grades: Prisma.$GradePayload<ExtArgs>[]
+      attendanceTokens: Prisma.$AttendanceTokenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6884,6 +6896,7 @@ export namespace Prisma {
     attendances<T extends Student$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submissions<T extends Student$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Student$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     grades<T extends Student$gradesArgs<ExtArgs> = {}>(args?: Subset<T, Student$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendanceTokens<T extends Student$attendanceTokensArgs<ExtArgs> = {}>(args?: Subset<T, Student$attendanceTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7423,6 +7436,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GradeScalarFieldEnum | GradeScalarFieldEnum[]
+  }
+
+  /**
+   * Student.attendanceTokens
+   */
+  export type Student$attendanceTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceToken
+     */
+    select?: AttendanceTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceToken
+     */
+    omit?: AttendanceTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceTokenInclude<ExtArgs> | null
+    where?: AttendanceTokenWhereInput
+    orderBy?: AttendanceTokenOrderByWithRelationInput | AttendanceTokenOrderByWithRelationInput[]
+    cursor?: AttendanceTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceTokenScalarFieldEnum | AttendanceTokenScalarFieldEnum[]
   }
 
   /**
@@ -14551,6 +14588,7 @@ export namespace Prisma {
   export type AttendanceTokenMinAggregateOutputType = {
     id: string | null
     token: string | null
+    studentId: string | null
     subjectId: string | null
     professorId: string | null
     issuedAt: Date | null
@@ -14561,6 +14599,7 @@ export namespace Prisma {
   export type AttendanceTokenMaxAggregateOutputType = {
     id: string | null
     token: string | null
+    studentId: string | null
     subjectId: string | null
     professorId: string | null
     issuedAt: Date | null
@@ -14571,6 +14610,7 @@ export namespace Prisma {
   export type AttendanceTokenCountAggregateOutputType = {
     id: number
     token: number
+    studentId: number
     subjectId: number
     professorId: number
     issuedAt: number
@@ -14583,6 +14623,7 @@ export namespace Prisma {
   export type AttendanceTokenMinAggregateInputType = {
     id?: true
     token?: true
+    studentId?: true
     subjectId?: true
     professorId?: true
     issuedAt?: true
@@ -14593,6 +14634,7 @@ export namespace Prisma {
   export type AttendanceTokenMaxAggregateInputType = {
     id?: true
     token?: true
+    studentId?: true
     subjectId?: true
     professorId?: true
     issuedAt?: true
@@ -14603,6 +14645,7 @@ export namespace Prisma {
   export type AttendanceTokenCountAggregateInputType = {
     id?: true
     token?: true
+    studentId?: true
     subjectId?: true
     professorId?: true
     issuedAt?: true
@@ -14686,6 +14729,7 @@ export namespace Prisma {
   export type AttendanceTokenGroupByOutputType = {
     id: string
     token: string
+    studentId: string | null
     subjectId: string | null
     professorId: string
     issuedAt: Date
@@ -14713,39 +14757,46 @@ export namespace Prisma {
   export type AttendanceTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     token?: boolean
+    studentId?: boolean
     subjectId?: boolean
     professorId?: boolean
     issuedAt?: boolean
     expiresAt?: boolean
     used?: boolean
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }, ExtArgs["result"]["attendanceToken"]>
 
   export type AttendanceTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     token?: boolean
+    studentId?: boolean
     subjectId?: boolean
     professorId?: boolean
     issuedAt?: boolean
     expiresAt?: boolean
     used?: boolean
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }, ExtArgs["result"]["attendanceToken"]>
 
   export type AttendanceTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     token?: boolean
+    studentId?: boolean
     subjectId?: boolean
     professorId?: boolean
     issuedAt?: boolean
     expiresAt?: boolean
     used?: boolean
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }, ExtArgs["result"]["attendanceToken"]>
 
   export type AttendanceTokenSelectScalar = {
     id?: boolean
     token?: boolean
+    studentId?: boolean
     subjectId?: boolean
     professorId?: boolean
     issuedAt?: boolean
@@ -14753,25 +14804,30 @@ export namespace Prisma {
     used?: boolean
   }
 
-  export type AttendanceTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "subjectId" | "professorId" | "issuedAt" | "expiresAt" | "used", ExtArgs["result"]["attendanceToken"]>
+  export type AttendanceTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "studentId" | "subjectId" | "professorId" | "issuedAt" | "expiresAt" | "used", ExtArgs["result"]["attendanceToken"]>
   export type AttendanceTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }
   export type AttendanceTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }
   export type AttendanceTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | AttendanceToken$studentArgs<ExtArgs>
     subject?: boolean | AttendanceToken$subjectArgs<ExtArgs>
   }
 
   export type $AttendanceTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AttendanceToken"
     objects: {
+      student: Prisma.$StudentPayload<ExtArgs> | null
       subject: Prisma.$SubjectPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       token: string
+      studentId: string | null
       subjectId: string | null
       professorId: string
       issuedAt: Date
@@ -15171,6 +15227,7 @@ export namespace Prisma {
    */
   export interface Prisma__AttendanceTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends AttendanceToken$studentArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceToken$studentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     subject<T extends AttendanceToken$subjectArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceToken$subjectArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15203,6 +15260,7 @@ export namespace Prisma {
   interface AttendanceTokenFieldRefs {
     readonly id: FieldRef<"AttendanceToken", 'String'>
     readonly token: FieldRef<"AttendanceToken", 'String'>
+    readonly studentId: FieldRef<"AttendanceToken", 'String'>
     readonly subjectId: FieldRef<"AttendanceToken", 'String'>
     readonly professorId: FieldRef<"AttendanceToken", 'String'>
     readonly issuedAt: FieldRef<"AttendanceToken", 'DateTime'>
@@ -15601,6 +15659,25 @@ export namespace Prisma {
      * Limit how many AttendanceTokens to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AttendanceToken.student
+   */
+  export type AttendanceToken$studentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Student
+     */
+    select?: StudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Student
+     */
+    omit?: StudentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentInclude<ExtArgs> | null
+    where?: StudentWhereInput
   }
 
   /**
@@ -31411,6 +31488,7 @@ export namespace Prisma {
   export const AttendanceTokenScalarFieldEnum: {
     id: 'id',
     token: 'token',
+    studentId: 'studentId',
     subjectId: 'subjectId',
     professorId: 'professorId',
     issuedAt: 'issuedAt',
@@ -32005,6 +32083,7 @@ export namespace Prisma {
     attendances?: AttendanceListRelationFilter
     submissions?: SubmissionListRelationFilter
     grades?: GradeListRelationFilter
+    attendanceTokens?: AttendanceTokenListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -32021,6 +32100,7 @@ export namespace Prisma {
     attendances?: AttendanceOrderByRelationAggregateInput
     submissions?: SubmissionOrderByRelationAggregateInput
     grades?: GradeOrderByRelationAggregateInput
+    attendanceTokens?: AttendanceTokenOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -32040,6 +32120,7 @@ export namespace Prisma {
     attendances?: AttendanceListRelationFilter
     submissions?: SubmissionListRelationFilter
     grades?: GradeListRelationFilter
+    attendanceTokens?: AttendanceTokenListRelationFilter
   }, "id" | "userId">
 
   export type StudentOrderByWithAggregationInput = {
@@ -32093,16 +32174,16 @@ export namespace Prisma {
 
   export type SemesterWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: SemesterWhereInput | SemesterWhereInput[]
     OR?: SemesterWhereInput[]
     NOT?: SemesterWhereInput | SemesterWhereInput[]
-    name?: StringFilter<"Semester"> | string
     number?: IntNullableFilter<"Semester"> | number | null
     createdAt?: DateTimeFilter<"Semester"> | Date | string
     teacherSubjects?: TeacherSubjectListRelationFilter
     classSessions?: ClassSessionListRelationFilter
     students?: StudentListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type SemesterOrderByWithAggregationInput = {
     id?: SortOrder
@@ -32534,22 +32615,26 @@ export namespace Prisma {
     NOT?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
     id?: StringFilter<"AttendanceToken"> | string
     token?: StringFilter<"AttendanceToken"> | string
+    studentId?: StringNullableFilter<"AttendanceToken"> | string | null
     subjectId?: StringNullableFilter<"AttendanceToken"> | string | null
     professorId?: StringFilter<"AttendanceToken"> | string
     issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
     expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
     used?: BoolFilter<"AttendanceToken"> | boolean
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
   }
 
   export type AttendanceTokenOrderByWithRelationInput = {
     id?: SortOrder
     token?: SortOrder
+    studentId?: SortOrderInput | SortOrder
     subjectId?: SortOrderInput | SortOrder
     professorId?: SortOrder
     issuedAt?: SortOrder
     expiresAt?: SortOrder
     used?: SortOrder
+    student?: StudentOrderByWithRelationInput
     subject?: SubjectOrderByWithRelationInput
   }
 
@@ -32559,17 +32644,20 @@ export namespace Prisma {
     AND?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
     OR?: AttendanceTokenWhereInput[]
     NOT?: AttendanceTokenWhereInput | AttendanceTokenWhereInput[]
+    studentId?: StringNullableFilter<"AttendanceToken"> | string | null
     subjectId?: StringNullableFilter<"AttendanceToken"> | string | null
     professorId?: StringFilter<"AttendanceToken"> | string
     issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
     expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
     used?: BoolFilter<"AttendanceToken"> | boolean
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
   }, "id" | "token">
 
   export type AttendanceTokenOrderByWithAggregationInput = {
     id?: SortOrder
     token?: SortOrder
+    studentId?: SortOrderInput | SortOrder
     subjectId?: SortOrderInput | SortOrder
     professorId?: SortOrder
     issuedAt?: SortOrder
@@ -32586,6 +32674,7 @@ export namespace Prisma {
     NOT?: AttendanceTokenScalarWhereWithAggregatesInput | AttendanceTokenScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AttendanceToken"> | string
     token?: StringWithAggregatesFilter<"AttendanceToken"> | string
+    studentId?: StringNullableWithAggregatesFilter<"AttendanceToken"> | string | null
     subjectId?: StringNullableWithAggregatesFilter<"AttendanceToken"> | string | null
     professorId?: StringWithAggregatesFilter<"AttendanceToken"> | string
     issuedAt?: DateTimeWithAggregatesFilter<"AttendanceToken"> | Date | string
@@ -33820,6 +33909,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -33833,6 +33923,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -33846,6 +33937,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -33859,6 +33951,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -34370,12 +34463,14 @@ export namespace Prisma {
     issuedAt?: Date | string
     expiresAt: Date | string
     used?: boolean
+    student?: StudentCreateNestedOneWithoutAttendanceTokensInput
     subject?: SubjectCreateNestedOneWithoutAttendanceTokensInput
   }
 
   export type AttendanceTokenUncheckedCreateInput = {
     id?: string
     token: string
+    studentId?: string | null
     subjectId?: string | null
     professorId: string
     issuedAt?: Date | string
@@ -34390,12 +34485,14 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     used?: BoolFieldUpdateOperationsInput | boolean
+    student?: StudentUpdateOneWithoutAttendanceTokensNestedInput
     subject?: SubjectUpdateOneWithoutAttendanceTokensNestedInput
   }
 
   export type AttendanceTokenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: NullableStringFieldUpdateOperationsInput | string | null
     professorId?: StringFieldUpdateOperationsInput | string
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34406,6 +34503,7 @@ export namespace Prisma {
   export type AttendanceTokenCreateManyInput = {
     id?: string
     token: string
+    studentId?: string | null
     subjectId?: string | null
     professorId: string
     issuedAt?: Date | string
@@ -34425,6 +34523,7 @@ export namespace Prisma {
   export type AttendanceTokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: NullableStringFieldUpdateOperationsInput | string | null
     professorId?: StringFieldUpdateOperationsInput | string
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35864,11 +35963,21 @@ export namespace Prisma {
     none?: GradeWhereInput
   }
 
+  export type AttendanceTokenListRelationFilter = {
+    every?: AttendanceTokenWhereInput
+    some?: AttendanceTokenWhereInput
+    none?: AttendanceTokenWhereInput
+  }
+
   export type SubmissionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type GradeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceTokenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35971,21 +36080,11 @@ export namespace Prisma {
     none?: ExamWhereInput
   }
 
-  export type AttendanceTokenListRelationFilter = {
-    every?: AttendanceTokenWhereInput
-    some?: AttendanceTokenWhereInput
-    none?: AttendanceTokenWhereInput
-  }
-
   export type ResourceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ExamOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AttendanceTokenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36285,6 +36384,7 @@ export namespace Prisma {
   export type AttendanceTokenCountOrderByAggregateInput = {
     id?: SortOrder
     token?: SortOrder
+    studentId?: SortOrder
     subjectId?: SortOrder
     professorId?: SortOrder
     issuedAt?: SortOrder
@@ -36295,6 +36395,7 @@ export namespace Prisma {
   export type AttendanceTokenMaxOrderByAggregateInput = {
     id?: SortOrder
     token?: SortOrder
+    studentId?: SortOrder
     subjectId?: SortOrder
     professorId?: SortOrder
     issuedAt?: SortOrder
@@ -36305,6 +36406,7 @@ export namespace Prisma {
   export type AttendanceTokenMinOrderByAggregateInput = {
     id?: SortOrder
     token?: SortOrder
+    studentId?: SortOrder
     subjectId?: SortOrder
     professorId?: SortOrder
     issuedAt?: SortOrder
@@ -37580,6 +37682,13 @@ export namespace Prisma {
     connect?: GradeWhereUniqueInput | GradeWhereUniqueInput[]
   }
 
+  export type AttendanceTokenCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput> | AttendanceTokenCreateWithoutStudentInput[] | AttendanceTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceTokenCreateOrConnectWithoutStudentInput | AttendanceTokenCreateOrConnectWithoutStudentInput[]
+    createMany?: AttendanceTokenCreateManyStudentInputEnvelope
+    connect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+  }
+
   export type AttendanceUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -37599,6 +37708,13 @@ export namespace Prisma {
     connectOrCreate?: GradeCreateOrConnectWithoutStudentInput | GradeCreateOrConnectWithoutStudentInput[]
     createMany?: GradeCreateManyStudentInputEnvelope
     connect?: GradeWhereUniqueInput | GradeWhereUniqueInput[]
+  }
+
+  export type AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput> | AttendanceTokenCreateWithoutStudentInput[] | AttendanceTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceTokenCreateOrConnectWithoutStudentInput | AttendanceTokenCreateOrConnectWithoutStudentInput[]
+    createMany?: AttendanceTokenCreateManyStudentInputEnvelope
+    connect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutStudentProfileNestedInput = {
@@ -37671,6 +37787,20 @@ export namespace Prisma {
     deleteMany?: GradeScalarWhereInput | GradeScalarWhereInput[]
   }
 
+  export type AttendanceTokenUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput> | AttendanceTokenCreateWithoutStudentInput[] | AttendanceTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceTokenCreateOrConnectWithoutStudentInput | AttendanceTokenCreateOrConnectWithoutStudentInput[]
+    upsert?: AttendanceTokenUpsertWithWhereUniqueWithoutStudentInput | AttendanceTokenUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AttendanceTokenCreateManyStudentInputEnvelope
+    set?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    disconnect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    delete?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    connect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    update?: AttendanceTokenUpdateWithWhereUniqueWithoutStudentInput | AttendanceTokenUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AttendanceTokenUpdateManyWithWhereWithoutStudentInput | AttendanceTokenUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
+  }
+
   export type AttendanceUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<AttendanceCreateWithoutStudentInput, AttendanceUncheckedCreateWithoutStudentInput> | AttendanceCreateWithoutStudentInput[] | AttendanceUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
@@ -37711,6 +37841,20 @@ export namespace Prisma {
     update?: GradeUpdateWithWhereUniqueWithoutStudentInput | GradeUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: GradeUpdateManyWithWhereWithoutStudentInput | GradeUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: GradeScalarWhereInput | GradeScalarWhereInput[]
+  }
+
+  export type AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput> | AttendanceTokenCreateWithoutStudentInput[] | AttendanceTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceTokenCreateOrConnectWithoutStudentInput | AttendanceTokenCreateOrConnectWithoutStudentInput[]
+    upsert?: AttendanceTokenUpsertWithWhereUniqueWithoutStudentInput | AttendanceTokenUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AttendanceTokenCreateManyStudentInputEnvelope
+    set?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    disconnect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    delete?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    connect?: AttendanceTokenWhereUniqueInput | AttendanceTokenWhereUniqueInput[]
+    update?: AttendanceTokenUpdateWithWhereUniqueWithoutStudentInput | AttendanceTokenUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AttendanceTokenUpdateManyWithWhereWithoutStudentInput | AttendanceTokenUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
   }
 
   export type TeacherSubjectCreateNestedManyWithoutSemesterInput = {
@@ -38449,10 +38593,26 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceInput, UserUpdateWithoutAttendanceInput>, UserUncheckedUpdateWithoutAttendanceInput>
   }
 
+  export type StudentCreateNestedOneWithoutAttendanceTokensInput = {
+    create?: XOR<StudentCreateWithoutAttendanceTokensInput, StudentUncheckedCreateWithoutAttendanceTokensInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAttendanceTokensInput
+    connect?: StudentWhereUniqueInput
+  }
+
   export type SubjectCreateNestedOneWithoutAttendanceTokensInput = {
     create?: XOR<SubjectCreateWithoutAttendanceTokensInput, SubjectUncheckedCreateWithoutAttendanceTokensInput>
     connectOrCreate?: SubjectCreateOrConnectWithoutAttendanceTokensInput
     connect?: SubjectWhereUniqueInput
+  }
+
+  export type StudentUpdateOneWithoutAttendanceTokensNestedInput = {
+    create?: XOR<StudentCreateWithoutAttendanceTokensInput, StudentUncheckedCreateWithoutAttendanceTokensInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAttendanceTokensInput
+    upsert?: StudentUpsertWithoutAttendanceTokensInput
+    disconnect?: StudentWhereInput | boolean
+    delete?: StudentWhereInput | boolean
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAttendanceTokensInput, StudentUpdateWithoutAttendanceTokensInput>, StudentUncheckedUpdateWithoutAttendanceTokensInput>
   }
 
   export type SubjectUpdateOneWithoutAttendanceTokensNestedInput = {
@@ -39356,6 +39516,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutUserInput = {
@@ -39368,6 +39529,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutUserInput = {
@@ -39648,6 +39810,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutUserInput = {
@@ -39660,6 +39823,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type AttendanceUpsertWithWhereUniqueWithoutUserInput = {
@@ -40460,6 +40624,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AttendanceTokenCreateWithoutStudentInput = {
+    id?: string
+    token: string
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+    used?: boolean
+    subject?: SubjectCreateNestedOneWithoutAttendanceTokensInput
+  }
+
+  export type AttendanceTokenUncheckedCreateWithoutStudentInput = {
+    id?: string
+    token: string
+    subjectId?: string | null
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+    used?: boolean
+  }
+
+  export type AttendanceTokenCreateOrConnectWithoutStudentInput = {
+    where: AttendanceTokenWhereUniqueInput
+    create: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AttendanceTokenCreateManyStudentInputEnvelope = {
+    data: AttendanceTokenCreateManyStudentInput | AttendanceTokenCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutStudentProfileInput = {
     update: XOR<UserUpdateWithoutStudentProfileInput, UserUncheckedUpdateWithoutStudentProfileInput>
     create: XOR<UserCreateWithoutStudentProfileInput, UserUncheckedCreateWithoutStudentProfileInput>
@@ -40655,6 +40849,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Grade"> | Date | string
   }
 
+  export type AttendanceTokenUpsertWithWhereUniqueWithoutStudentInput = {
+    where: AttendanceTokenWhereUniqueInput
+    update: XOR<AttendanceTokenUpdateWithoutStudentInput, AttendanceTokenUncheckedUpdateWithoutStudentInput>
+    create: XOR<AttendanceTokenCreateWithoutStudentInput, AttendanceTokenUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AttendanceTokenUpdateWithWhereUniqueWithoutStudentInput = {
+    where: AttendanceTokenWhereUniqueInput
+    data: XOR<AttendanceTokenUpdateWithoutStudentInput, AttendanceTokenUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AttendanceTokenUpdateManyWithWhereWithoutStudentInput = {
+    where: AttendanceTokenScalarWhereInput
+    data: XOR<AttendanceTokenUpdateManyMutationInput, AttendanceTokenUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type AttendanceTokenScalarWhereInput = {
+    AND?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
+    OR?: AttendanceTokenScalarWhereInput[]
+    NOT?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
+    id?: StringFilter<"AttendanceToken"> | string
+    token?: StringFilter<"AttendanceToken"> | string
+    studentId?: StringNullableFilter<"AttendanceToken"> | string | null
+    subjectId?: StringNullableFilter<"AttendanceToken"> | string | null
+    professorId?: StringFilter<"AttendanceToken"> | string
+    issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+    expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
+    used?: BoolFilter<"AttendanceToken"> | boolean
+  }
+
   export type TeacherSubjectCreateWithoutSemesterInput = {
     id?: string
     teacher: TeacherCreateNestedOneWithoutTeacherSubjectsInput
@@ -40737,6 +40961,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutSemesterInput = {
@@ -40749,6 +40974,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutSemesterInput = {
@@ -40904,6 +41130,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutSectionInput = {
@@ -40916,6 +41143,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutSectionInput = {
@@ -41155,11 +41383,13 @@ export namespace Prisma {
     issuedAt?: Date | string
     expiresAt: Date | string
     used?: boolean
+    student?: StudentCreateNestedOneWithoutAttendanceTokensInput
   }
 
   export type AttendanceTokenUncheckedCreateWithoutSubjectInput = {
     id?: string
     token: string
+    studentId?: string | null
     professorId: string
     issuedAt?: Date | string
     expiresAt: Date | string
@@ -41300,19 +41530,6 @@ export namespace Prisma {
   export type AttendanceTokenUpdateManyWithWhereWithoutSubjectInput = {
     where: AttendanceTokenScalarWhereInput
     data: XOR<AttendanceTokenUpdateManyMutationInput, AttendanceTokenUncheckedUpdateManyWithoutSubjectInput>
-  }
-
-  export type AttendanceTokenScalarWhereInput = {
-    AND?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
-    OR?: AttendanceTokenScalarWhereInput[]
-    NOT?: AttendanceTokenScalarWhereInput | AttendanceTokenScalarWhereInput[]
-    id?: StringFilter<"AttendanceToken"> | string
-    token?: StringFilter<"AttendanceToken"> | string
-    subjectId?: StringNullableFilter<"AttendanceToken"> | string | null
-    professorId?: StringFilter<"AttendanceToken"> | string
-    issuedAt?: DateTimeFilter<"AttendanceToken"> | Date | string
-    expiresAt?: DateTimeFilter<"AttendanceToken"> | Date | string
-    used?: BoolFilter<"AttendanceToken"> | boolean
   }
 
   export type TeacherCreateWithoutTeacherSubjectsInput = {
@@ -41890,6 +42107,7 @@ export namespace Prisma {
     section?: SectionCreateNestedOneWithoutStudentsInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAttendancesInput = {
@@ -41902,6 +42120,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAttendancesInput = {
@@ -42034,6 +42253,7 @@ export namespace Prisma {
     section?: SectionUpdateOneWithoutStudentsNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAttendancesInput = {
@@ -42046,6 +42266,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutAttendanceInput = {
@@ -42109,6 +42330,37 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type StudentCreateWithoutAttendanceTokensInput = {
+    id?: string
+    rollNumber?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutStudentProfileInput
+    semester?: SemesterCreateNestedOneWithoutStudentsInput
+    section?: SectionCreateNestedOneWithoutStudentsInput
+    attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    grades?: GradeCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutAttendanceTokensInput = {
+    id?: string
+    userId: string
+    rollNumber?: string | null
+    semesterId?: string | null
+    sectionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutAttendanceTokensInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutAttendanceTokensInput, StudentUncheckedCreateWithoutAttendanceTokensInput>
+  }
+
   export type SubjectCreateWithoutAttendanceTokensInput = {
     id?: string
     name: string
@@ -42140,6 +42392,43 @@ export namespace Prisma {
   export type SubjectCreateOrConnectWithoutAttendanceTokensInput = {
     where: SubjectWhereUniqueInput
     create: XOR<SubjectCreateWithoutAttendanceTokensInput, SubjectUncheckedCreateWithoutAttendanceTokensInput>
+  }
+
+  export type StudentUpsertWithoutAttendanceTokensInput = {
+    update: XOR<StudentUpdateWithoutAttendanceTokensInput, StudentUncheckedUpdateWithoutAttendanceTokensInput>
+    create: XOR<StudentCreateWithoutAttendanceTokensInput, StudentUncheckedCreateWithoutAttendanceTokensInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutAttendanceTokensInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutAttendanceTokensInput, StudentUncheckedUpdateWithoutAttendanceTokensInput>
+  }
+
+  export type StudentUpdateWithoutAttendanceTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStudentProfileNestedInput
+    semester?: SemesterUpdateOneWithoutStudentsNestedInput
+    section?: SectionUpdateOneWithoutStudentsNestedInput
+    attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    grades?: GradeUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutAttendanceTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    semesterId?: NullableStringFieldUpdateOperationsInput | string | null
+    sectionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectUpsertWithoutAttendanceTokensInput = {
@@ -42462,6 +42751,7 @@ export namespace Prisma {
     section?: SectionCreateNestedOneWithoutStudentsInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     grades?: GradeCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutSubmissionsInput = {
@@ -42474,6 +42764,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     grades?: GradeUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutSubmissionsInput = {
@@ -42537,6 +42828,7 @@ export namespace Prisma {
     section?: SectionUpdateOneWithoutStudentsNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutSubmissionsInput = {
@@ -42549,6 +42841,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TeacherCreateWithoutAnnouncementsInput = {
@@ -43072,6 +43365,7 @@ export namespace Prisma {
     section?: SectionCreateNestedOneWithoutStudentsInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutGradesInput = {
@@ -43084,6 +43378,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    attendanceTokens?: AttendanceTokenUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutGradesInput = {
@@ -43143,6 +43438,7 @@ export namespace Prisma {
     section?: SectionUpdateOneWithoutStudentsNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutGradesInput = {
@@ -43155,6 +43451,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutMessagesSentInput = {
@@ -44498,6 +44795,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AttendanceTokenCreateManyStudentInput = {
+    id?: string
+    token: string
+    subjectId?: string | null
+    professorId: string
+    issuedAt?: Date | string
+    expiresAt: Date | string
+    used?: boolean
+  }
+
   export type AttendanceUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
@@ -44598,6 +44905,36 @@ export namespace Prisma {
     marks?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceTokenUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    subject?: SubjectUpdateOneWithoutAttendanceTokensNestedInput
+  }
+
+  export type AttendanceTokenUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AttendanceTokenUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    professorId?: StringFieldUpdateOperationsInput | string
+    issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TeacherSubjectCreateManySemesterInput = {
@@ -44721,6 +45058,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutSemesterInput = {
@@ -44733,6 +45071,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutSemesterInput = {
@@ -44865,6 +45204,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     grades?: GradeUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutSectionInput = {
@@ -44877,6 +45217,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     grades?: GradeUncheckedUpdateManyWithoutStudentNestedInput
+    attendanceTokens?: AttendanceTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutSectionInput = {
@@ -44948,6 +45289,7 @@ export namespace Prisma {
   export type AttendanceTokenCreateManySubjectInput = {
     id?: string
     token: string
+    studentId?: string | null
     professorId: string
     issuedAt?: Date | string
     expiresAt: Date | string
@@ -45140,11 +45482,13 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     used?: BoolFieldUpdateOperationsInput | boolean
+    student?: StudentUpdateOneWithoutAttendanceTokensNestedInput
   }
 
   export type AttendanceTokenUncheckedUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
     professorId?: StringFieldUpdateOperationsInput | string
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45154,6 +45498,7 @@ export namespace Prisma {
   export type AttendanceTokenUncheckedUpdateManyWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
     professorId?: StringFieldUpdateOperationsInput | string
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string

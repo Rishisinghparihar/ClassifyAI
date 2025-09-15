@@ -141,11 +141,7 @@ const StudyPlanPage = () => {
               value={syllabus}
               onChange={(e) => setSyllabus(e.target.value)}
               rows={6}
-<<<<<<< HEAD
-              className="peer w-full placeholder:text-cyan-50 p-4 border h-[20rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
-=======
-              className="peer w-full placeholder:text-cyan-50 p-4 border h-[25rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
->>>>>>> 4a001ca126f3fa474f8e04ff11106239e49d9b8a
+className="peer w-full placeholder:text-cyan-50 p-4 border h-[25rem] border-cyan-300/30 rounded-xl bg-gray-900/5 text-cyan-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500 transition resize-none"
             />
             <p className="text-xs text-cyan-300 mt-1">
               We recommend copying your syllabus exactly as provided by your

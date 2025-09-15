@@ -75,11 +75,12 @@ model Student {
   attendances Attendance[] @relation("StudentAttendance")
   submissions Submission[]
   grades      Grade[]
+  attendanceTokens AttendanceToken[]
 }
 
 model Semester {
   id        String   @id @default(cuid())
-  name      String
+  name      String   @unique
   number    Int?
   createdAt DateTime @default(now())
 
@@ -195,6 +196,8 @@ model Attendance {
 model AttendanceToken {
   id          String   @id @default(cuid())
   token       String   @unique
+  studentId String? // Add this field
+  student   Student? @relation(fields: [studentId], references: [id])
   subjectId   String?
   subject     Subject? @relation(fields: [subjectId], references: [id], map: "fk_attendancetoken_subject")
   professorId String

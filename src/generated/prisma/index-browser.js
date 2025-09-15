@@ -220,6 +220,7 @@ exports.Prisma.AttendanceScalarFieldEnum = {
 exports.Prisma.AttendanceTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
+  studentId: 'studentId',
   subjectId: 'subjectId',
   professorId: 'professorId',
   issuedAt: 'issuedAt',
