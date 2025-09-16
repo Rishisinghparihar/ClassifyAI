@@ -38,7 +38,7 @@ const ScanPage = () => {
 
     try {
       // FIX 1: Get the logged-in student's user ID from local storage.
-      const loggedInStudentId = localStorage.getItem("studentUserId");
+      const loggedInStudentId = localStorage.getItem("studentId");
       if (!loggedInStudentId) {
         throw new Error("Login error: Could not find your student ID.");
       }

@@ -1,4 +1,3 @@
-// /api/attendance/mark/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/helper";
@@ -43,13 +42,13 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: "This QR code has already been used" }, { status: 410 });
     }
 
-    // --- 1. CRITICAL SECURITY CHECK ---
+    // --- CRITICAL SECURITY CHECK ---
     // Ensure the student ID from the token matches the ID of the student scanning.
     if (tokenRecord.studentId !== studentUser.studentProfile.id) {
-        return NextResponse.json({ message: "This QR code is not valid for you." }, { status: 403 }); // 403 Forbidden
+        return NextResponse.json({ message: "This QR code is not valid for you." }, { status: 403 });
     }
 
-    // --- 2. CUSTOMIZABLE LIMIT CHECK ---
+    // --- CUSTOMIZABLE LIMIT CHECK ---
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
     const attendanceCount = await prisma.attendance.count({
@@ -65,7 +64,7 @@ export async function POST(req: Request) {
     }
 
     // --- Find or Create Class Session ---
-    const teacherProfile = await prisma.teacher.findUnique({ where: { userId: tokenRecord.professorId } });
+    const teacherProfile = await prisma.teacher.findUnique({ where: { id: tokenRecord.professorId } });
     if (!teacherProfile) {
         return NextResponse.json({ message: "Could not identify the teacher for this session" }, { status: 404 });
     }
@@ -82,13 +81,15 @@ export async function POST(req: Request) {
         classSession = await prisma.classSession.create({
             data: {
               subjectId: tokenRecord.subjectId,
+              subject: tokenRecord.subject?.name, // Legacy field for compatibility
               teacherId: teacherProfile.id,
               startTime: now,
               endTime: new Date(now.getTime() + 60 * 60 * 1000), // Default 1-hour session
               weekday: getCurrentWeekday(now),
               status: "COMPLETED",
               // Populate details from the student's profile
-              semester: studentUser.studentProfile.semesterId ? parseInt(studentUser.studentProfile.semesterId, 10) : 0,
+              // FIX: Use the semester number directly from the User record
+              semester: studentUser.semester ?? 0,
               section: studentUser.studentProfile.sectionId || "N/A",
               semesterId: studentUser.studentProfile.semesterId,
               sectionId: studentUser.studentProfile.sectionId,
@@ -125,7 +126,11 @@ export async function POST(req: Request) {
 
   } catch (error: unknown) {
     console.error("Error marking attendance:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    return NextResponse.json({
+        message: "Internal Server Error",
+        error: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
+      }, { status: 500 });
   }
 }
 
