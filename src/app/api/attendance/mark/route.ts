@@ -1,181 +1,135 @@
+// /api/attendance/mark/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/helper";
 
+// --- CONFIGURATION ---
+// Set the maximum number of times a student can mark attendance for one subject in a single day.
+const MAX_ATTENDANCE_PER_DAY = 1;
+
 export async function POST(req: Request) {
   try {
-    const { token, studentId } = await req.json();
-
-    console.log("=== ATTENDANCE MARKING REQUEST ===");
-    console.log("Input:", { token, studentId });
+    const { token, studentId } = await req.json(); // studentId here is the USER ID of the logged-in student
 
     if (!token || !studentId) {
-      console.log("❌ Missing required fields");
-      return NextResponse.json({ message: "Missing Data" }, { status: 400 });
+      return NextResponse.json({ message: "Missing token or student ID" }, { status: 400 });
     }
 
-    const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfDay = new Date(startOfDay);
-    endOfDay.setDate(endOfDay.getDate() + 1);
-
-    const tokenRecord = await prisma.attendanceToken.findUnique({
-      where: { token },
-      include: {
-        subject: { select: { name: true, id: true } },
-      },
-    });
-
-    if (!tokenRecord) {
-      console.log("❌ Token not found");
-      return NextResponse.json({ message: "Invalid token" }, { status: 404 });
-    }
+    // --- Find the token and the student profile in parallel for efficiency ---
+    const [tokenRecord, studentUser] = await Promise.all([
+      prisma.attendanceToken.findUnique({
+        where: { token },
+        include: { subject: { select: { name: true, id: true } } },
+      }),
+      prisma.user.findUnique({
+        where: { id: studentId },
+        include: { studentProfile: true },
+      }),
+    ]);
     
-    console.log("✅ Token found:", {
-        id: tokenRecord.id,
-        subjectName: tokenRecord.subject?.name,
-        // This is the professor's USER ID
-        professorUserId: tokenRecord.professorId, 
-        expiresAt: tokenRecord.expiresAt,
-        used: tokenRecord.used
-    });
+    // --- Initial Validations ---
+    if (!tokenRecord) {
+      return NextResponse.json({ message: "Invalid or expired token" }, { status: 404 });
+    }
+    if (!studentUser || !studentUser.studentProfile) {
+      return NextResponse.json({ message: "Student profile not found" }, { status: 404 });
+    }
 
     const now = new Date();
     if (new Date(tokenRecord.expiresAt).getTime() <= now.getTime()) {
-      console.log("❌ Token expired");
-      return NextResponse.json({ message: "Token expired" }, { status: 410 });
+      return NextResponse.json({ message: "Token has expired" }, { status: 410 });
     }
-
     if (tokenRecord.used) {
-      console.log("❌ Token already used");
-      return NextResponse.json({ message: "Token already used" }, { status: 410 });
+        return NextResponse.json({ message: "This QR code has already been used" }, { status: 410 });
     }
 
-    const student = await prisma.user.findUnique({
-      where: { id: studentId },
-      include: { studentProfile: true },
-    });
-
-    if (!student || !student.studentProfile) {
-      console.log("❌ Student or student profile not found");
-      return NextResponse.json({ message: "Student not found" }, { status: 404 });
+    // --- 1. CRITICAL SECURITY CHECK ---
+    // Ensure the student ID from the token matches the ID of the student scanning.
+    if (tokenRecord.studentId !== studentUser.studentProfile.id) {
+        return NextResponse.json({ message: "This QR code is not valid for you." }, { status: 403 }); // 403 Forbidden
     }
 
-    if (student.role !== "STUDENT") {
-        return NextResponse.json({ message: "User is not a student" }, { status: 400 });
-    }
+    // --- 2. CUSTOMIZABLE LIMIT CHECK ---
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
-    console.log("✅ Student found:", { id: student.id, name: student.name });
-
-    // --- FIX IS HERE ---
-    // 1. Find the Teacher profile using the User ID from the token
-    const teacherProfile = await prisma.teacher.findUnique({
-        where: { userId: tokenRecord.professorId }
-    });
-
-    if (!teacherProfile) {
-        console.log("❌ Could not find a teacher profile for the user ID:", tokenRecord.professorId);
-        return NextResponse.json({ message: "Professor profile not found" }, { status: 404 });
-    }
-    
-    console.log("✅ Found teacher profile:", { teacherId: teacherProfile.id, userId: teacherProfile.userId });
-    // --- END OF FIX ---
-
-
-    const existingAttendance = await prisma.attendance.findFirst({
+    const attendanceCount = await prisma.attendance.count({
       where: {
-        studentId: student.studentProfile.id, // Use the student profile ID
-        markedAt: { gte: startOfDay, lt: endOfDay },
+        studentId: studentUser.studentProfile.id,
+        markedAt: { gte: startOfDay }, // Check for records created today
         classSession: { subjectId: tokenRecord.subjectId },
       },
     });
 
-    if (existingAttendance) {
-      console.log("❌ Attendance already marked today");
-      return NextResponse.json({ message: "Already marked" }, { status: 409 });
+    if (attendanceCount >= MAX_ATTENDANCE_PER_DAY) {
+      return NextResponse.json({ message: `Attendance limit of ${MAX_ATTENDANCE_PER_DAY} for this subject has been reached today.` }, { status: 409 });
+    }
+
+    // --- Find or Create Class Session ---
+    const teacherProfile = await prisma.teacher.findUnique({ where: { userId: tokenRecord.professorId } });
+    if (!teacherProfile) {
+        return NextResponse.json({ message: "Could not identify the teacher for this session" }, { status: 404 });
     }
     
-    console.log("✅ No existing attendance found for today");
-
     let classSession = await prisma.classSession.findFirst({
-      where: {
-        subjectId: tokenRecord.subjectId,
-        teacherId: teacherProfile.id, // Use the correct teacher profile ID
-        startTime: { gte: startOfDay, lt: endOfDay } // Look for a session created today
-      },
+        where: {
+            subjectId: tokenRecord.subjectId,
+            teacherId: teacherProfile.id,
+            startTime: { gte: startOfDay }
+        },
     });
 
     if (!classSession) {
-      console.log("⚠️ No existing class session found for today, creating a new one");
-      classSession = await prisma.classSession.create({
-        data: {
-          subjectId: tokenRecord.subjectId,
-          subject: tokenRecord.subject?.name, // Legacy field for compatibility
-          semester: student.studentProfile.semesterId ? parseInt(student.studentProfile.semesterId) : 1,
-          section: student.studentProfile.sectionId || "A",
-          weekday: getCurrentWeekday(now),
-          startTime: now,
-          endTime: new Date(now.getTime() + 60 * 60 * 1000),
-          // MODIFICATION: Use the correct Teacher Profile ID here
-          teacherId: teacherProfile.id, 
-          semesterId: student.studentProfile.semesterId,
-          sectionId: student.studentProfile.sectionId,
-          status: "COMPLETED",
-          attendanceMarked: true,
-        },
-      });
-      console.log("✅ Created new class session:", classSession.id);
-    } else {
-        console.log("✅ Found existing class session:", classSession.id);
+        classSession = await prisma.classSession.create({
+            data: {
+              subjectId: tokenRecord.subjectId,
+              teacherId: teacherProfile.id,
+              startTime: now,
+              endTime: new Date(now.getTime() + 60 * 60 * 1000), // Default 1-hour session
+              weekday: getCurrentWeekday(now),
+              status: "COMPLETED",
+              // Populate details from the student's profile
+              semester: studentUser.studentProfile.semesterId ? parseInt(studentUser.studentProfile.semesterId, 10) : 0,
+              section: studentUser.studentProfile.sectionId || "N/A",
+              semesterId: studentUser.studentProfile.semesterId,
+              sectionId: studentUser.studentProfile.sectionId,
+            },
+        });
     }
 
+    // --- Create Attendance Record ---
     const attendance = await prisma.attendance.create({
       data: {
-        // Use the student's PROFILE id, not their user id
-        studentId: student.studentProfile.id,
+        studentId: studentUser.studentProfile.id,
         userId: studentId,
         classSessionId: classSession.id,
         status: "PRESENT",
         markedBy: tokenRecord.professorId,
         markedAt: now,
-        remarks: `Marked via QR code token: ${token.substring(0, 8)}...`,
+        remarks: `Marked via QR code. Attempt #${attendanceCount + 1}`,
       },
     });
 
-    console.log("✅ Attendance record created:", attendance.id);
-
-    await prisma.attendanceToken.update({
-      where: { token },
-      data: { used: true },
-    });
+    // Mark the token as used
+    await prisma.attendanceToken.update({ where: { token }, data: { used: true } });
     
-    console.log("✅ Token marked as used");
-
-    await logActivity(studentId, student.name, `Marked attendance for ${tokenRecord.subject?.name || 'Unknown Subject'}`);
+    await logActivity(studentId, studentUser.name, `Marked attendance for ${tokenRecord.subject?.name}`);
     
-    console.log("✅ Activity logged");
-
     return NextResponse.json({
-        message: "Attendance marked successfully",
+        message: "Attendance marked successfully!",
         data: {
-          attendanceId: attendance.id,
           subject: tokenRecord.subject?.name,
-          classSessionId: classSession.id,
-          status: "PRESENT",
+          status: attendance.status,
           markedAt: attendance.markedAt,
         },
       }, { status: 200 });
+
   } catch (error: unknown) {
-    console.error("❌ Error marking attendance:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-    return NextResponse.json({
-        message: "Internal Server Error",
-        error: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
-      }, { status: 500 });
+    console.error("Error marking attendance:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
 function getCurrentWeekday(date: Date): "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY" {
-  const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
-  return days[date.getDay()];
+    const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
+    return days[date.getDay()];
 }

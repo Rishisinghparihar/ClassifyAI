@@ -13,150 +13,111 @@ const ScanPage = () => {
 
   const handleScan = async (decodedText: string) => {
     if (scannedRef.current) {
-      return;
+      return; // Prevent multiple scans from a single QR code
     }
     scannedRef.current = true;
+    toast.loading("Verifying QR Code...");
 
-
-    let data;
+    let qrData;
     try {
-      data = JSON.parse(decodedText);
-    } catch {
-      toast.error("Invalid QR code format");
+      // The QR code contains a JSON string with the token
+      qrData = JSON.parse(decodedText);
+      if (!qrData.token) {
+          throw new Error("QR code does not contain a valid token.");
+      }
+    } catch (e: any) {
+      toast.dismiss();
+      toast.error(e.message || "Invalid QR code format");
+      scannedRef.current = false; // Allow rescanning
       return;
     }
 
+    // Stop the camera once a valid QR is scanned
     if (scannerRef.current) {
-      scannerRef.current
-        .clear()
-        .then(() => {
-          const el = document.getElementById("reader");
-          if (el) el.innerHTML = "";
-          scannerRef.current = null;
-        })
-        .catch(console.error);
+      scannerRef.current.clear().catch(console.error);
     }
 
     try {
-      const res = await fetch(`/api/attendance`, {
+      // ==================== FIX STARTS HERE ====================
+
+      // 1. Get the logged-in student's user ID from local storage
+      const loggedInStudentId = localStorage.getItem("studentUserId");
+      if (!loggedInStudentId) {
+        throw new Error("You are not logged in. Could not find student ID.");
+      }
+
+      // 2. Send the correct data to the correct API endpoint
+      const res = await fetch(`/api/attendance/mark`, { // Correct URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentId: data.studentId,
-          subject: data.subject,
-          status: "Present",
-          markedby: "CLASSIFYAI",
+          token: qrData.token,           // The token from the QR code
+          studentId: loggedInStudentId,  // The ID of the student scanning
         }),
       });
+
+      // ==================== FIX ENDS HERE ====================
+
       const result = await res.json();
+      toast.dismiss();
+
       if (res.ok) {
-        toast.success("Attendance Recorded!");
+        toast.success(result.message || "Attendance Marked!");
         setTimeout(() => {
           router.replace("/dashboard/student");
-        }, 1000);
+        }, 1500);
       } else {
-        toast.error(result.error || "Failed marking attendance");
+        // Show the specific error message from the API
+        toast.error(result.message || "Failed to mark attendance.");
+        scannedRef.current = false; // Allow rescanning on failure
       }
-    } catch (error) {
-      toast.error("Error marking attendance");
+    } catch (error: any) {
+      toast.dismiss();
+      toast.error(error.message || "An error occurred.");
+      scannedRef.current = false; // Allow rescanning on failure
     }
   };
 
   useEffect(() => {
+    const scanner = new Html5QrcodeScanner(
+      "reader",
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      /* verbose= */ false
+    );
 
-    const observeButtons = () => {
-      const observer = new MutationObserver(() => {
-        const buttons =
-          document.querySelectorAll<HTMLButtonElement>(
-            "#reader .html5-qrcode-scanner button"
-          );
-        buttons.forEach((button) => {
-          button.removeAttribute("style");
-          button.style.backgroundColor = "red";
-          button.style.color = "#06b6d4";
-          button.style.border = "1px solid #06b6d4";
-          button.style.padding = "0.5rem 1rem";
-          button.style.margin = "0.25rem";
-          button.style.borderRadius = "0.375rem";
-          button.style.cursor = "pointer";
-          button.style.transition = "background-color 0.2s ease-in-out";
-        });
-      });
+    scanner.render(handleScan, (error) => {
+      // handle scan failure, usually better to ignore and let user retry
+    });
 
-      const readerElem = document.getElementById("reader");
-      if (readerElem) {
-        observer.observe(readerElem, {
-          childList: true,
-          subtree: true,
-        });
-      }
-
-      return () => observer.disconnect();
-    };
-
-    const setupScanner = () => {
-      const readerElem = document.getElementById("reader");
-      if (readerElem) {
-        readerElem.innerHTML = "";
-      }
-
-      const scanner = new Html5QrcodeScanner(
-        "reader",
-        { fps: 10, qrbox: 550 },
-        false
-      );
-
-      scanner.render(handleScan, (err) => {
-      });
-
-      scannerRef.current = scanner;
-    };
-
-    const disconnectObserver = observeButtons();
-
-    const timeout = setTimeout(setupScanner, 300);
+    scannerRef.current = scanner;
 
     return () => {
-      disconnectObserver();
-
       if (scannerRef.current) {
-        scannerRef.current
-          .clear()
-          .then(() => {
-            const el = document.getElementById("reader");
-            if (el) el.innerHTML = "";
-            scannerRef.current = null;
-          })
-          .catch((err) => {
-            const el = document.getElementById("reader");
-            if (el) el.innerHTML = "";
-            scannerRef.current = null;
-          });
+        scannerRef.current.clear().catch(console.error);
       }
-
-      clearTimeout(timeout);
     };
   }, []);
 
   return (
-    <div className="flex min-h-screen items-center gap-40 bg-gradient-to-br from-gray-900/15 via-black/15 to-gray-800/15 text-white p-6 flex-col">
-      <h2 className="text-center text-3xl uppercase text-cyan-200">
-        Scan QR to mark Attendance
-      </h2>
-      <div
-        id="reader"
-        className="w-full max-w-3xl max-h-[40rem] mx-auto"
-      ></div>
-       {/* Back Button */}
-      <div className="absolute top-4 left-4 z-10">
+    <div className="flex min-h-screen items-center justify-center bg-gray-900 text-white p-4">
+       <div className="absolute top-4 left-4 z-10">
         <button
           onClick={() => router.push("/dashboard/student")}
-          className="flex items-center justify-center gap-2 rounded-full text-white hover:text-cyan-300 transition-colors"
+          className="flex items-center gap-2 rounded-full text-white hover:text-cyan-400 transition-colors p-2"
         >
-          <ChevronLeft size={40} /> Back
+          <ChevronLeft size={32} />
+          <span className="font-semibold">Back to Dashboard</span>
         </button>
+      </div>
+
+      <div className="w-full max-w-lg text-center">
+        <h2 className="text-3xl font-bold uppercase text-cyan-300 mb-2">
+          Mark Attendance
+        </h2>
+        <p className="text-gray-400 mb-8">Align the QR code within the frame to scan</p>
+        <div id="reader" className="w-full mx-auto"></div>
       </div>
     </div>
   );
