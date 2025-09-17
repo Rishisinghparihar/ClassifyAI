@@ -28,6 +28,7 @@ const LinkCards = ({
     branch: "",
     year: "",
     semester: "",
+    section:""
   });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"form" | "otp">("form");
@@ -107,6 +108,7 @@ const LinkCards = ({
         branch: forRole === "student" ? formData.branch : undefined,
         year: forRole === "student" ? formData.year : undefined,
         semester: forRole === "student" ? formData.semester : undefined,
+        section: forRole === "student" ? formData.section: undefined,
       }),
     });
 
@@ -136,7 +138,7 @@ const LinkCards = ({
   const closeModal = () => {
     setModalOpen(null);
     setMessage(null);
-    setFormData({ name: "", email: "", branch: "", year: "", semester: "" });
+    setFormData({ name: "", email: "", branch: "", year: "", semester: "", section:"" });
     setOtp("");
     setStep("form");
     setEmailVerified(false);
@@ -261,6 +263,17 @@ const LinkCards = ({
                       autoComplete="off"
                       onChange={(e) =>
                         setFormData({ ...formData, semester: e.target.value })
+                      }
+                      className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
+                      disabled={loading}
+                    />
+                     <input
+                      type="text"
+                      placeholder="Section (e.g., Section A)"
+                      value={formData.section}
+                      autoComplete="off"
+                      onChange={(e) =>
+                        setFormData({ ...formData, section: e.target.value })
                       }
                       className={`${tektur.className} w-full ring ring-orange-400 outline-none p-2 rounded mb-2`}
                       disabled={loading}

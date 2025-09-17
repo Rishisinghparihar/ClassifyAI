@@ -187,3 +187,48 @@ export interface TeacherSubject {
   code: string;
   teacher: Teacher;
 }
+
+export type Subject = {
+  id: string;
+  name: string;
+  code?: string;
+};
+
+export type Semester = {
+  id: string;
+  name: string;
+};
+
+export type Student = {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+  };
+};
+
+export type Section = {
+  id: string;
+  name: string;
+};
+
+
+export type TeacherDetailsDashboard = {
+  name: string;
+  email: string;
+};
+
+export type ClassSession = {
+  id: string;
+  subject: {
+    id: string;
+    name: string;
+    code?: string;
+  };
+  section: string;
+  semester: number;
+  weekday: string;
+  startTime: string;
+  endTime: string;
+  room?: string | null;
+};

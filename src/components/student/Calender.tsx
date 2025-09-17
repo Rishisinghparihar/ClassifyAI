@@ -144,13 +144,13 @@ const AppCalendar = () => {
     const event = dayEvents[0]; // Only one event now
     
     return (
-      <div className="px-1 pb-2">
-        <div className="bg-yellow-500/10 border border-yellow-300/20 text-center text-yellow-100 p-2 rounded-lg">
-          <h4 className="font-bold text-sm">{event.title}</h4>
-          <p className="text-xs opacity-90 truncate" title={event.description}>{event.description}</p>
-          <p className="text-[10px] italic text-yellow-200">
+      <div className="px-1">
+        <div className="bg-yellow-500/10 items-center flex justify-evenly border border-yellow-300/20 text-center text-yellow-100 px-1 rounded-lg">
+          <h4 className="font-bold text-sm w-[7rem] truncate" title={event.title}>{event.title}</h4>
+          <p className="text-[10px] italic w-[5rem] truncate text-yellow-200">
             {event.type}
           </p>
+          <p className="text-xs opacity-90 w-[5rem] truncate" title={event.description}>{event.description}</p>
         </div>
       </div>
     );
