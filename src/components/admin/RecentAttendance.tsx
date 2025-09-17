@@ -44,7 +44,7 @@ const RecentAttendancePage = ({ expanded }: { expanded: boolean }) => {
     <motion.div
       layout
       transition={{ duration: 0.5 }}
-      className="overflow-y-auto outline-none w-full scrollbar-hide"
+      className="overflow-y-auto outline-none w-70 scrollbar-hide"
       style={{
         maxHeight: expanded ? "30rem" : "12rem",
       }}
@@ -55,7 +55,7 @@ const RecentAttendancePage = ({ expanded }: { expanded: boolean }) => {
             key={rec.id}
             className="flex justify-between outline-none items-center gap-30 px-4 py-3 hover:cursor-pointer hover:shadow transition-all duration-700 hover:shadow-amber-600 rounded bg-white/5 text-gray-200"
           >
-            <article className="flex flex-col max-w-[29rem] w-[7rem]">
+            <article className="flex flex-col ">
               <span className="uppercase text-orange-100">
                 {rec.student.name}
               </span>

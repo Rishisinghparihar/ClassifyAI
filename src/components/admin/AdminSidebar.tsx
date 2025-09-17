@@ -40,13 +40,13 @@ const AdminSidebar = () => {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring" }}
-      className={`bg-gradient-to-t from-orange-900 via-gray-900 to-black text-gray-300 w-48 min-h-[42vw] gap-40 flex flex-col items-center justify-start rounded-full p-4 ${tektur.className}`}
+      className={`bg-gradient-to-t from-orange-900 via-gray-900 to-black text-gray-300 w-37 h-[38rem] gap-20 flex flex-col items-center justify-start rounded-full p-2 ${tektur.className}`}
     >
       <motion.h1
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className={`text-2xl font-bold text-orange-600 mb-4 capitalize mt-20 ${tektur.className}`}
+        className={`text-lg font-bold text-orange-600 capitalize mt-18 ${tektur.className}`}
       >
         Admin panel
       </motion.h1>
@@ -61,7 +61,7 @@ const AdminSidebar = () => {
           >
             <Link
               href={link.href}
-              className={`px-3 py-2 rounded flex items-center justify-center text-3xl ${
+              className={`px-3 py-2 rounded flex items-center justify-center text-2xl ${
                 pathname === link.href
                   ? "text-orange-600"
                   : "hover:text-orange-700/30"

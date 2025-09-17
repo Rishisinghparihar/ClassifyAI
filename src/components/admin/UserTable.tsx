@@ -25,9 +25,9 @@ const UserTable = () => {
   const users = data?.users || [];
 
   return (
-    <div className={`p-8 text-white ${tektur.className}`}>
+    <div className={`px-8 text-white ${tektur.className}`}>
       {/* Toggle */}
-      <div className="flex gap-4 mb-6 items-center justify-center">
+      <div className="flex gap-2 mb-3 items-center justify-center">
         <span
           className={`${
             role === "STUDENT" ? "text-orange-500" : "text-gray-400"

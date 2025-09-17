@@ -58,7 +58,7 @@ const RecentActivity = () => {
   return (
     <div className="scrollbar-hide">
       <h3 className={`text-lg font-semibold text-orange-700 mb-4 ${tektur.className}`}>Recent Activity</h3>
-      <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+      <ul className="space-y-3 max-h-[260px] overflow-y-auto pr-2 scrollbar-hide">
         {activities.map((activity, idx) => (
           <motion.li
             key={activity.id}

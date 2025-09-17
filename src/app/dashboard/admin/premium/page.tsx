@@ -80,7 +80,7 @@ const Page = () => {
 
   return (
     <motion.div
-      className="min-h-screen py-8 px-4 lg:px-10 space-y-10 overflow-y-auto"
+      className="min-h-screen py-4 px-2 space-y-2 overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -110,7 +110,7 @@ const Page = () => {
         initial="hidden"
         animate="visible"
       >
-        <div className="gap-6 min-w-[800px]">
+        <div className="gap-4 w-[660px] scrollbar-hide">
           {/* Table */}
           <motion.div className="min-w-[500px]">
             <AnimatePresence mode="wait">
@@ -130,7 +130,7 @@ const Page = () => {
 
           {/* Side cards */}
           <motion.div
-            className="flex gap-10 mt-10 min-w-[250px]"
+            className="mx-auto flex gap-10 mt-4 mb-4 w-[30rem]"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"

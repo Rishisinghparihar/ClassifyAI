@@ -44,10 +44,7 @@ const StatsRow = ({
 
   return (
     <div
-      className="grid gap-4 px-6 mx-auto w-full max-w-6xl"
-      style={{
-        gridTemplateColumns: `repeat(auto-fit, minmax(180px, 1fr))`,
-      }}
+      className="flex gap-2 px-4 mx-auto w-[50rem]"
     >
       {cards.map((card, idx) => (
         <motion.div

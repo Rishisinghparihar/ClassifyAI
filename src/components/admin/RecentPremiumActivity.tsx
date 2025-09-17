@@ -36,16 +36,16 @@ const RecentPremiumActivity = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="bg-orange-50/5 rounded-xl p-4 border w-full border-orange-400"
+      className="bg-orange-50/5 rounded-xl p-1 border w-full border-orange-400"
     >
       <h2
-        className={`${tektur.className} text-2xl text-orange-200 text-center mb-5`}
+        className={`${tektur.className} text-base text-orange-200 text-center`}
       >
         Recent Premium Activity
       </h2>
 
       {activities.length > 0 ? (
-        <ul className="space-y-1 text-lg flex flex-col items-center justify-center mb-3 overflow-scroll scrollbar-hide h-[10rem] text-orange-100">
+        <ul className="space-y-1 text-lg flex flex-col items-center justify-center mb-3 overflow-scroll scrollbar-hide h-[7rem] text-orange-100">
           {activities.map((a, idx) => (
             <motion.li
               key={a.id}
@@ -61,7 +61,7 @@ const RecentPremiumActivity = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-lg text-orange-300 mt-16 text-center">
+        <p className="text-base text-orange-300 mt-10 text-center">
           No recent activity
         </p>
       )}

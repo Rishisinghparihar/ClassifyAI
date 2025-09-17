@@ -27,7 +27,7 @@
         className="space-y-6"
       >
         <motion.h1
-          className={`text-4xl ${tektur.className} text-center text-orange-200 mt-5`}
+          className={`text-4xl ${tektur.className} text-center text-orange-200 mt-3`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -36,7 +36,7 @@
         </motion.h1>
 
         <motion.div
-          className="h-[55vh] overflow-scroll scrollbar-hide"
+          className="h-[40vh] overflow-scroll scrollbar-hide"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.4 }}

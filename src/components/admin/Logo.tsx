@@ -10,7 +10,7 @@ const Logo = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex items-center justify-center mt-5 gap-2"
+      className="flex items-center justify-center mt-3 gap-1"
     >
       <motion.div
         initial={{ rotate: -20, scale: 0.8 }}
@@ -19,8 +19,8 @@ const Logo = () => {
       >
         <Image
           src={"/only-logo.png"}
-          width={80}
-          height={80}
+          width={40}
+          height={40}
           className="invert"
           alt="LOGO..."
         />
@@ -29,9 +29,9 @@ const Logo = () => {
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
-        className="text-4xl"
+        className="text-xl"
       >
-        Classify <span className="text-orange-700 -ml-2">AI</span>
+        Classify <span className="text-orange-700">AI</span>
       </motion.span>
     </motion.div>
   );

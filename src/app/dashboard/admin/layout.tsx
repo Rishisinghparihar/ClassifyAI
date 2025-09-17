@@ -37,12 +37,12 @@ export default function AdminLayout({
         </div>
 
         {/* CENTER */}
-        <div className="h-screen w-[65.33vw]">{children}</div>
+        <div className="h-screen w-[55.33vw]">{children}</div>
 
         {/* RIGHT */}
-        <div className="h-screen w-[20.33vw] relative overflow-hidden">
+        <div className="h-screen w-[30vw] relative overflow-hidden">
           <div className="text-white p-4 h-full flex flex-col gap-4">
-            <div className="ml-40 mb-4">
+            <div className="ml-20 mb-2">
               <ProfileCard />
             </div>
 
@@ -56,8 +56,8 @@ export default function AdminLayout({
                   transition={{ duration: 0.5 }}
                   className="overflow-hidden flex flex-col"
                 >
-                  <div className="grid place-items-center max-w-full h-full">
-                    <h1 className={`${tektur.className} text-2xl mb-2`}>
+                  <div className="grid place-items-center w-80 h-80">
+                    <h1 className={`${tektur.className} text-xl `}>
                       Upcoming Events
                     </h1>
                     <UpComingEvents expanded={expanded === "upcoming"} />
@@ -88,8 +88,8 @@ export default function AdminLayout({
                   transition={{ duration: 0.5 }}
                   className="overflow-hidden flex flex-col"
                 >
-                  <div className="grid place-items-center max-w-full h-full">
-                    <h1 className={`${tektur.className} text-2xl mb-2`}>
+                  <div className="grid place-items-center w-80 h-80">
+                    <h1 className={`${tektur.className} text-xl `}>
                       Recent Attendance
                     </h1>
                     <RecentAttendancePage expanded={expanded === "recent"} />

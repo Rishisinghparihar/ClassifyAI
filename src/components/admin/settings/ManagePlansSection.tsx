@@ -77,7 +77,7 @@ export default function ManagePlansSection() {
       transition={{ duration: 0.5 }}
       className="
         relative bg-gradient-to-br from-white/10 to-black/20 backdrop-blur-md
-        h-[75vh] flex flex-col items-center p-6 rounded-xl shadow-xl border border-white/10 w-full
+        h-[75vh] flex flex-col items-center p-2 rounded-xl shadow-xl border border-white/10 w-full
       "
     >
       {/* Blobs */}
@@ -121,7 +121,7 @@ export default function ManagePlansSection() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className={`text-4xl font-bold mb-10 mt-10 text-orange-300 z-10 ${tektur.className}`}
+        className={`text-4xl font-bold mb-10 mt-2 text-orange-300 z-10 ${tektur.className}`}
       >
         Manage Premium Plans
       </motion.h2>
@@ -133,7 +133,7 @@ export default function ManagePlansSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="text-white/80 mt-20 z-10"
+            className="text-white/80 mt-10 z-10"
           >
             Loading plans…
           </motion.p>
@@ -143,7 +143,7 @@ export default function ManagePlansSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="space-y-5 mt-5 w-full max-w-2xl z-10"
+            className="space-y-2  w-full max-w-2xl z-10"
           >
             {plans.map((plan, index) => (
               <motion.div

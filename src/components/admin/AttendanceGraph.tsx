@@ -32,10 +32,10 @@ const AttendanceGraph = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="h-[300px]"
+      className="h-[260px]"
     >
       <h3
-        className={`text-lg font-semibold text-orange-700 ${tektur.className} mb-4 `}
+        className={`text-lg font-semibold text-orange-700 ${tektur.className} mb-2 `}
       >
         Weekly Attendance
       </h3>

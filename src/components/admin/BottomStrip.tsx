@@ -53,16 +53,16 @@ const BottomStrip = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+    <div className="grid grid-cols-3 gap-3 mt-4">
       {/* Top Students */}
       <motion.div
-        className="bg-green-900/20 p-4 rounded-2xl border border-green-600"
+        className="bg-green-900/20 p-3 rounded-2xl border border-green-600"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
         <h2
-          className={`text-lg font-bold text-green-300 mb-3 ${tektur.className}`}
+          className={`text-base font-bold text-green-300 ${tektur.className}`}
         >
           🌟 Top Attending Students
         </h2>
@@ -84,13 +84,13 @@ const BottomStrip = () => {
 
       {/* At-Risk Students */}
       <motion.div
-        className="bg-red-900/20 p-4 rounded-2xl border border-red-600"
+        className="bg-red-900/20 p-3 rounded-2xl border border-red-600"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
         <h2
-          className={`text-lg font-bold text-red-300 mb-3 ${tektur.className}`}
+          className={`text-base font-bold text-red-300 mb-3 ${tektur.className}`}
         >
           🚨 At-Risk Students
         </h2>
@@ -112,13 +112,13 @@ const BottomStrip = () => {
 
       {/* Teacher Activity */}
       <motion.div
-        className="bg-cyan-900/20 p-4 rounded-2xl border border-cyan-600"
+        className="bg-cyan-900/20 p-3 rounded-2xl border border-cyan-600"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
         <h2
-          className={`text-lg font-bold text-cyan-300 mb-3 ${tektur.className}`}
+          className={`text-base font-bold text-cyan-300 mb-3 ${tektur.className}`}
         >
           👩‍🏫 Teacher Activity Today
         </h2>
@@ -129,7 +129,7 @@ const BottomStrip = () => {
           data.teacherActivity.map((teacher) => (
             <div
               key={teacher.name}
-              className="flex justify-between text-cyan-100 py-1"
+              className="flex justify-between text-cyan-100 "
             >
               <span>{teacher.name}</span>
               <span>{teacher.count} classes</span>

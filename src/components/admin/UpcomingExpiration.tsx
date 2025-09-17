@@ -37,10 +37,10 @@ const UpcomingExpirations = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-orange-50/5 rounded-xl w-full h-[16.1rem] p-4 border border-orange-400 overflow-hidden"
+      className="bg-orange-50/5 rounded-xl w-full h-[10rem] p-2 border border-orange-400 overflow-hidden"
     >
       <h2
-        className={`${tektur.className} text-2xl text-center mb-3 text-orange-200`}
+        className={`${tektur.className} text-base text-center text-orange-200`}
       >
         Upcoming Expirations
       </h2>
@@ -58,7 +58,7 @@ const UpcomingExpirations = () => {
               },
             },
           }}
-          className="space-y-1 text-xl text-orange-100 overflow-y-auto scrollbar-hide max-h-[6rem] pr-1"
+          className="space-y-1 text-base text-orange-100 overflow-y-auto scrollbar-hide max-h-[6rem] pr-1"
         >
           {expirations.map((user) => (
             <motion.li
@@ -75,7 +75,7 @@ const UpcomingExpirations = () => {
           ))}
         </motion.ul>
       ) : (
-        <p className="text-orange-300 text-lg text-center mt-4">
+        <p className="text-orange-300 text-base text-center mt-4">
           No upcoming expirations
         </p>
       )}

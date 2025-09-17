@@ -146,28 +146,28 @@ const LinkCards = ({
 
   return (
     <>
-      <div className="h-full border rounded-4xl border-orange-400 w-full flex p-5 justify-center bg-orange-700/5">
+      <div className=" border rounded-4xl border-orange-400 flex p-2 justify-center bg-orange-700/5">
         <div>
           <h5 className="text-xl text-center">
             Add or Remove {forRole === "student" ? "Student" : "Teacher"}
           </h5>
-          <div className="flex gap-10 mt-10">
+          <div className="flex gap-10 mt-3">
             <div className="flex flex-col gap-3">
               <button
-                className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-5"
+                className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-2"
                 onClick={() => setModalOpen("add")}
               >
                 Add {forRole}
               </button>
               <button
-                className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-5"
+                className="border hover:bg-orange-700/20 cursor-pointer hover:border-orange-500 transition-all duration-500 rounded-2xl p-2"
                 onClick={() => setModalOpen("remove")}
               >
                 Remove {forRole}
               </button>
             </div>
             <div className="mt-7">
-              <h6 className="text-xl mb-4 text-center">Recent Activity</h6>
+              <h6 className="text-base mb-2 text-center">Recent Activity</h6>
               <div>
                 {loadingRecent && <p>Loading...</p>}
                 {!loadingRecent && recentUser?.name ? (

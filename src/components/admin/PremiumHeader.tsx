@@ -51,7 +51,7 @@ const PremiumHeader = ({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2 }}
-        className={`${tektur.className} text-4xl text-orange-200 text-center`}
+        className={`${tektur.className} text-3xl text-orange-200 text-center`}
       >
         Premium Management
       </motion.h1>
@@ -62,7 +62,7 @@ const PremiumHeader = ({
         transition={{ delay: 0.4 }}
         className="flex flex-col sm:flex-row gap-4 items-center"
       >
-        <span className="bg-amber-600 text-orange-50 px-3 py-1 rounded-full text-sm shadow">
+        <span className="bg-amber-600 text-orange-50 px-3 py-2 rounded-full text-sm shadow">
           Total Premium Students: {totalPremiumStudents}
         </span>
 

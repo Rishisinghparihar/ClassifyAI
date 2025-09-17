@@ -39,7 +39,7 @@ const UpComingEvents = ({ expanded }: { expanded: boolean }) => {
   }
 
 return (
-  <div className="w-full">
+  <div className="w-70">
     {loading ? (
       <p className="text-gray-400 text-xs animate-pulse text-center">
         Loading upcoming events…
@@ -65,7 +65,7 @@ return (
               key={event.id}
               className="flex justify-between outline-none items-center px-2 py-3 hover:cursor-pointer hover:shadow transition-all duration-700 hover:shadow-amber-600 rounded bg-white/5 text-gray-200"
             >
-              <article className="flex flex-col max-w-[19rem] p-4">
+              <article className="flex flex-col w-[14rem] p-2">
                 <h3
                   className={`font-medium text-orange-100 ${tektur.className}`}
                 >

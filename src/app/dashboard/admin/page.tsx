@@ -76,7 +76,7 @@ const DashboardStats = () => {
   return (
     <div>
       <div
-        className={`grid grid-cols-1 md:grid-cols-4 px-4 gap-4 mb-6 mt-16 ${tektur.className}`}
+        className={`grid grid-cols-4 px-2 gap-2 mt-14 ${tektur.className}`}
       >
         {stats.map((stat, index) => (
           <motion.div
@@ -84,28 +84,28 @@ const DashboardStats = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="bg-white/5 rounded-2xl p-4 text-center"
+            className="bg-white/5 rounded-2xl p-3 text-center"
           >
             <h3 className={`${tektur.className} text-gray-400`}>
               {stat.label}
             </h3>
             <p
-              className={`text-2xl font-bold ${tektur.className} ${stat.color}`}
+              className={`text-xl font-bold ${tektur.className} ${stat.color}`}
             >
               {stat.value}
             </p>
           </motion.div>
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-32 mb-6">
-        <div className="md:col-span-2 bg-white/5 rounded-xl p-8 h-[25rem]">
+      <div className="grid grid-cols-3 gap-4 mt-10 mb-6">
+        <div className="col-span-2 bg-white/5 rounded-xl p-8 h-[22rem]">
           <AttendanceGraph />
         </div>
         <div className="bg-white/5 rounded-xl p-4">
           <RecentActivity />
         </div>
       </div>
-      <div className="mt-28">
+      <div className="mt-14">
         <BottomStrip />
       </div>
     </div>
